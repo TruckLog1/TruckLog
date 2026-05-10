@@ -453,6 +453,59 @@ const CITIES = {"România":["București","Cluj-Napoca","Timișoara","Iași","Con
 const CARGO_TYPES = ["ADR Clasa 1 – Explozivi","ADR Clasa 2 – Gaze","ADR Clasa 3 – Lichide inflamabile","ADR Clasa 4 – Solide inflamabile","ADR Clasa 5 – Oxidanți","ADR Clasa 6 – Toxice","ADR Clasa 7 – Radioactive","ADR Clasa 8 – Corozive","ADR Clasa 9 – Diverse","Alimente generale","Animale vii","Articole casnice","Auto / Vehicule","Blocuri de beton","Chimicale","Containere","Echipamente agricole","Echipamente industriale","Lemn / Cherestea","Materiale de construcții","Mobilă","Produse farmaceutice","Produse petroliere","Textile","Vrac uscat"];
 const VEHICLE_TYPES = ["Camion Solo","Camion + Remorcă","Camion + Semiremorcă","Tanc","Frigorific","Platformă","Camion Basculant"];
 const STATUS_COLORS = {"În desfășurare":"#E4A11B","Finalizat":"#14A44D","Anulat":"#e03050"};
+  const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1503149455237709970/3qRBjXfWkgm7WeHj01cB-Ll9rJ0TY0wNhU4NiX2ULiixVYUYBcYwp9xF9bSiLPextLsY';
+
+async function sendDiscordCMR(trip) {
+  await fetch(DISCORD_WEBHOOK, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      embeds: [{
+        title: '🚛 CURSĂ FINALIZATĂ',
+        color: 0x14d9a0,
+        fields: [
+          {name:'📋 CMR',value:trip.cmrNumber||'—',inline:true},
+          {name:'📅 Data',value:trip.date||'—',inline:true},
+          {name:'👤 Șofer',value:trip.driverName||'—',inline:true},
+          {name:'🏭 Plecare',value:`${trip.senderCity}, ${trip.senderCountry}`,inline:true},
+          {name:'🏬 Destinație',value:`${trip.receiverCity}, ${trip.receiverCountry}`,inline:true},
+          {name:'🛣️ Distanță',value:`${Number(trip.distanceKm||0).toLocaleString('ro-RO')} km`,inline:true},
+          {name:'📦 Marfă',value:trip.cargoType||'—',inline:true},
+          {name:'🚛 Vehicul',value:trip.vehicleType||'—',inline:true},
+          {name:'🔢 Nr. Înm.',value:trip.plateNumber||'—',inline:true},
+        ],
+        footer:{text:`TruckLog · ${currentCompany?.name||'—'}`},
+        timestamp: new Date().toISOString()
+      }]
+    })
+  });
+}
+
+async function sendDiscordTacho(s) {
+  const total = s.driveSeconds+s.breakSeconds+s.restSeconds;
+  const ok = s.driveSeconds<=32400 && s.breakSeconds>=2700;
+  await fetch(DISCORD_WEBHOOK, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      embeds: [{
+        title: '⏱ SESIUNE TAHOGRAF',
+        color: ok ? 0x14d9a0 : 0xe03050,
+        fields: [
+          {name:'👤 Șofer',value:s.driverName||'—',inline:true},
+          {name:'📅 Data',value:s.date||'—',inline:true},
+          {name:'⏰ Interval',value:`${s.startTime} → ${s.endTime}`,inline:true},
+          {name:'🚛 Condus',value:fmtHM(s.driveSeconds),inline:true},
+          {name:'☕ Pauze',value:fmtHM(s.breakSeconds),inline:true},
+          {name:'🛌 Repaus',value:fmtHM(s.restSeconds),inline:true},
+          {name:'✅ Conformitate EU',value:ok?'✓ CONFORM':'⚠ VERIFICĂ',inline:false},
+        ],
+        footer:{text:`TruckLog · ${currentCompany?.name||'—'}`},
+        timestamp: new Date().toISOString()
+      }]
+    })
+  });
+}
 const PALETTE = ["#f5a623","#14d9a0","#7c5cbf","#e03050","#3b82f6","#ec4899","#10b981","#f59e0b","#06b6d4","#8b5cf6"];
 
 // ══════════════════════════════════════════════
@@ -728,6 +781,10 @@ async function saveTrip() {
 
 async function updateTripStatus(key, status) {
   await FB.update(FB.ref(FB.db, `companies/${currentCompany.id}/trips/${key}`), {status});
+  if (status === 'Finalizat') {
+    const t = trips.find(x=>x._key===key);
+    if (t) sendDiscordCMR(t);
+  }
   toast('✓ Status actualizat');
 }
 async function deleteTrip(key) {
@@ -760,6 +817,7 @@ async function stopTacho() {
     const s = { date:sessStart.toLocaleDateString('ro-RO'), startTime:sessStart.toLocaleTimeString('ro-RO'), endTime:new Date().toLocaleTimeString('ro-RO'), driverName:currentUser.displayName||currentUser.email, driverId:currentUser.uid, driveSeconds:driveSec, breakSeconds:breakSec, restSeconds:restSec, segments:[...segs], createdAt:Date.now() };
     await FB.push(FB.ref(FB.db, `companies/${currentCompany.id}/tacho/${currentUser.uid}`), s);
     toast('✓ Sesiune tahograf salvată!');
+    sendDiscordTacho(s);
   }
   stopTachoClean();
 }
