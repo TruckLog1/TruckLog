@@ -1,35 +1,27 @@
 {
   "name": "trucklog",
   "version": "1.0.0",
-  "description": "TruckLog – Virtual Trucking Company for ETS2",
+  "description": "TruckLog Virtual Trucking Company for ETS2",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build:win": "electron-builder --win --x64",
-    "build:all": "electron-builder --win --mac --linux"
+    "build:win": "electron-builder --win --x64"
   },
   "build": {
     "appId": "com.trucklog.app",
     "productName": "TruckLog",
-    "copyright": "TruckLog ETS2",
     "directories": {
       "output": "dist"
     },
     "win": {
-      "target": [{ "target": "nsis", "arch": ["x64"] }],
-      
+      "target": [{ "target": "nsis", "arch": ["x64"] }]
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-     
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "TruckLog"
-    },
-    "publish": {
-      "provider": "github",
-      "releaseType": "release"
     }
   },
   "devDependencies": {
