@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TruckLog</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0d14;color:#e8e0d0;font-family:'Rajdhani',monospace;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px;background:#111520}
+::-webkit-scrollbar-thumb{background:#252d45;border-radius:3px}
+input,select,textarea{background:#111827;border:1px solid #252d45;color:#e8e0d0;padding:9px 13px;border-radius:5px;font-family:'Rajdhani',monospace;font-size:14px;width:100%;outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:#f5a623;box-shadow:0 0 0 2px #f5a62318}
+select option{background:#111827}
+button{cursor:pointer;font-family:'Rajdhani',monospace;transition:all .15s}
+label{font-size:11px;letter-spacing:.14em;color:#3a4560;display:block;margin-bottom:4px;text-transform:uppercase}
+.field{display:flex;flex-direction:column;gap:2px;margin-bottom:10px}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.r4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+.card{background:#0d1120;border:1px solid #1a2035;border-radius:8px;padding:16px}
+.section{margin-bottom:12px;background:#0d1120;border:1px solid #1a2035;border-radius:8px;overflow:hidden}
+.sec-hd{padding:9px 16px;border-bottom:1px solid #1a2035;font-size:10px;letter-spacing:.16em;color:#4a5575;font-weight:600}
+.sec-bd{padding:16px}
+textarea{resize:vertical}
+/* ANIMATIONS */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes glow{0%,100%{box-shadow:0 0 8px #f5a62340}50%{box-shadow:0 0 20px #f5a62370}}
+.fade-up{animation:fadeUp .3s ease}
+.spinner{width:20px;height:20px;border:2px solid #1a2035;border-top-color:#f5a623;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle}
+/* TABS */
+.tab-btn{background:none;border:none;padding:10px 20px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#4a5575;border-bottom:2px solid transparent;transition:all .2s;font-family:'Rajdhani',monospace;white-space:nowrap}
+.tab-btn.active{color:#f5a623;border-bottom-color:#f5a623}
+.tab-btn:hover:not(.active){color:#8090b0}
+.page{display:none}.page.active{display:block}
+/* BUTTONS */
+.btn{padding:10px 20px;border-radius:5px;font-size:13px;font-weight:700;letter-spacing:.12em;border:none;font-family:'Rajdhani',monospace;cursor:pointer;transition:all .15s}
+.btn-primary{background:#f5a623;color:#0a0d14}.btn-primary:hover{background:#e09520;transform:translateY(-1px)}
+.btn-primary:disabled{background:#252d45;color:#4a5575;cursor:not-allowed;transform:none}
+.btn-outline{background:none;border:1px solid #252d45;color:#8090b0}.btn-outline:hover{border-color:#4a5575;color:#c0cce0}
+.btn-green{background:#0a2018;border:1px solid #14d9a0;color:#14d9a0;padding:5px 11px;border-radius:4px;font-size:11px;font-weight:700;font-family:'Rajdhani',monospace}
+.btn-red{background:#1c0a0f;border:1px solid #e03050;color:#e03050;padding:5px 11px;border-radius:4px;font-size:11px;font-weight:700;font-family:'Rajdhani',monospace}
+.btn-ghost{background:none;border:1px solid #1a2035;color:#4a5575;padding:5px 10px;border-radius:4px;font-size:11px;font-family:'Rajdhani',monospace}
+/* BADGE */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:4px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+/* ONLINE DOT */
+.dot-online{width:7px;height:7px;border-radius:50%;background:#14d9a0;display:inline-block;animation:pulse 2s infinite}
+.dot-offline{width:7px;height:7px;border-radius:50%;background:#3a4560;display:inline-block}
+/* TACHOGRAPH */
+.tacho-card{background:#080c14;border:1px solid #f5a62325;border-radius:8px;padding:18px;text-align:center;transition:border-color .3s}
+.tacho-card.active-drive{border-color:#14d9a060;animation:glow 2s infinite}
+.tacho-time{font-family:'Share Tech Mono',monospace;font-size:40px;letter-spacing:.06em;line-height:1}
+/* AUTH SCREEN */
+#auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(ellipse at 50% 30%,#0f1525 0%,#080c14 70%)}
+.auth-box{background:#0d1120;border:1px solid #1a2035;border-radius:12px;padding:40px;width:100%;max-width:440px}
+.auth-logo{text-align:center;margin-bottom:32px}
+.auth-tabs{display:flex;background:#080c14;border-radius:6px;padding:3px;margin-bottom:24px;gap:3px}
+.auth-tab{flex:1;padding:8px;border:none;background:none;color:#4a5575;font-family:'Rajdhani',monospace;font-size:12px;font-weight:600;letter-spacing:.12em;border-radius:4px;cursor:pointer;transition:all .2s}
+.auth-tab.active{background:#f5a623;color:#0a0d14}
+/* COMPANY SELECT */
+.company-card{background:#080c14;border:1px solid #1a2035;border-radius:8px;padding:16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px}
+.company-card:hover{border-color:#f5a62350;background:#0d1120}
+/* PROFILE */
+.profile-card{background:#080c14;border-radius:10px;padding:20px;border:1px solid #1a2035}
+.avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex-shrink:0}
+/* TOAST */
+#toast{position:fixed;bottom:20px;right:20px;background:#0d1120;border:1px solid #f5a623;border-radius:6px;padding:11px 18px;font-size:13px;font-weight:600;color:#f5a623;z-index:9999;transform:translateY(70px);opacity:0;transition:all .3s;max-width:320px}
+#toast.show{transform:none;opacity:1}
+#toast.error{border-color:#e03050;color:#e03050}
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal-box{background:#0d1120;border:1px solid #252d45;border-radius:10px;padding:28px;width:92%;max-width:680px;max-height:90vh;overflow-y:auto}
+/* LIVE BADGE */
+.live-badge{display:inline-flex;align-items:center;gap:5px;background:#0a1a10;border:1px solid #14d9a030;border-radius:20px;padding:3px 10px;font-size:9px;color:#14d9a0;letter-spacing:.12em}
+/* TRIP ROW */
+.trip-row{display:grid;padding:10px 14px;border-bottom:1px solid #0f1520;cursor:pointer;transition:background .12s}
+.trip-row:hover{background:#111827}
+.trip-row.selected{background:#111827}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ AUTH SCREEN ══════════════ -->
+<div id="auth-screen">
+  <div class="auth-box fade-up">
+    <div class="auth-logo">
+      <svg width="52" height="52" viewBox="0 0 32 32" fill="none" style="margin-bottom:12px">
+        <rect width="32" height="32" rx="7" fill="#f5a623" opacity=".12"/>
+        <path d="M4 22h4v2H4v-2zm20 0h4v2h-4v-2z" fill="#f5a623"/>
+        <rect x="2" y="14" width="28" height="8" rx="2" fill="none" stroke="#f5a623" stroke-width="1.5"/>
+        <path d="M22 14V10a2 2 0 00-2-2H8L2 14" stroke="#f5a623" stroke-width="1.5" stroke-linejoin="round"/>
+        <circle cx="8" cy="23" r="3" fill="#080c14" stroke="#f5a623" stroke-width="1.5"/>
+        <circle cx="24" cy="23" r="3" fill="#080c14" stroke="#f5a623" stroke-width="1.5"/>
+      </svg>
+      <div style="font-size:26px;font-weight:700;letter-spacing:.22em;color:#f5a623">TRUCKLOG</div>
+      <div style="font-size:9px;letter-spacing:.28em;color:#3a4560;margin-top:4px">VIRTUAL TRUCKING COMPANY · ETS2</div>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuth('login')">INTRĂ ÎN CONT</button>
+      <button class="auth-tab" onclick="switchAuth('register')">CONT NOU</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="auth-login">
+      <div class="field"><label>Email</label><input id="l-email" type="email" placeholder="email@exemplu.com"></div>
+      <div class="field"><label>Parolă</label><input id="l-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="doLogin()" id="btn-login">INTRĂ ÎN CONT</button>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="auth-register" style="display:none">
+      <div class="field"><label>Nume Șofer (cum apari în joc)</label><input id="r-name" placeholder="Ex: Ion Popescu" maxlength="24"></div>
+      <div class="field"><label>Email</label><input id="r-email" type="email" placeholder="email@exemplu.com"></div>
+      <div class="field"><label>Parolă (minim 6 caractere)</label><input id="r-pass" type="password" placeholder="••••••••"></div>
+      <div class="field"><label>Confirmare Parolă</label><input id="r-pass2" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doRegister()"></div>
+      <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="doRegister()" id="btn-register">CREEAZĂ CONT</button>
+    </div>
+
+    <div id="auth-error" style="color:#e03050;font-size:12px;margin-top:10px;text-align:center;display:none"></div>
+    <div id="auth-loading" style="text-align:center;margin-top:12px;display:none"><span class="spinner"></span></div>
+  </div>
+</div>
+
+<!-- ══════════════ COMPANY SELECT ══════════════ -->
+<div id="company-screen" style="display:none;min-height:100vh;background:radial-gradient(ellipse at 50% 20%,#0f1525 0%,#080c14 70%);padding:40px 20px">
+  <div style="max-width:700px;margin:0 auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
+      <div>
+        <div style="font-size:22px;font-weight:700;letter-spacing:.18em;color:#f5a623">TRUCKLOG</div>
+        <div style="font-size:11px;color:#3a4560;letter-spacing:.15em">Bun venit, <span id="cs-username" style="color:#e8e0d0"></span></div>
+      </div>
+      <button class="btn btn-ghost" onclick="doLogout()">IEȘI DIN CONT</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px">
+      <button onclick="showCreateCompany()" style="background:#0d1120;border:2px dashed #252d45;border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:all .2s;color:#e8e0d0" onmouseover="this.style.borderColor='#f5a623'" onmouseout="this.style.borderColor='#252d45'">
+        <div style="font-size:28px;margin-bottom:8px">🏢</div>
+        <div style="font-size:14px;font-weight:700;letter-spacing:.1em;color:#f5a623">CREAZĂ FIRMĂ</div>
+        <div style="font-size:11px;color:#4a5575;margin-top:4px">Devino dispatcher / owner</div>
+      </button>
+      <button onclick="showJoinCompany()" style="background:#0d1120;border:2px dashed #252d45;border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:all .2s;color:#e8e0d0" onmouseover="this.style.borderColor='#14d9a0'" onmouseout="this.style.borderColor='#252d45'">
+        <div style="font-size:28px;margin-bottom:8px">🚛</div>
+        <div style="font-size:14px;font-weight:700;letter-spacing:.1em;color:#14d9a0">ALĂTURĂ-TE</div>
+        <div style="font-size:11px;color:#4a5575;margin-top:4px">Intră cu cod de invitație</div>
+      </button>
+    </div>
+
+    <div>
+      <div style="font-size:10px;letter-spacing:.18em;color:#3a4560;margin-bottom:12px">FIRMELE TALE</div>
+      <div id="my-companies-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ MAIN APP ══════════════ -->
+<div id="app" style="display:none">
+
+  <!-- HEADER -->
+  <div style="background:#080c14;border-bottom:1px solid #141c2e;padding:0 18px;position:sticky;top:0;z-index:100">
+    <div style="display:flex;align-items:center;gap:14px;height:54px">
+      <div style="display:flex;align-items:center;gap:9px">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="5" fill="#f5a623" opacity=".1"/>
+          <path d="M4 22h4v2H4v-2zm20 0h4v2h-4v-2z" fill="#f5a623"/>
+          <rect x="2" y="14" width="28" height="8" rx="2" fill="none" stroke="#f5a623" stroke-width="1.4"/>
+          <path d="M22 14V10a2 2 0 00-2-2H8L2 14" stroke="#f5a623" stroke-width="1.4" stroke-linejoin="round"/>
+          <circle cx="8" cy="23" r="3" fill="#080c14" stroke="#f5a623" stroke-width="1.4"/>
+          <circle cx="24" cy="23" r="3" fill="#080c14" stroke="#f5a623" stroke-width="1.4"/>
+        </svg>
+        <div>
+          <div style="font-size:13px;font-weight:700;letter-spacing:.16em;color:#f5a623;line-height:1.1" id="hdr-company">—</div>
+          <div style="font-size:9px;letter-spacing:.16em;color:#3a4560" id="hdr-user">—</div>
+        </div>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+        <div class="live-badge"><span class="dot-online"></span><span id="hdr-online">0 online</span></div>
+        <div class="card" style="padding:4px 12px;text-align:center;border-radius:5px">
+          <div id="hdr-km" style="font-size:16px;font-weight:700;color:#f5a623;line-height:1.1">0</div>
+          <div style="font-size:7px;letter-spacing:.14em;color:#3a4560">KM FIRMĂ</div>
+        </div>
+        <div class="card" style="padding:4px 12px;text-align:center;border-radius:5px">
+          <div id="hdr-trips" style="font-size:16px;font-weight:700;color:#14d9a0;line-height:1.1">0</div>
+          <div style="font-size:7px;letter-spacing:.14em;color:#3a4560">CURSE</div>
+        </div>
+        <button onclick="leaveApp()" class="btn btn-ghost" style="font-size:11px;padding:5px 10px">← FIRME</button>
+        <button onclick="doLogout()" class="btn btn-ghost" style="font-size:11px;padding:5px 10px">LOGOUT</button>
+      </div>
+    </div>
+    <div style="display:flex;border-top:1px solid #0f1520;overflow-x:auto">
+      <button class="tab-btn active" onclick="showTab(0)">🏠 Dashboard</button>
+      <button class="tab-btn" onclick="showTab(1)">⏱ Tahograf</button>
+      <button class="tab-btn" onclick="showTab(2)">📋 Cursă Nouă</button>
+      <button class="tab-btn" onclick="showTab(3)">🗂 Arhivă</button>
+      <button class="tab-btn" onclick="showTab(4)">👥 Șoferi</button>
+      <button class="tab-btn" onclick="showTab(5)">📊 Statistici</button>
+      <button class="tab-btn" onclick="showTab(6)">⚙️ Firmă</button>
+    </div>
+  </div>
+
+  <div style="padding:20px;max-width:1240px;margin:0 auto">
+
+    <!-- PAGE 0: DASHBOARD -->
+    <div id="page-0" class="page active fade-up">
+      <div id="dash-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:18px"></div>
+      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:16px">
+        <div>
+          <div style="font-size:9px;letter-spacing:.18em;color:#3a4560;margin-bottom:10px">CURSE ACTIVE ÎN FIRMĂ</div>
+          <div id="dash-active"></div>
+          <div style="font-size:9px;letter-spacing:.18em;color:#3a4560;margin:14px 0 10px">ULTIMELE CURSE FINALIZATE</div>
+          <div id="dash-recent"></div>
+        </div>
+        <div>
+          <div style="font-size:9px;letter-spacing:.18em;color:#3a4560;margin-bottom:10px">ȘOFERI ONLINE ACUM</div>
+          <div id="dash-drivers-live"></div>
+          <div style="font-size:9px;letter-spacing:.18em;color:#3a4560;margin:14px 0 10px">KM PE LUNI</div>
+          <div id="dash-chart" style="background:#0d1120;border:1px solid #1a2035;border-radius:6px;padding:14px;display:flex;align-items:flex-end;gap:6px;height:110px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 1: TAHOGRAF -->
+    <div id="page-1" class="page fade-up">
+      <div style="max-width:820px">
+        <div class="r3" style="margin-bottom:16px">
+          <div class="tacho-card" id="tc-drive"><div style="font-size:9px;letter-spacing:.18em;color:#14d9a0;margin-bottom:8px">🚛 CONDUS</div><div class="tacho-time" id="t-drive" style="color:#14d9a0">0:00:00</div><div style="font-size:9px;color:#3a4560;margin-top:4px">ore:min:sec</div></div>
+          <div class="tacho-card" id="tc-break"><div style="font-size:9px;letter-spacing:.18em;color:#E4A11B;margin-bottom:8px">☕ PAUZĂ</div><div class="tacho-time" id="t-break" style="color:#E4A11B">0:00:00</div><div style="font-size:9px;color:#3a4560;margin-top:4px">ore:min:sec</div></div>
+          <div class="tacho-card" id="tc-rest"><div style="font-size:9px;letter-spacing:.18em;color:#7c5cbf;margin-bottom:8px">🛌 REPAUS</div><div class="tacho-time" id="t-rest" style="color:#7c5cbf">0:00:00</div><div style="font-size:9px;color:#3a4560;margin-top:4px">ore:min:sec</div></div>
+        </div>
+        <div class="card" style="margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+            <div id="tacho-status" style="font-size:15px;font-weight:700;letter-spacing:.1em;color:#4a5575">⏹ OPRIT</div>
+            <div id="tacho-info" style="font-size:10px;color:#3a4560;margin-left:auto"></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button onclick="tachoAction('drive')" style="background:#0a2018;border:2px solid #14d9a0;color:#14d9a0;padding:13px 26px;border-radius:5px;font-size:13px;font-weight:700;letter-spacing:.1em;font-family:'Rajdhani',monospace">▶ CONDUC</button>
+            <button onclick="tachoAction('break')" style="background:#1e1508;border:2px solid #E4A11B;color:#E4A11B;padding:13px 26px;border-radius:5px;font-size:13px;font-weight:700;letter-spacing:.1em;font-family:'Rajdhani',monospace">⏸ PAUZĂ</button>
+            <button onclick="tachoAction('rest')" style="background:#130f1f;border:2px solid #7c5cbf;color:#7c5cbf;padding:13px 26px;border-radius:5px;font-size:13px;font-weight:700;letter-spacing:.1em;font-family:'Rajdhani',monospace">🛌 REPAUS</button>
+            <button onclick="stopTacho()" style="background:#180a0f;border:2px solid #e03050;color:#e03050;padding:13px 26px;border-radius:5px;font-size:13px;font-weight:700;letter-spacing:.1em;font-family:'Rajdhani',monospace">⏹ STOP</button>
+          </div>
+        </div>
+        <div class="section"><div class="sec-hd">ACTIVITATE SESIUNE</div><div class="sec-bd">
+          <div id="seg-bar" style="display:flex;height:28px;border-radius:4px;overflow:hidden;background:#111827;gap:1px;margin-bottom:8px"></div>
+          <div style="display:flex;gap:16px;font-size:10px"><span style="color:#14d9a0">■ Condus</span><span style="color:#E4A11B">■ Pauză</span><span style="color:#7c5cbf">■ Repaus</span></div>
+        </div></div>
+        <div class="section"><div class="sec-hd">LIMITE EU REG. 561/2006</div><div class="sec-bd"><div class="r3" id="eu-limits"></div></div></div>
+        <div class="section">
+          <div class="sec-hd" style="display:flex;justify-content:space-between;align-items:center">
+            SESIUNI SALVATE
+            <button onclick="openBon(0)" class="btn btn-primary" style="padding:5px 14px;font-size:10px">🖨 BON TAHOGRAF</button>
+          </div>
+          <div class="sec-bd"><div id="sess-list"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 2: NEW CMR -->
+    <div id="page-2" class="page fade-up" style="max-width:820px">
+      <div style="font-size:10px;letter-spacing:.2em;color:#3a4560;margin-bottom:16px">DOCUMENT CMR – CURSĂ NOUĂ</div>
+      <div class="section"><div class="sec-hd">📋 DATE GENERALE</div><div class="sec-bd">
+        <div class="r3"><div class="field"><label>Nr. CMR</label><input id="f-cmr" placeholder="auto"></div><div class="field"><label>Data</label><input id="f-date" type="date"></div><div class="field"><label>Status</label><select id="f-status"><option>În desfășurare</option><option>Finalizat</option><option>Anulat</option></select></div></div>
+      </div></div>
+      <div class="section"><div class="sec-hd">🏭 EXPEDITOR</div><div class="sec-bd">
+        <div class="r3"><div class="field"><label>Companie</label><input id="f-sname"></div><div class="field"><label>Țară</label><select id="f-sc" onchange="updateCities('f-sc','f-sct')"></select></div><div class="field"><label>Oraș</label><select id="f-sct"></select></div></div>
+        <div class="field"><label>Adresă</label><input id="f-sa"></div>
+      </div></div>
+      <div class="section"><div class="sec-hd">🏬 DESTINATAR</div><div class="sec-bd">
+        <div class="r3"><div class="field"><label>Companie</label><input id="f-rname"></div><div class="field"><label>Țară</label><select id="f-rc" onchange="updateCities('f-rc','f-rct')"></select></div><div class="field"><label>Oraș</label><select id="f-rct"></select></div></div>
+        <div class="field"><label>Adresă</label><input id="f-ra"></div>
+      </div></div>
+      <div class="section"><div class="sec-hd">📦 MARFĂ</div><div class="sec-bd">
+        <div class="r3"><div class="field"><label>Tip Marfă</label><select id="f-cargo"></select></div><div class="field"><label>Greutate (tone)</label><input id="f-weight" type="number" step="0.1"></div><div class="field"><label>Nr. Colete</label><input id="f-units" type="number"></div></div>
+      </div></div>
+      <div class="section"><div class="sec-hd">🚛 VEHICUL & ȘOFER</div><div class="sec-bd">
+        <div class="r3"><div class="field"><label>Tip Vehicul</label><select id="f-vtype"></select></div><div class="field"><label>Nr. Înmatriculare</label><input id="f-plate" oninput="this.value=this.value.toUpperCase()"></div><div class="field"><label>Șofer (gol = eu)</label><input id="f-driver"></div></div>
+      </div></div>
+      <div class="section"><div class="sec-hd">🛣️ DISTANȚĂ & TIMP</div><div class="sec-bd">
+        <div class="r3"><div class="field"><label>KM *</label><input id="f-km" type="number"></div><div class="field"><label>Plecare</label><input id="f-dep" type="time"></div><div class="field"><label>Sosire</label><input id="f-arr" type="time"></div></div>
+      </div></div>
+      <div class="field"><label>Observații</label><textarea id="f-notes" rows="2"></textarea></div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn btn-primary" onclick="saveTrip()" style="flex:1;padding:13px" id="btn-save">⊕ SALVEAZĂ CURSA</button>
+        <button class="btn btn-outline" onclick="resetForm()">RESET</button>
+      </div>
+      <div id="f-err" style="color:#e03050;font-size:12px;margin-top:6px;display:none">⚠ Completează orașul de plecare, destinație și KM.</div>
+    </div>
+
+    <!-- PAGE 3: ARCHIVE -->
+    <div id="page-3" class="page fade-up">
+      <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+        <input id="arch-q" placeholder="🔍 Caută CMR, oraș, șofer, marfă..." oninput="renderArchive()" style="flex:1;min-width:200px">
+        <select id="arch-status" onchange="renderArchive()" style="width:170px"><option>Toate</option><option>În desfășurare</option><option>Finalizat</option><option>Anulat</option></select>
+        <select id="arch-drv" onchange="renderArchive()" style="width:170px"><option value="">Toți șoferii</option></select>
+        <button class="btn btn-primary" onclick="showTab(2)" style="padding:9px 16px">+ CURSĂ NOUĂ</button>
+      </div>
+      <div id="arch-table" style="background:#080c14;border:1px solid #1a2035;border-radius:8px;overflow:hidden"></div>
+      <div id="detail-panel" style="display:none;margin-top:14px"></div>
+    </div>
+
+    <!-- PAGE 4: DRIVERS -->
+    <div id="page-4" class="page fade-up">
+      <div style="font-size:9px;letter-spacing:.18em;color:#3a4560;margin-bottom:16px">ȘOFERI ÎNREGISTRAȚI ÎN FIRMĂ</div>
+      <div id="drivers-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px"></div>
+    </div>
+
+    <!-- PAGE 5: STATS -->
+    <div id="page-5" class="page fade-up">
+      <div id="stats-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin-bottom:18px"></div>
+      <div class="r2" style="gap:16px">
+        <div class="section"><div class="sec-hd">TOP RUTE</div><div class="sec-bd"><div id="top-routes"></div></div></div>
+        <div class="section"><div class="sec-hd">KM PE ȘOFER</div><div class="sec-bd"><div id="driver-km"></div></div></div>
+      </div>
+      <div class="section" style="margin-top:14px"><div class="sec-hd">TIP MARFĂ</div><div class="sec-bd"><div id="cargo-chart"></div></div></div>
+    </div>
+
+    <!-- PAGE 6: COMPANY SETTINGS -->
+    <div id="page-6" class="page fade-up" style="max-width:700px">
+      <div class="section"><div class="sec-hd">🏢 DETALII FIRMĂ</div><div class="sec-bd">
+        <div id="company-info-display"></div>
+        <div style="margin-top:16px;background:#080c14;border:1px solid #1a2035;border-radius:6px;padding:16px">
+          <div style="font-size:9px;letter-spacing:.18em;color:#3a4560;margin-bottom:8px">COD INVITAȚIE — TRIMITE PRIETENILOR</div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div id="invite-code" style="font-family:'Share Tech Mono',monospace;font-size:30px;font-weight:700;color:#f5a623;letter-spacing:.25em"></div>
+            <button onclick="copyInvite()" class="btn btn-outline" style="padding:8px 14px;font-size:12px">📋 COPIAZĂ</button>
+          </div>
+          <div style="font-size:10px;color:#3a4560;margin-top:6px">Partajează codul și prietenii se pot alătura firmei</div>
+        </div>
+      </div></div>
+      <div class="section"><div class="sec-hd">👤 PROFILUL MEU</div><div class="sec-bd" id="my-profile-edit"></div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODALS -->
+<!-- Create Company Modal -->
+<div class="modal-bg" id="modal-create">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div style="font-size:14px;font-weight:700;letter-spacing:.15em;color:#f5a623">🏢 CREAZĂ FIRMĂ NOUĂ</div>
+      <button onclick="closeModal('modal-create')" class="btn-ghost" style="font-size:16px;padding:4px 8px">✕</button>
+    </div>
+    <div class="field"><label>Numele Firmei</label><input id="c-name" placeholder="Ex: Trans România SRL" maxlength="40"></div>
+    <div class="field"><label>Descriere (opțional)</label><input id="c-desc" placeholder="Ex: Firmă de transport internațional" maxlength="80"></div>
+    <div class="field"><label>Rol tău în firmă</label><select id="c-role"><option value="owner">Owner / Proprietar</option><option value="dispatcher">Dispatcher</option><option value="driver">Șofer</option></select></div>
+    <button class="btn btn-primary" onclick="createCompany()" style="width:100%;margin-top:6px" id="btn-create-c">CREAZĂ FIRMA</button>
+    <div id="create-err" style="color:#e03050;font-size:12px;margin-top:8px;display:none"></div>
+  </div>
+</div>
+
+<!-- Join Company Modal -->
+<div class="modal-bg" id="modal-join">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <div style="font-size:14px;font-weight:700;letter-spacing:.15em;color:#14d9a0">🚛 ALĂTURĂ-TE UNEI FIRME</div>
+      <button onclick="closeModal('modal-join')" class="btn-ghost" style="font-size:16px;padding:4px 8px">✕</button>
+    </div>
+    <div class="field"><label>Cod Invitație</label><input id="j-code" placeholder="Ex: TRANS2024" maxlength="12" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"></div>
+    <button class="btn btn-primary" style="width:100%;background:#14d9a0;color:#0a0d14" onclick="joinCompany()" id="btn-join-c">ALĂTURĂ-TE</button>
+    <div id="join-err" style="color:#e03050;font-size:12px;margin-top:8px;display:none"></div>
+  </div>
+</div>
+
+<!-- BON Modal -->
+<div class="modal-bg" id="modal-bon">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div style="font-size:13px;font-weight:700;letter-spacing:.15em;color:#f5a623">🖨 BON TAHOGRAF</div>
+      <button onclick="closeModal('modal-bon')" class="btn-ghost" style="font-size:16px;padding:4px 8px">✕</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <div class="field" style="flex:1;margin:0"><label>SESIUNE</label><select id="bon-sel" onchange="previewBon()"></select></div>
+      <button class="btn btn-primary" onclick="downloadBon()" style="margin-top:18px;white-space:nowrap;padding:9px 14px;font-size:11px">⎙ DESCARCĂ</button>
+    </div>
+    <pre id="bon-text" style="font-family:'Share Tech Mono',monospace;font-size:11px;color:#e8e0d0;line-height:1.6;background:#080c14;border:1px solid #1a2035;border-radius:5px;padding:16px;overflow-x:auto;white-space:pre;max-height:60vh;overflow-y:auto"></pre>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<!-- FIREBASE SDK -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+import { getDatabase, ref, set, get, push, onValue, update, remove, off, serverTimestamp, query, orderByChild, limitToLast }
+  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+// ════════════════════════════════════
+// FIREBASE CONFIG — înlocuiește cu ale tale!
+// ════════════════════════════════════
+const cfg = {
+  apiKey: "AIzaSyAzmREboS0ZYbmJCAPLBAaTniXz2bI4xXs",
+  authDomain: "trucklog-5ed06.firebaseapp.com",
+  databaseURL: "https://trucklog-5ed06-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "trucklog-5ed06",
+  storageBucket: "trucklog-5ed06.firebasestorage.app",
+  messagingSenderId: "994965363477",
+  appId: "1:994965363477:web:a28bf219bfde37d8e4671c"
+
+};
+
+const fbApp = initializeApp(cfg);
+const auth = getAuth(fbApp);
+const db = getDatabase(fbApp);
+
+// Expose to global scope
+window.FB = { auth, db, ref, set, get, push, onValue, update, remove, off, serverTimestamp, updateProfile, query, orderByChild, limitToLast };
+window.signInWithEmailAndPassword = (...a) => signInWithEmailAndPassword(auth, ...a);
+window.createUserWithEmailAndPassword = (...a) => createUserWithEmailAndPassword(auth, ...a);
+window.signOut = () => signOut(auth);
+window.updateProfile = (u,p) => updateProfile(u,p);
+window.onAuthStateChanged = (cb) => onAuthStateChanged(auth, cb);
+window.FIREBASE_CONFIGURED = cfg.apiKey !== 'FIREBASE_API_KEY';
+
+// Auth state
+onAuthStateChanged(auth, user => {
+  if (user) {
+    window.currentUser = user;
+    showCompanyScreen(user);
+  } else {
+    window.currentUser = null;
+    document.getElementById('auth-screen').style.display = 'flex';
+    document.getElementById('company-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'none';
+  }
+});
+</script>
+
+<script>
+// ══════════════════════════════════════════════
+//  CONSTANTS
+// ══════════════════════════════════════════════
+const EU_COUNTRIES = ["Austria","Belgia","Bulgaria","Cehia","Croația","Cipru","Danemarca","Estonia","Finlanda","Franța","Germania","Grecia","Irlanda","Italia","Letonia","Lituania","Luxemburg","Malta","Olanda","Polonia","Portugalia","România","Slovacia","Slovenia","Spania","Suedia","Ungaria"];
+const CITIES = {"România":["București","Cluj-Napoca","Timișoara","Iași","Constanța","Brașov","Galați","Craiova","Ploiești","Oradea","Sibiu","Bacău"],"Germania":["Berlin","München","Hamburg","Frankfurt","Köln","Stuttgart","Düsseldorf","Leipzig","Dresden","Hannover"],"Franța":["Paris","Lyon","Marseille","Toulouse","Nice","Nantes","Strasbourg","Bordeaux","Rennes","Lille"],"Italia":["Roma","Milano","Napoli","Torino","Palermo","Genova","Bologna","Firenze","Venezia","Verona"],"Polonia":["Warszawa","Kraków","Łódź","Wrocław","Poznań","Gdańsk","Szczecin","Katowice","Lublin","Rzeszów"],"Spania":["Madrid","Barcelona","Valencia","Sevilla","Bilbao","Málaga","Zaragoza","Alicante","Murcia","Valladolid"],"Cehia":["Praha","Brno","Ostrava","Plzeň","Liberec"],"Ungaria":["Budapest","Debrecen","Miskolc","Pécs","Győr"],"Austria":["Wien","Graz","Linz","Salzburg","Innsbruck"],"Belgia":["Bruxelles","Antwerpen","Gent","Liège","Bruges"],"Olanda":["Amsterdam","Rotterdam","Den Haag","Utrecht","Eindhoven","Groningen"],"Bulgaria":["Sofia","Plovdiv","Varna","Burgas","Ruse","Stara Zagora"],"Croația":["Zagreb","Split","Rijeka","Osijek","Zadar"],"Danemarca":["København","Aarhus","Odense","Aalborg"],"Estonia":["Tallinn","Tartu","Narva"],"Finlanda":["Helsinki","Tampere","Turku","Oulu"],"Grecia":["Atena","Salonic","Patra","Larissa","Iraklion"],"Irlanda":["Dublin","Cork","Limerick","Galway"],"Letonia":["Riga","Daugavpils","Liepāja"],"Lituania":["Vilnius","Kaunas","Klaipėda","Šiauliai"],"Luxemburg":["Luxembourg City"],"Portugalia":["Lisabona","Porto","Braga","Coimbra","Setubal"],"Slovacia":["Bratislava","Košice","Žilina","Prešov","Nitra"],"Slovenia":["Ljubljana","Maribor","Celje","Kranj"],"Suedia":["Stockholm","Göteborg","Malmö","Uppsala","Västerås"],"Cipru":["Nicosia","Limassol","Larnaca"],"Malta":["Valletta","Sliema","Birkirkara"]};
+const CARGO_TYPES = ["ADR Clasa 1 – Explozivi","ADR Clasa 2 – Gaze","ADR Clasa 3 – Lichide inflamabile","ADR Clasa 4 – Solide inflamabile","ADR Clasa 5 – Oxidanți","ADR Clasa 6 – Toxice","ADR Clasa 7 – Radioactive","ADR Clasa 8 – Corozive","ADR Clasa 9 – Diverse","Alimente generale","Animale vii","Articole casnice","Auto / Vehicule","Blocuri de beton","Chimicale","Containere","Echipamente agricole","Echipamente industriale","Lemn / Cherestea","Materiale de construcții","Mobilă","Produse farmaceutice","Produse petroliere","Textile","Vrac uscat"];
+const VEHICLE_TYPES = ["Camion Solo","Camion + Remorcă","Camion + Semiremorcă","Tanc","Frigorific","Platformă","Camion Basculant"];
+const STATUS_COLORS = {"În desfășurare":"#E4A11B","Finalizat":"#14A44D","Anulat":"#e03050"};
+const PALETTE = ["#f5a623","#14d9a0","#7c5cbf","#e03050","#3b82f6","#ec4899","#10b981","#f59e0b","#06b6d4","#8b5cf6"];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let currentUser = null;
+let currentCompany = null; // {id, name, code, role}
+let members = {};
+let trips = [];
+let tachoSessions = [];
+let listeners = [];
+let currentDetailId = null;
+let currentTab_ = 0;
+
+// Tacho
+let tachoState = 'stopped';
+let tachoTimer = null;
+let driveSec = 0, breakSec = 0, restSec = 0, contDrive = 0;
+let sessStart = null, segStart = null, segs = [];
+
+// ══════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════
+const fmtT = s => `${Math.floor(s/3600)}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+const fmtHM = s => `${Math.floor(s/3600)}h ${String(Math.floor((s%3600)/60)).padStart(2,'0')}min`;
+const today = () => new Date().toISOString().split('T')[0];
+const genCMR = n => 'CMR-'+new Date().getFullYear()+'-'+String(n).padStart(5,'0');
+const genCode = () => { const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let r=''; for(let i=0;i<8;i++) r+=c[Math.floor(Math.random()*c.length)]; return r; };
+const color = uid => PALETTE[Object.keys(members).indexOf(uid) % PALETTE.length] || '#f5a623';
+const initials = name => name ? name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2) : '?';
+
+function toast(msg, isError=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = isError ? 'error' : '';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ══════════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════════
+function switchAuth(mode) {
+  document.getElementById('auth-login').style.display = mode==='login' ? 'block' : 'none';
+  document.getElementById('auth-register').style.display = mode==='register' ? 'block' : 'none';
+  document.querySelectorAll('.auth-tab').forEach((b,i) => b.classList.toggle('active', (i===0&&mode==='login')||(i===1&&mode==='register')));
+  document.getElementById('auth-error').style.display = 'none';
+}
+
+async function doLogin() {
+  if (!window.FIREBASE_CONFIGURED) { showAuthError('Firebase neconfigurat. Vezi SETUP.txt'); return; }
+  const email = document.getElementById('l-email').value.trim();
+  const pass = document.getElementById('l-pass').value;
+  if (!email || !pass) { showAuthError('Completează email și parola'); return; }
+  setAuthLoading(true);
+  try {
+    await window.signInWithEmailAndPassword(email, pass);
+  } catch(e) {
+    showAuthError(authError(e.code));
+    setAuthLoading(false);
+  }
+}
+
+async function doRegister() {
+  if (!window.FIREBASE_CONFIGURED) { showAuthError('Firebase neconfigurat. Vezi SETUP.txt'); return; }
+  const name = document.getElementById('r-name').value.trim();
+  const email = document.getElementById('r-email').value.trim();
+  const pass = document.getElementById('r-pass').value;
+  const pass2 = document.getElementById('r-pass2').value;
+  if (!name || !email || !pass) { showAuthError('Completează toate câmpurile'); return; }
+  if (pass !== pass2) { showAuthError('Parolele nu coincid'); return; }
+  if (pass.length < 6) { showAuthError('Parola trebuie să aibă minim 6 caractere'); return; }
+  setAuthLoading(true);
+  try {
+    const cred = await window.createUserWithEmailAndPassword(email, pass);
+    await window.updateProfile(cred.user, { displayName: name });
+    await FB.set(FB.ref(FB.db, `users/${cred.user.uid}`), { name, email, createdAt: Date.now() });
+  } catch(e) {
+    showAuthError(authError(e.code));
+    setAuthLoading(false);
+  }
+}
+
+async function doLogout() {
+  setOffline();
+  listeners.forEach(u => typeof u === 'function' && u());
+  listeners = [];
+  currentCompany = null; trips = []; members = {}; tachoSessions = [];
+  await window.signOut();
+}
+
+function authError(code) {
+  const map = {'auth/user-not-found':'Email negăsit','auth/wrong-password':'Parolă greșită','auth/email-already-in-use':'Email deja folosit','auth/invalid-email':'Email invalid','auth/weak-password':'Parola prea slabă','auth/invalid-credential':'Email sau parolă greșite'};
+  return map[code] || 'Eroare: '+code;
+}
+function showAuthError(msg) { const el=document.getElementById('auth-error'); el.textContent=msg; el.style.display='block'; }
+function setAuthLoading(v) { document.getElementById('auth-loading').style.display=v?'block':'none'; document.getElementById('auth-error').style.display='none'; }
+
+// ══════════════════════════════════════════════
+//  COMPANY SCREEN
+// ══════════════════════════════════════════════
+async function showCompanyScreen(user) {
+  currentUser = user;
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('company-screen').style.display = 'block';
+  document.getElementById('cs-username').textContent = user.displayName || user.email;
+  setAuthLoading(false);
+  loadMyCompanies();
+}
+
+async function loadMyCompanies() {
+  if (!window.FIREBASE_CONFIGURED) { document.getElementById('my-companies-list').innerHTML='<div style="color:#3a4560;font-size:12px">Firebase neconfigurat — vezi SETUP.txt</div>'; return; }
+  const snap = await FB.get(FB.ref(FB.db, `users/${currentUser.uid}/companies`));
+  const list = document.getElementById('my-companies-list');
+  if (!snap.exists()) { list.innerHTML='<div style="color:#3a4560;font-size:12px;padding:8px 0">Nicio firmă. Crează una sau alătură-te cu un cod.</div>'; return; }
+  const companies = snap.val();
+  list.innerHTML = '';
+  for (const [cid, info] of Object.entries(companies)) {
+    const compSnap = await FB.get(FB.ref(FB.db, `companies/${cid}/info`));
+    if (!compSnap.exists()) continue;
+    const comp = compSnap.val();
+    const membersSnap = await FB.get(FB.ref(FB.db, `companies/${cid}/members`));
+    const memberCount = membersSnap.exists() ? Object.keys(membersSnap.val()).length : 0;
+    const div = document.createElement('div');
+    div.className = 'company-card';
+    div.style.marginBottom = '10px';
+    div.innerHTML = `
+      <div style="width:44px;height:44px;border-radius:8px;background:#f5a62318;border:1px solid #f5a62330;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🏢</div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:700;color:#e8e0d0">${comp.name}</div>
+        <div style="font-size:10px;color:#4a5575;margin-top:2px">${memberCount} șofer${memberCount!==1?'i':''} · Rol: ${info.role||'driver'} · Cod: <span style="color:#f5a623;font-family:'Share Tech Mono',monospace">${comp.code}</span></div>
+      </div>
+      <button class="btn btn-primary" style="padding:8px 18px;font-size:12px" onclick="enterCompany('${cid}','${comp.name}','${comp.code}','${info.role||'driver'}')">INTRĂ →</button>`;
+    list.appendChild(div);
+  }
+}
+
+function showCreateCompany() { document.getElementById('modal-create').classList.add('open'); document.getElementById('c-name').focus(); }
+function showJoinCompany() { document.getElementById('modal-join').classList.add('open'); document.getElementById('j-code').focus(); }
+
+async function createCompany() {
+  const name = document.getElementById('c-name').value.trim();
+  if (!name) { document.getElementById('create-err').textContent='Pune un nume firmei!'; document.getElementById('create-err').style.display='block'; return; }
+  const btn = document.getElementById('btn-create-c'); btn.disabled=true; btn.textContent='Se crează...';
+  const cid = 'comp_'+Date.now();
+  const code = genCode();
+  const role = document.getElementById('c-role').value;
+  const desc = document.getElementById('c-desc').value.trim();
+  try {
+    await FB.set(FB.ref(FB.db, `companies/${cid}/info`), { name, code, desc, ownerId: currentUser.uid, createdAt: Date.now() });
+    await FB.set(FB.ref(FB.db, `companies/${cid}/members/${currentUser.uid}`), { name: currentUser.displayName||currentUser.email, role, joinedAt: Date.now(), online: false, uid: currentUser.uid });
+    await FB.set(FB.ref(FB.db, `users/${currentUser.uid}/companies/${cid}`), { role, joinedAt: Date.now() });
+    closeModal('modal-create');
+    toast('✓ Firmă creată! Cod: '+code);
+    loadMyCompanies();
+  } catch(e) { document.getElementById('create-err').textContent='Eroare: '+e.message; document.getElementById('create-err').style.display='block'; }
+  btn.disabled=false; btn.textContent='CREAZĂ FIRMA';
+}
+
+async function joinCompany() {
+  const code = document.getElementById('j-code').value.trim();
+  if (!code) { document.getElementById('join-err').textContent='Introdu codul!'; document.getElementById('join-err').style.display='block'; return; }
+  const btn = document.getElementById('btn-join-c'); btn.disabled=true; btn.textContent='Se caută...';
+  try {
+    // Find company by code
+    const snap = await FB.get(FB.ref(FB.db, 'companies'));
+    if (!snap.exists()) { throw new Error('Cod invalid'); }
+    let foundId = null, foundComp = null;
+    snap.forEach(child => { if (child.val().info?.code === code) { foundId = child.key; foundComp = child.val().info; } });
+    if (!foundId) throw new Error('Cod invalid — firma nu există');
+    // Check not already member
+    const memSnap = await FB.get(FB.ref(FB.db, `companies/${foundId}/members/${currentUser.uid}`));
+    if (memSnap.exists()) { throw new Error('Ești deja în această firmă!'); }
+    await FB.set(FB.ref(FB.db, `companies/${foundId}/members/${currentUser.uid}`), { name: currentUser.displayName||currentUser.email, role:'driver', joinedAt: Date.now(), online: false, uid: currentUser.uid });
+    await FB.set(FB.ref(FB.db, `users/${currentUser.uid}/companies/${foundId}`), { role:'driver', joinedAt: Date.now() });
+    closeModal('modal-join');
+    toast('✓ Te-ai alăturat firmei '+foundComp.name+'!');
+    loadMyCompanies();
+  } catch(e) { document.getElementById('join-err').textContent=e.message; document.getElementById('join-err').style.display='block'; }
+  btn.disabled=false; btn.textContent='ALĂTURĂ-TE';
+}
+
+// ══════════════════════════════════════════════
+//  ENTER COMPANY — MAIN APP
+// ══════════════════════════════════════════════
+function enterCompany(cid, name, code, role) {
+  currentCompany = { id: cid, name, code, role };
+  document.getElementById('company-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('hdr-company').textContent = name;
+  document.getElementById('hdr-user').textContent = '🚛 '+(currentUser.displayName||currentUser.email);
+  document.getElementById('invite-code').textContent = code;
+  document.getElementById('company-info-display').innerHTML = `
+    <div class="r2"><div><div style="font-size:9px;color:#3a4560;letter-spacing:.14em;margin-bottom:3px">NUME FIRMĂ</div><div style="font-size:15px;font-weight:700;color:#e8e0d0">${name}</div></div>
+    <div><div style="font-size:9px;color:#3a4560;letter-spacing:.14em;margin-bottom:3px">ROLUL TĂU</div><div style="font-size:15px;font-weight:700;color:#f5a623">${role.toUpperCase()}</div></div></div>`;
+  initSelects();
+  subscribeAll();
+  setOnline(true);
+  showTab(0);
+}
+
+function leaveApp() {
+  setOffline();
+  listeners.forEach(u => typeof u === 'function' && u());
+  listeners = [];
+  currentCompany = null; trips = []; members = {}; tachoSessions = [];
+  stopTachoClean();
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('company-screen').style.display = 'block';
+  loadMyCompanies();
+}
+
+// ══════════════════════════════════════════════
+//  REALTIME SUBSCRIPTIONS
+// ══════════════════════════════════════════════
+function subscribeAll() {
+  const cid = currentCompany.id;
+
+  const u1 = FB.onValue(FB.ref(FB.db, `companies/${cid}/trips`), snap => {
+    trips = [];
+    if (snap.exists()) snap.forEach(c => trips.push({...c.val(), _key: c.key}));
+    trips.sort((a,b) => (b.createdAt||0)-(a.createdAt||0));
+    renderAll();
+  });
+
+  const u2 = FB.onValue(FB.ref(FB.db, `companies/${cid}/members`), snap => {
+    members = snap.exists() ? snap.val() : {};
+    renderAll();
+  });
+
+  const u3 = FB.onValue(FB.ref(FB.db, `companies/${cid}/tacho/${currentUser.uid}`), snap => {
+    tachoSessions = [];
+    if (snap.exists()) snap.forEach(c => tachoSessions.push({...c.val(), _key: c.key}));
+    tachoSessions.sort((a,b) => (b.createdAt||0)-(a.createdAt||0));
+    renderSessList();
+  });
+
+  listeners = [u1, u2, u3];
+}
+
+async function setOnline(v) {
+  if (!currentCompany || !currentUser) return;
+  await FB.update(FB.ref(FB.db, `companies/${currentCompany.id}/members/${currentUser.uid}`), { online: v, lastSeen: Date.now() });
+}
+const setOffline = () => setOnline(false);
+window.addEventListener('beforeunload', setOffline);
+setInterval(() => { if(currentCompany) setOnline(true); }, 25000);
+
+// ══════════════════════════════════════════════
+//  TRIPS
+// ══════════════════════════════════════════════
+async function saveTrip() {
+  const sc=document.getElementById('f-sct').value, rc=document.getElementById('f-rct').value, km=document.getElementById('f-km').value;
+  if (!sc||!rc||!km) { document.getElementById('f-err').style.display='block'; return; }
+  document.getElementById('f-err').style.display='none';
+  const btn=document.getElementById('btn-save'); btn.disabled=true; btn.textContent='Se salvează...';
+  const trip = {
+    cmrNumber: document.getElementById('f-cmr').value || genCMR(trips.length+1),
+    date: document.getElementById('f-date').value, status: document.getElementById('f-status').value,
+    senderName: document.getElementById('f-sname').value, senderCountry: document.getElementById('f-sc').value, senderCity: sc, senderAddress: document.getElementById('f-sa').value,
+    receiverName: document.getElementById('f-rname').value, receiverCountry: document.getElementById('f-rc').value, receiverCity: rc, receiverAddress: document.getElementById('f-ra').value,
+    cargoType: document.getElementById('f-cargo').value, cargoWeight: document.getElementById('f-weight').value, cargoUnits: document.getElementById('f-units').value,
+    vehicleType: document.getElementById('f-vtype').value, plateNumber: document.getElementById('f-plate').value,
+    driverName: document.getElementById('f-driver').value || (currentUser.displayName||currentUser.email),
+    driverId: currentUser.uid,
+    distanceKm: parseFloat(km), departureTime: document.getElementById('f-dep').value, arrivalTime: document.getElementById('f-arr').value,
+    notes: document.getElementById('f-notes').value, createdAt: Date.now()
+  };
+  await FB.push(FB.ref(FB.db, `companies/${currentCompany.id}/trips`), trip);
+  btn.disabled=false; btn.textContent='⊕ SALVEAZĂ CURSA';
+  resetForm(); showTab(3); toast('✓ Cursă CMR salvată!');
+}
+
+async function updateTripStatus(key, status) {
+  await FB.update(FB.ref(FB.db, `companies/${currentCompany.id}/trips/${key}`), {status});
+  toast('✓ Status actualizat');
+}
+async function deleteTrip(key) {
+  await FB.remove(FB.ref(FB.db, `companies/${currentCompany.id}/trips/${key}`));
+  currentDetailId=null; document.getElementById('detail-panel').style.display='none';
+  toast('Cursă ștearsă');
+}
+
+// ══════════════════════════════════════════════
+//  TACHOGRAPH
+// ══════════════════════════════════════════════
+function tachoAction(type) {
+  if (tachoState===type) return;
+  if (tachoState!=='stopped'&&segStart) segs.push({type:tachoState, seconds:Math.round((Date.now()-segStart)/1000), start:new Date(segStart).toLocaleTimeString('ro-RO')});
+  if (!sessStart) sessStart = new Date();
+  segStart = Date.now(); tachoState = type;
+  if (!tachoTimer) tachoTimer = setInterval(() => {
+    if(tachoState==='drive'){driveSec++;contDrive++;}
+    if(tachoState==='break'){breakSec++;if(breakSec>=2700)contDrive=0;}
+    if(tachoState==='rest'){restSec++;contDrive=0;}
+    updateTachoUI();
+  }, 1000);
+  updateTachoUI();
+}
+
+async function stopTacho() {
+  if (tachoState!=='stopped'&&segStart) segs.push({type:tachoState, seconds:Math.round((Date.now()-segStart)/1000), start:new Date(segStart).toLocaleTimeString('ro-RO')});
+  clearInterval(tachoTimer); tachoTimer=null;
+  if (sessStart && (driveSec+breakSec+restSec)>10) {
+    const s = { date:sessStart.toLocaleDateString('ro-RO'), startTime:sessStart.toLocaleTimeString('ro-RO'), endTime:new Date().toLocaleTimeString('ro-RO'), driverName:currentUser.displayName||currentUser.email, driverId:currentUser.uid, driveSeconds:driveSec, breakSeconds:breakSec, restSeconds:restSec, segments:[...segs], createdAt:Date.now() };
+    await FB.push(FB.ref(FB.db, `companies/${currentCompany.id}/tacho/${currentUser.uid}`), s);
+    toast('✓ Sesiune tahograf salvată!');
+  }
+  stopTachoClean();
+}
+
+function stopTachoClean() { clearInterval(tachoTimer); tachoTimer=null; tachoState='stopped'; driveSec=0;breakSec=0;restSec=0;contDrive=0; sessStart=null;segStart=null;segs=[]; updateTachoUI(); }
+
+function updateTachoUI() {
+  if (!document.getElementById('t-drive')) return;
+  document.getElementById('t-drive').textContent = fmtT(driveSec);
+  document.getElementById('t-break').textContent = fmtT(breakSec);
+  document.getElementById('t-rest').textContent = fmtT(restSec);
+  const lbl={drive:'🚛 CONDUC',break:'⏸ PAUZĂ',rest:'🛌 REPAUS',stopped:'⏹ OPRIT'};
+  const clr={drive:'#14d9a0',break:'#E4A11B',rest:'#7c5cbf',stopped:'#4a5575'};
+  document.getElementById('tacho-status').textContent = lbl[tachoState];
+  document.getElementById('tacho-status').style.color = clr[tachoState];
+  if (sessStart) document.getElementById('tacho-info').textContent = 'Start: '+sessStart.toLocaleTimeString('ro-RO');
+  // EU limits
+  const lims = document.getElementById('eu-limits');
+  if (lims) {
+    const items=[{l:'Condus continuu max 4h30',v:contDrive,m:16200,c:'#14d9a0'},{l:'Condus zilnic max 9h',v:driveSec,m:32400,c:'#f5a623'},{l:'Pauza (țintă 45min)',v:breakSec,m:2700,c:'#E4A11B'}];
+    lims.innerHTML=items.map(x=>{const p=Math.min(x.v/x.m*100,100);const c=p>85?'#e03050':p>60?'#E4A11B':x.c;return `<div><div style="font-size:9px;color:#3a4560;margin-bottom:3px">${x.l}</div><div style="background:#111827;border-radius:3px;height:6px;overflow:hidden"><div style="height:100%;background:${c};width:${p}%;transition:width .5s;border-radius:3px"></div></div><div style="font-size:9px;color:${c};margin-top:2px">${fmtHM(x.v)}</div></div>`;}).join('');
+  }
+  // Segment bar
+  const bar = document.getElementById('seg-bar');
+  if (bar) {
+    const all=[...segs]; if(tachoState!=='stopped'&&segStart) all.push({type:tachoState,seconds:Math.round((Date.now()-segStart)/1000)});
+    const tot=all.reduce((s,x)=>s+x.seconds,0)||1;
+    const sc={drive:'#14d9a0',break:'#E4A11B',rest:'#7c5cbf'};
+    bar.innerHTML=all.length?all.map(s=>`<div style="background:${sc[s.type]||'#333'};width:${Math.max(s.seconds/tot*100,0.5)}%;height:100%;opacity:.85" title="${s.type} ${fmtHM(s.seconds)}"></div>`).join(''):'<div style="color:#3a4560;font-size:10px;padding:7px 10px">Pornește tahograful</div>';
+  }
+}
+
+function renderSessList() {
+  const el = document.getElementById('sess-list'); if(!el) return;
+  if (!tachoSessions.length) { el.innerHTML='<div style="color:#3a4560;font-size:12px">Nicio sesiune salvată</div>'; return; }
+  el.innerHTML = tachoSessions.slice(0,10).map((s,i) => `
+    <div style="background:#111827;border-radius:5px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px">
+      <div style="flex:1">
+        <div style="font-size:11px;font-weight:700;color:#f5a623">${s.date} · ${s.startTime} → ${s.endTime}</div>
+        <div style="font-size:10px;margin-top:2px"><span style="color:#14d9a0">▶ ${fmtHM(s.driveSeconds)}</span> · <span style="color:#E4A11B">⏸ ${fmtHM(s.breakSeconds)}</span> · <span style="color:#7c5cbf">🛌 ${fmtHM(s.restSeconds)}</span></div>
+      </div>
+      <button onclick="openBon(${i})" class="btn-ghost" style="font-size:10px;padding:4px 8px">🖨</button>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════
+//  BON TAHOGRAF
+// ══════════════════════════════════════════════
+function openBon(idx=0) {
+  const sel = document.getElementById('bon-sel');
+  sel.innerHTML = tachoSessions.map((s,i)=>`<option value="${i}">${s.date} – ${s.startTime} – ${s.driverName||'?'}</option>`).join('');
+  sel.value = idx; previewBon();
+  document.getElementById('modal-bon').classList.add('open');
+}
+function previewBon() {
+  const s = tachoSessions[parseInt(document.getElementById('bon-sel').value)||0];
+  if (!s) { document.getElementById('bon-text').textContent='Nicio sesiune'; return; }
+  const total=s.driveSeconds+s.breakSeconds+s.restSeconds;
+  const c=str=>(' '.repeat(Math.max(0,Math.floor((50-str.length)/2)))+str);
+  const ok=s.driveSeconds<=32400;
+  let t=`\n${c('★  TRUCKLOG  ★')}\n${c('BON ACTIVITATE TAHOGRAF')}\n${c('EURO TRUCK SIMULATOR 2')}\n${'─'.repeat(50)}\nȘOFER:          ${s.driverName||'—'}\nCOMPANIE:       ${currentCompany?.name||'—'}\nDATA:           ${s.date}\nSTART:          ${s.startTime}\nSTOP:           ${s.endTime}\nDURATĂ TOTALĂ:  ${fmtHM(total)}\n${'─'.repeat(50)}\n  🚛 CONDUS:    ${fmtHM(s.driveSeconds)}\n  ☕ PAUZE:     ${fmtHM(s.breakSeconds)}\n  🛌 REPAUS:    ${fmtHM(s.restSeconds)}\n${'─'.repeat(50)}\nSEGMENTE:`;
+  (s.segments||[]).forEach((seg,i)=>{const ic={drive:'🚛',break:'☕',rest:'🛌'}[seg.type]||'•';t+=`\n  ${String(i+1).padStart(2,'0')}. ${ic} ${(seg.type||'').toUpperCase().padEnd(7)} ora ${(seg.start||'').padEnd(10)} ${fmtHM(seg.seconds)}`;});
+  t+=`\n${'─'.repeat(50)}\nCONFORMITATE EU REG. 561/2006:\n  Condus max 9h:   ${fmtHM(s.driveSeconds)} ${s.driveSeconds<=32400?'✓ OK':'✗ DEPĂȘIT'}\n  Pauze min 45min: ${fmtHM(s.breakSeconds)} ${s.breakSeconds>=2700?'✓ OK':'⚠ INSUFICIENT'}\n${'─'.repeat(50)}\n${c(ok?'✓  SESIUNE CONFORMĂ  ✓':'⚠  VERIFICĂ CONFORMITATEA')}\n${'─'.repeat(50)}\n${c('TruckLog · '+new Date().toLocaleDateString('ro-RO'))}\n`;
+  document.getElementById('bon-text').textContent = t;
+}
+function downloadBon() {
+  const s = tachoSessions[parseInt(document.getElementById('bon-sel').value)||0];
+  const txt = document.getElementById('bon-text').textContent;
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Bon ${s?.date||''}</title><style>body{background:#111;color:#eee;font-family:'Courier New',monospace;font-size:13px;padding:32px;white-space:pre;line-height:1.6}@media print{body{background:#fff;color:#000}}</style></head><body>${txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</body></html>`;
+  if (window.electron) { window.electron.saveReceipt(`Bon_${s?.date||'tahograf'}.html`, html); return; }
+  const a=document.createElement('a'); a.href='data:text/html;charset=utf-8,'+encodeURIComponent(html); a.download=`Bon_Tahograf_${s?.date||'nou'}.html`; a.click();
+}
+
+// ══════════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════════
+function showTab(n) {
+  document.querySelectorAll('.page').forEach((p,i)=>p.classList.toggle('active',i===n));
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===n));
+  currentTab_=n; renderAll();
+}
+
+function renderAll() {
+  updateHeader();
+  if(currentTab_===0) renderDash();
+  if(currentTab_===1) { updateTachoUI(); renderSessList(); }
+  if(currentTab_===3) renderArchive();
+  if(currentTab_===4) renderDrivers();
+  if(currentTab_===5) renderStats();
+}
+
+function updateHeader() {
+  const fin=trips.filter(t=>t.status==='Finalizat');
+  document.getElementById('hdr-km').textContent=fin.reduce((s,t)=>s+Number(t.distanceKm||0),0).toLocaleString('ro-RO');
+  document.getElementById('hdr-trips').textContent=trips.length;
+  const on=Object.values(members).filter(m=>m.online).length;
+  document.getElementById('hdr-online').textContent=on+' online';
+}
+
+function renderDash() {
+  const fin=trips.filter(t=>t.status==='Finalizat');
+  const act=trips.filter(t=>t.status==='În desfășurare');
+  const km=fin.reduce((s,t)=>s+Number(t.distanceKm||0),0);
+  const allDrive=tachoSessions.reduce((s,x)=>s+x.driveSeconds,0);
+  const online=Object.values(members).filter(m=>m.online);
+
+  document.getElementById('dash-stats').innerHTML=[
+    {l:'KM FIRMĂ',v:km.toLocaleString('ro-RO'),u:'km',c:'#f5a623'},
+    {l:'CURSE TOTALE',v:trips.length,u:'curse',c:'#14d9a0'},
+    {l:'CURSE ACTIVE',v:act.length,u:'în curs',c:'#E4A11B'},
+    {l:'ȘOFERI ONLINE',v:online.length+'/'+Object.keys(members).length,u:'acum',c:'#7c5cbf'},
+    {l:'ORE CONDUS',v:Math.round(allDrive/3600*10)/10,u:'ore',c:'#3b82f6'},
+  ].map(x=>`<div class="card" style="border-left:3px solid ${x.c};border-color:#1a2035;border-left-color:${x.c}"><div style="font-size:9px;letter-spacing:.15em;color:#3a4560;margin-bottom:4px">${x.l}</div><div style="font-size:24px;font-weight:700;color:${x.c}">${x.v}</div><div style="font-size:9px;color:#3a4560;margin-top:1px">${x.u}</div></div>`).join('');
+
+  document.getElementById('dash-active').innerHTML=act.length?act.slice(0,5).map(t=>{const c=color(t.driverId);return `<div style="background:#0d1120;border:1px solid #1a2035;border-left:3px solid ${c};border-radius:6px;padding:10px 12px;margin-bottom:7px;display:flex;gap:8px;align-items:center"><div style="flex:1"><div style="font-size:11px;font-weight:700;color:#f5a623">${t.cmrNumber}</div><div style="font-size:10px;color:#8090b0;margin-top:1px">${t.senderCity} → ${t.receiverCity} · ${Number(t.distanceKm||0)} km</div><div style="font-size:10px;color:${c};margin-top:1px">🚛 ${t.driverName||'?'}</div></div><button class="btn-green" onclick="updateTripStatus('${t._key}','Finalizat')" style="font-size:10px">✓</button></div>`;}  ).join(''):'<div style="color:#3a4560;font-size:12px;padding:8px 0">Nicio cursă activă</div>';
+
+  document.getElementById('dash-recent').innerHTML=fin.slice(0,4).map(t=>`<div style="background:#0d1120;border:1px solid #1a2035;border-radius:6px;padding:9px 12px;margin-bottom:6px;display:flex;gap:8px;align-items:center"><div style="flex:1"><div style="font-size:11px;font-weight:700;color:#14d9a0">${t.cmrNumber}</div><div style="font-size:10px;color:#8090b0;margin-top:1px">${t.senderCity} → ${t.receiverCity} · ${Number(t.distanceKm||0)} km · ${t.driverName||'?'}</div></div><div style="font-size:10px;color:#4a5575">${t.date||''}</div></div>`).join('')||'<div style="color:#3a4560;font-size:12px">—</div>';
+
+  document.getElementById('dash-drivers-live').innerHTML=online.length?online.map(m=>{const uid=Object.keys(members).find(k=>members[k]===m)||'';const c=color(uid);const dkm=trips.filter(t=>t.driverId===uid&&t.status==='Finalizat').reduce((s,t)=>s+Number(t.distanceKm||0),0);return `<div style="background:#0d1120;border:1px solid #0a1a10;border-radius:6px;padding:9px 12px;margin-bottom:7px;display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:50%;background:${c}18;border:2px solid ${c};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:${c};flex-shrink:0">${initials(m.name)}</div><div style="flex:1"><div style="font-size:12px;font-weight:700;color:${c}">${m.name}</div><div style="font-size:10px;color:#4a5575">${dkm.toLocaleString('ro-RO')} km · ${m.role||'driver'}</div></div><span class="dot-online"></span></div>`; }).join(''):'<div style="color:#3a4560;font-size:12px;padding:8px 0">Niciun șofer online</div>';
+
+  // Chart
+  const byMonth={};
+  fin.forEach(t=>{const m=(t.date||'').slice(0,7);if(m)byMonth[m]=(byMonth[m]||0)+Number(t.distanceKm||0);});
+  const months=Object.entries(byMonth).sort((a,b)=>a[0]>b[0]?1:-1).slice(-6);
+  const chart=document.getElementById('dash-chart');
+  if(!months.length){chart.innerHTML='<div style="color:#3a4560;font-size:10px;align-self:center">Date insuficiente</div>';return;}
+  const mx=Math.max(...months.map(m=>m[1]),1);
+  chart.innerHTML=months.map(([m,k])=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end"><div style="font-size:8px;color:#f5a623;font-weight:600">${Math.round(k/1000*10)/10}k</div><div style="width:100%;background:#f5a623;border-radius:2px 2px 0 0;height:${Math.round((k/mx)*68)}px;min-height:3px"></div><div style="font-size:8px;color:#3a4560">${m.slice(5)}/${m.slice(2,4)}</div></div>`).join('');
+}
+
+function renderArchive() {
+  const q=(document.getElementById('arch-q')?.value||'').toLowerCase();
+  const sf=document.getElementById('arch-status')?.value||'Toate';
+  const df=document.getElementById('arch-drv')?.value||'';
+  const filtered=trips.filter(t=>{
+    const s=[t.cmrNumber,t.senderCity,t.receiverCity,t.driverName,t.cargoType].join(' ').toLowerCase();
+    return s.includes(q)&&(sf==='Toate'||t.status===sf)&&(!df||t.driverName===df);
+  });
+  // Update driver filter options
+  const dsel=document.getElementById('arch-drv');
+  if(dsel){ const cur=dsel.value; dsel.innerHTML='<option value="">Toți șoferii</option>'; Object.values(members).forEach(m=>{const o=document.createElement('option');o.textContent=m.name;o.value=m.name;dsel.appendChild(o);}); dsel.value=cur; }
+
+  const tbl=document.getElementById('arch-table');
+  if(!filtered.length){tbl.innerHTML='<div style="text-align:center;padding:28px;color:#3a4560;font-size:13px">Nicio cursă</div>';return;}
+  const bl=s=>s==='În desfășurare'?'ACTIV':s==='Finalizat'?'DONE':'ANULAT';
+  tbl.innerHTML=`<div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 75px 75px 65px 85px;padding:7px 14px;border-bottom:1px solid #141c2e;font-size:9px;letter-spacing:.15em;color:#3a4560;font-weight:600"><span>CMR / RUTĂ</span><span>MARFĂ</span><span>ȘOFER</span><span>KM</span><span>DATA</span><span>STATUS</span><span></span></div>
+  ${filtered.map(t=>{const c=color(t.driverId);return `<div class="trip-row${currentDetailId===t._key?' selected':''}" style="grid-template-columns:1.3fr 1fr 1fr 75px 75px 65px 85px" onclick="showDetail('${t._key}')">
+    <div><div style="font-size:11px;font-weight:700;color:#f5a623">${t.cmrNumber}</div><div style="font-size:10px;color:#8090b0;margin-top:1px">${t.senderCity} → ${t.receiverCity}</div></div>
+    <div style="font-size:10px;color:#c0cce0;padding-top:2px">${(t.cargoType||'').length>24?(t.cargoType||'').slice(0,22)+'…':(t.cargoType||'')}</div>
+    <div style="font-size:10px;padding-top:2px"><span style="color:${c};font-weight:700">${t.driverName||'—'}</span></div>
+    <div style="font-size:12px;font-weight:700;padding-top:2px">${Number(t.distanceKm||0).toLocaleString()}</div>
+    <div style="font-size:10px;color:#4a5575;padding-top:2px">${t.date||''}</div>
+    <div style="padding-top:2px"><span class="badge" style="background:${STATUS_COLORS[t.status]||'#888'}22;color:${STATUS_COLORS[t.status]||'#888'};border:1px solid ${STATUS_COLORS[t.status]||'#888'}44">${bl(t.status)}</span></div>
+    <div style="padding-top:2px;display:flex;gap:3px">
+      ${t.status==='În desfășurare'?`<button class="btn-green" onclick="event.stopPropagation();updateTripStatus('${t._key}','Finalizat')" style="padding:3px 7px;font-size:10px">✓</button>`:''}
+      <button class="btn-red" onclick="event.stopPropagation();if(confirm('Ștergi?'))deleteTrip('${t._key}')" style="padding:3px 7px;font-size:10px">🗑</button>
+    </div>
+  </div>`; }).join('')}`;
+}
+
+function showDetail(key) {
+  currentDetailId=key; const t=trips.find(x=>x._key===key); if(!t) return;
+  renderArchive();
+  const panel=document.getElementById('detail-panel'); panel.style.display='block';
+  const sc=STATUS_COLORS[t.status]||'#888'; const dc=color(t.driverId);
+  panel.innerHTML=`<div style="background:#080c14;border:1px solid ${sc}44;border-radius:8px;padding:18px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <div><div style="font-size:17px;font-weight:700;color:#f5a623;letter-spacing:.1em">${t.cmrNumber}</div><div style="font-size:11px;color:#4a5575;margin-top:2px">${t.senderCity}, ${t.senderCountry} → ${t.receiverCity}, ${t.receiverCountry}</div><div style="font-size:11px;color:${dc};margin-top:2px">🚛 ${t.driverName||'—'}</div></div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap">
+        ${t.status==='În desfășurare'?`<button class="btn-green" onclick="updateTripStatus('${t._key}','Finalizat')">✓ FINALIZAT</button><button class="btn-red" onclick="updateTripStatus('${t._key}','Anulat')">✕ ANULAT</button>`:''}
+        <button onclick="if(confirm('Ștergi?'))deleteTrip('${t._key}')" class="btn-ghost" style="font-size:11px">🗑</button>
+        <button onclick="document.getElementById('detail-panel').style.display='none';currentDetailId=null;renderArchive()" class="btn-ghost" style="font-size:13px">✕</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
+      ${dg('EXPEDITOR',[['Companie',t.senderName],['Loc',t.senderCity+', '+t.senderCountry]])}
+      ${dg('DESTINATAR',[['Companie',t.receiverName],['Loc',t.receiverCity+', '+t.receiverCountry]])}
+      ${dg('MARFĂ',[['Tip',t.cargoType],['Greutate',t.cargoWeight?t.cargoWeight+' t':'—']])}
+      ${dg('TRANSPORT',[['Vehicul',t.vehicleType],['Nr.',t.plateNumber||'—'],['KM',Number(t.distanceKm||0).toLocaleString()+' km'],['Plecare',t.departureTime||'—'],['Sosire',t.arrivalTime||'—']])}
+    </div>
+    ${t.notes?`<div style="margin-top:10px;background:#111827;border-radius:5px;padding:10px;font-size:11px;color:#8090b0">${t.notes}</div>`:''}
+  </div>`;
+}
+
+function dg(title,items){return `<div><div style="font-size:9px;letter-spacing:.15em;color:#3a4560;margin-bottom:7px">${title}</div>${items.map(([k,v])=>(!v||v==='—'||v==='undefined')?'':
+  `<div style="display:flex;justify-content:space-between;margin-bottom:3px;border-bottom:1px solid #111827;padding-bottom:3px"><span style="font-size:10px;color:#3a4560">${k}</span><span style="font-size:10px;color:#c0cce0;text-align:right;max-width:58%">${v}</span></div>`).join('')}</div>`;}
+
+function renderDrivers() {
+  const grid=document.getElementById('drivers-grid');
+  grid.innerHTML=Object.entries(members).map(([uid,m])=>{
+    const c=color(uid); const isMe=uid===currentUser?.uid;
+    const dTrips=trips.filter(t=>t.driverId===uid);
+    const dkm=dTrips.filter(t=>t.status==='Finalizat').reduce((s,t)=>s+Number(t.distanceKm||0),0);
+    const dDrive=tachoSessions.filter(s=>s.driverId===uid).reduce((s,x)=>s+x.driveSeconds,0);
+    const active=dTrips.filter(t=>t.status==='În desfășurare');
+    const last=m.lastSeen?new Date(m.lastSeen).toLocaleTimeString('ro-RO'):'—';
+    return `<div style="background:#0d1120;border:1px solid ${c}25;border-radius:10px;padding:18px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <div class="avatar" style="background:${c}18;border:2px solid ${c};color:${c}">${initials(m.name)}</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:${c}">${m.name}${isMe?' <span style="font-size:9px;font-weight:400;color:#3a4560">(eu)</span>':''}</div>
+          <div style="font-size:9px;margin-top:2px;display:flex;align-items:center;gap:5px">
+            <span class="${m.online?'dot-online':'dot-offline'}"></span>
+            <span style="color:${m.online?'#14d9a0':'#3a4560'}">${m.online?'ONLINE':'offline · '+last}</span>
+            <span style="color:#3a4560;margin-left:6px">${(m.role||'driver').toUpperCase()}</span>
+          </div>
+        </div>
+      </div>
+      <div class="r2" style="gap:8px;margin-bottom:8px">
+        <div style="background:#111827;border-radius:5px;padding:8px;text-align:center"><div style="font-size:18px;font-weight:700;color:${c}">${dkm.toLocaleString('ro-RO')}</div><div style="font-size:8px;color:#3a4560;letter-spacing:.12em">KM TOTAL</div></div>
+        <div style="background:#111827;border-radius:5px;padding:8px;text-align:center"><div style="font-size:18px;font-weight:700;color:${c}">${dTrips.length}</div><div style="font-size:8px;color:#3a4560;letter-spacing:.12em">CURSE</div></div>
+      </div>
+      <div style="background:#111827;border-radius:5px;padding:8px;display:flex;justify-content:space-between;align-items:center">
+        <div><div style="font-size:8px;color:#3a4560;letter-spacing:.12em">ORE CONDUS</div><div style="font-size:15px;font-weight:700;color:#14d9a0">${Math.round(dDrive/3600*10)/10}h</div></div>
+        <div style="text-align:right"><div style="font-size:8px;color:#3a4560;letter-spacing:.12em">CURSE ACTIVE</div><div style="font-size:15px;font-weight:700;color:#E4A11B">${active.length}</div></div>
+      </div>
+      ${active.length?`<div style="margin-top:8px;background:#1e1508;border:1px solid #E4A11B30;border-radius:5px;padding:8px;font-size:10px;color:#E4A11B">🚛 ${active[0].senderCity} → ${active[0].receiverCity} · ${Number(active[0].distanceKm||0)} km</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderStats() {
+  const fin=trips.filter(t=>t.status==='Finalizat');
+  const km=fin.reduce((s,t)=>s+Number(t.distanceKm||0),0);
+  const allDrive=tachoSessions.reduce((s,x)=>s+x.driveSeconds,0);
+  const allBreak=tachoSessions.reduce((s,x)=>s+x.breakSeconds,0);
+  document.getElementById('stats-cards').innerHTML=[
+    {l:'KM TOTAL FIRMĂ',v:km.toLocaleString('ro-RO'),u:'km',c:'#f5a623'},
+    {l:'ORE CONDUS',v:Math.round(allDrive/3600*10)/10,u:'ore',c:'#14d9a0'},
+    {l:'ORE PAUZE',v:Math.round(allBreak/3600*10)/10,u:'ore',c:'#E4A11B'},
+    {l:'CURSE FINALIZATE',v:fin.length,u:'curse',c:'#7c5cbf'},
+    {l:'ȘOFERI',v:Object.keys(members).length,u:'total',c:'#3b82f6'},
+    {l:'SESIUNI TAHOGRAF',v:tachoSessions.length,u:'sesiuni',c:'#e03050'},
+  ].map(x=>`<div class="card" style="border-top:2px solid ${x.c};text-align:center"><div style="font-size:8px;letter-spacing:.18em;color:#3a4560;margin-bottom:5px">${x.l}</div><div style="font-size:26px;font-weight:700;color:${x.c}">${x.v}</div><div style="font-size:9px;color:#3a4560;margin-top:2px">${x.u}</div></div>`).join('');
+
+  const rm={};fin.forEach(t=>{const k=`${t.senderCity} → ${t.receiverCity}`;if(!rm[k])rm[k]={count:0,km:0};rm[k].count++;rm[k].km+=Number(t.distanceKm||0);});
+  document.getElementById('top-routes').innerHTML=Object.entries(rm).sort((a,b)=>b[1].km-a[1].km).slice(0,8)
+    .map(([r,d],i)=>`<div style="display:flex;align-items:center;gap:7px;margin-bottom:8px"><div style="font-size:9px;color:#3a4560;min-width:16px">#${i+1}</div><div style="flex:1;font-size:11px;color:#c0cce0">${r}</div><div style="font-size:11px;font-weight:700;color:#f5a623">${Math.round(d.km).toLocaleString()} km</div></div>`).join('')
+    ||'<div style="color:#3a4560;font-size:12px">Nicio cursă finalizată</div>';
+
+  const dkm={};fin.forEach(t=>{if(t.driverName)dkm[t.driverName]=(dkm[t.driverName]||0)+Number(t.distanceKm||0);});
+  const mdkm=Math.max(...Object.values(dkm),1);
+  document.getElementById('driver-km').innerHTML=Object.entries(dkm).sort((a,b)=>b[1]-a[1])
+    .map(([n,k],i)=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:11px;color:${PALETTE[i%PALETTE.length]};font-weight:700">${n}</span><span style="font-size:11px;color:#4a5575">${Math.round(k).toLocaleString()} km</span></div><div style="height:4px;background:#111827;border-radius:2px"><div style="height:100%;background:${PALETTE[i%PALETTE.length]};width:${Math.round(k/mdkm*100)}%;border-radius:2px"></div></div></div>`).join('')
+    ||'<div style="color:#3a4560;font-size:12px">—</div>';
+
+  const cm={};trips.forEach(t=>{cm[t.cargoType]=(cm[t.cargoType]||0)+1;});
+  document.getElementById('cargo-chart').innerHTML=Object.entries(cm).sort((a,b)=>b[1]-a[1]).slice(0,10)
+    .map(([type,cnt])=>{const p=Math.round(cnt/trips.length*100);return `<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:11px;color:#c0cce0">${type}</span><span style="font-size:10px;color:#4a5575">${cnt} (${p}%)</span></div><div style="height:3px;background:#111827;border-radius:2px"><div style="height:100%;background:#f5a623;width:${p}%;border-radius:2px"></div></div></div>`;}).join('')
+    ||'<div style="color:#3a4560;font-size:12px">—</div>';
+}
+
+// ══════════════════════════════════════════════
+//  FORM HELPERS
+// ══════════════════════════════════════════════
+function initSelects() {
+  const cs=document.getElementById('f-cargo'); if(cs&&!cs.children.length){CARGO_TYPES.forEach(c=>{const o=document.createElement('option');o.textContent=c;cs.appendChild(o);}); cs.value='Alimente generale';}
+  const vs=document.getElementById('f-vtype'); if(vs&&!vs.children.length) VEHICLE_TYPES.forEach(v=>{const o=document.createElement('option');o.textContent=v;vs.appendChild(o);});
+  ['f-sc','f-rc'].forEach(id=>{const sel=document.getElementById(id);if(sel&&!sel.children.length){EU_COUNTRIES.forEach(c=>{const o=document.createElement('option');o.textContent=c;if(c==='România')o.selected=true;sel.appendChild(o);}); updateCities(id, id==='f-sc'?'f-sct':'f-rct');}});
+  const fd=document.getElementById('f-date'); if(fd) fd.value=today();
+  const fdrv=document.getElementById('f-driver'); if(fdrv&&currentUser) fdrv.placeholder='Gol = '+(currentUser.displayName||currentUser.email);
+}
+function updateCities(cId,cityId){const c=document.getElementById(cId)?.value;const sel=document.getElementById(cityId);if(!sel)return;sel.innerHTML='<option value="">-- Selectează --</option>';(CITIES[c]||[]).forEach(x=>{const o=document.createElement('option');o.textContent=x;sel.appendChild(o);});}
+function resetForm(){['f-cmr','f-sname','f-sa','f-rname','f-ra','f-weight','f-units','f-plate','f-driver','f-km','f-dep','f-arr','f-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});const fd=document.getElementById('f-date');if(fd)fd.value=today();document.getElementById('f-status').value='În desfășurare';document.getElementById('f-sc').value='România';updateCities('f-sc','f-sct');document.getElementById('f-rc').value='România';updateCities('f-rc','f-rct');document.getElementById('f-err').style.display='none';}
+function copyInvite(){navigator.clipboard.writeText(currentCompany?.code||'');toast('✓ Cod copiat!');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+</script>
+</body>
+</html>
