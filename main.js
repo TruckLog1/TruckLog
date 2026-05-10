@@ -1,8 +1,11 @@
-const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell, session } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
 let mainWindow;
+
+app.commandLine.appendSwitch('disable-web-security');
+app.commandLine.appendSwitch('ignore-certificate-errors');
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -17,10 +20,21 @@ function createWindow() {
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),
       webSecurity: false,
-      allowRunningInsecureContent: true
+      allowRunningInsecureContent: true,
+      experimentalFeatures: true
     },
     autoHideMenuBar: true,
     show: false
+  });
+
+  // Remove ALL content security policy headers
+  mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': ["default-src * 'unsafe-inline' 'unsafe-eval' data: blob:"]
+      }
+    });
   });
 
   mainWindow.loadFile(path.join(__dirname, 'src', 'index.html'));
@@ -29,8 +43,8 @@ function createWindow() {
     mainWindow.show();
   });
 
-  mainWindow.webContents.on('did-fail-load', (e, code, desc) => {
-    console.log('Load failed:', code, desc);
+  mainWindow.webContents.on('did-fail-load', (e, code, desc, url) => {
+    console.log('Load error:', code, desc, url);
   });
 }
 
