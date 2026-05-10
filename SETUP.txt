@@ -1,0 +1,182 @@
+╔══════════════════════════════════════════════════════════╗
+║           TRUCKLOG – GHID COMPLET SETUP                 ║
+║        Citește de sus în jos, pas cu pas                ║
+╚══════════════════════════════════════════════════════════╝
+
+Timp estimat: 20-30 minute (o singură dată)
+Ce obții: un .EXE pe care îl instalezi și îl trimiți oricui
+
+════════════════════════════════════════════════════════════
+PASUL 1 — CREAZĂ CONTUL FIREBASE (baza de date gratuită)
+════════════════════════════════════════════════════════════
+
+1. Deschide: https://firebase.google.com
+2. Click "Get started" → loghează-te cu Gmail
+3. Click "Add project" → Nume: "trucklog" → Continue
+4. Dezactivează Google Analytics (nu e nevoie) → Create project
+5. Aștepți ~30 secunde
+
+→ Activează Authentication:
+   - Meniu stânga → "Build" → "Authentication"
+   - Click "Get started"
+   - Tab "Sign-in method" → Click "Email/Password" → Enable (primul toggle) → Save
+
+→ Activează Realtime Database:
+   - Meniu stânga → "Build" → "Realtime Database"
+   - Click "Create Database"
+   - Locație: "europe-west1 (Belgium)" → Next
+   - Selectează "Start in TEST MODE" → Enable
+
+→ Ia datele de config:
+   - Click ⚙️ (roata) lângă "Project Overview" → "Project settings"
+   - Scroll jos la "Your apps" → click </> (iconița web)
+   - Nume app: "trucklog" → Register app
+   - Copiază TOT blocul "firebaseConfig" care arată așa:
+     {
+       apiKey: "AIzaSy...",
+       authDomain: "trucklog-xxxxx.firebaseapp.com",
+       databaseURL: "https://trucklog-xxxxx...firebasedatabase.app",
+       projectId: "trucklog-xxxxx",
+       ...
+     }
+
+════════════════════════════════════════════════════════════
+PASUL 2 — PUNE CONFIG-UL ÎN APLICAȚIE
+════════════════════════════════════════════════════════════
+
+1. Deschide fișierul: src\index.html
+   (Click dreapta → Open with → Notepad)
+
+2. Caută (Ctrl+F) textul: FIREBASE_API_KEY
+
+3. Înlocuiește FIECARE valoare:
+   - "FIREBASE_API_KEY"           → valoarea apiKey de la Firebase
+   - "FIREBASE_AUTH_DOMAIN"       → valoarea authDomain
+   - "FIREBASE_DATABASE_URL"      → valoarea databaseURL
+   - "FIREBASE_PROJECT_ID"        → valoarea projectId
+   - "FIREBASE_STORAGE_BUCKET"    → valoarea storageBucket
+   - "FIREBASE_MESSAGING_SENDER_ID" → valoarea messagingSenderId
+   - "FIREBASE_APP_ID"            → valoarea appId
+
+4. Salvează fișierul (Ctrl+S)
+
+════════════════════════════════════════════════════════════
+PASUL 3 — CREAZĂ CONTUL GITHUB (să construiască .EXE-ul)
+════════════════════════════════════════════════════════════
+
+1. Mergi pe: https://github.com
+2. Click "Sign up" → creează cont gratuit
+3. Confirmă emailul
+
+════════════════════════════════════════════════════════════
+PASUL 4 — URCĂ FIȘIERELE PE GITHUB
+════════════════════════════════════════════════════════════
+
+1. Pe GitHub, click "+" (sus dreapta) → "New repository"
+2. Nume: "trucklog"
+3. Selectează "Public"
+4. Click "Create repository"
+
+5. Pe pagina repository-ului, click "uploading an existing file"
+6. Trage TOATE fișierele și folderele din dosarul TruckLog:
+   - main.js
+   - preload.js
+   - package.json
+   - src/ (folderul întreg cu index.html)
+   - .github/ (folderul întreg cu workflows/)
+   
+   !! IMPORTANT: trebuie să urci și .github/workflows/build.yml !!
+   
+7. Click "Commit changes"
+
+════════════════════════════════════════════════════════════
+PASUL 5 — AȘTEPȚI .EXE-UL (se construiește automat)
+════════════════════════════════════════════════════════════
+
+1. Pe GitHub, click tab-ul "Actions"
+2. Vezi un job rulând "Build TruckLog EXE" — aștepți ~10 minute
+3. După ce apare ✓ verde, click pe job
+4. Scroll jos la "Artifacts" → click "TruckLog-Windows-Setup"
+5. Descarcă ZIP-ul → dezarhivează → ai "TruckLog Setup.exe"
+
+════════════════════════════════════════════════════════════
+PASUL 6 — DISTRIBUIE PRIETENILOR
+════════════════════════════════════════════════════════════
+
+Trimite fișierul "TruckLog Setup.exe" prin:
+- Google Drive (recomandat)
+- WeTransfer.com
+- Direct pe Discord
+
+Fiecare jucător:
+1. Instalează .exe-ul
+2. Creează cont cu email + parolă
+3. Creează o firmă SAU introduce codul tău de invitație
+4. Gata — vede totul în timp real!
+
+════════════════════════════════════════════════════════════
+FUNCȚII APLICAȚIE
+════════════════════════════════════════════════════════════
+
+🔐 CONTURI INDIVIDUALE
+   - Fiecare jucător are user + parolă proprie
+   - Profilul tău, cursele tale, tahograful tău
+
+🏢 FIRME VIRTUALE
+   - Crezi o firmă, primești cod de invitație (8 caractere)
+   - Poți fi în mai multe firme odată
+   - Roluri: Owner, Dispatcher, Șofer
+
+🏠 DASHBOARD
+   - KM total firmă, curse active, șoferi online ACUM
+   - Grafic KM pe luni
+
+⏱ TAHOGRAF
+   - Timer Condus / Pauză / Repaus
+   - Bare vizuale de activitate
+   - Limite EU Reg. 561/2006
+   - Bon tahograf descărcabil
+
+📋 CURSE CMR
+   - Document complet cu expeditor, destinatar, marfă
+   - 27 țări UE cu orașe
+   - Generare automată număr CMR
+
+🗂 ARHIVĂ
+   - Toate cursele firmei
+   - Filtrare după șofer, status, căutare
+   - Detalii complete, finalizare rapidă
+
+👥 ȘOFERI
+   - Profilul fiecărui șofer
+   - KM, ore condus, curse active
+   - Verde = online acum, gri = offline
+
+📊 STATISTICI
+   - Top rute, KM per șofer, distribuție marfă
+
+════════════════════════════════════════════════════════════
+PROBLEME FRECVENTE
+════════════════════════════════════════════════════════════
+
+"Firebase not configured"
+→ Ai uitat să înlocuiești valorile în src\index.html
+
+Codul de invitație nu funcționează
+→ Verifică că e exact 8 caractere, doar litere mari și cifre
+
+.EXE-ul nu se construiește pe GitHub
+→ Verifică că ai urcat și folderul .github/workflows/
+
+Windows zice că e nesigur
+→ Click "More info" → "Run anyway"
+  (normal pentru aplicații nesemnate, e sigur)
+
+════════════════════════════════════════════════════════════
+FIREBASE GRATUIT — LIMITE
+════════════════════════════════════════════════════════════
+- 1 GB stocare (ajunge pentru mii de curse)
+- 10 GB transfer/lună
+- Autentificare: 10.000 utilizatori/lună gratuit
+- Complet gratuit, nu cere card bancar
+════════════════════════════════════════════════════════════
