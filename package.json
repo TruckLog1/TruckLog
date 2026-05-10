@@ -14,7 +14,7 @@
       "output": "dist"
     },
     "files": [
-      "src/**/*",
+      "index.html",
       "main.js",
       "preload.js",
       "node_modules/**/*"
