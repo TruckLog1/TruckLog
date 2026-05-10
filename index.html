@@ -1019,7 +1019,7 @@ function renderDrivers() {
     const dDrive=tachoSessions.filter(s=>s.driverId===uid).reduce((s,x)=>s+x.driveSeconds,0);
     const active=dTrips.filter(t=>t.status==='În desfășurare');
     const last=m.lastSeen?new Date(m.lastSeen).toLocaleTimeString('ro-RO'):'—';
-    const roleSelect=currentCompany?.role==='owner'&&!isMe?`<select onchange="changeRole('${uid}',this.value)" style="background:#111827;border:1px solid #252d45;color:#e8e0d0;padding:3px 6px;border-radius:4px;font-size:10px;font-family:'Rajdhani',monospace"><option value="driver" ${m.role==='driver'?'selected':''}>Șofer</option><option value="dispatcher" ${m.role==='dispatcher'?'selected':''}>Dispatcher</option><option value="owner" ${m.role==='owner'?'selected':''}>Owner</option></select>`:'';
+    const roleSelect=currentCompany?.role==='owner'&&!isMe?`<select onchange="changeRole('${uid}',this.value)" style="background:#111827;border:1px solid #252d45;color:#e8e0d0;padding:3px 6px;border-radius:4px;font-size:10px;font-family:'Rajdhani',monospace"><option value="driver" ${m.role==='driver'?'selected':''}>Șofer</option><option value="dispatcher" ${m.role==='dispatcher'?'selected':''}>Dispatcher</option><option value="owner" ${m.role==='owner'?'selected':''}>Owner</option></select> <button onclick="kickMember('${uid}','${m.name}')" style="background:#1c0a0f;border:1px solid #e03050;color:#e03050;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;font-family:'Rajdhani',monospace;cursor:pointer">✕ DAF</button>`:'';
     return `<div style="background:#0d1120;border:1px solid ${c}25;border-radius:10px;padding:18px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
         <div class="avatar" style="background:${c}18;border:2px solid ${c};color:${c}">${initials(m.name)}</div>
@@ -1089,7 +1089,8 @@ function initSelects() {
 function updateCities(cId,cityId){const c=document.getElementById(cId)?.value;const sel=document.getElementById(cityId);if(!sel)return;sel.innerHTML='<option value="">-- Selectează --</option>';(CITIES[c]||[]).forEach(x=>{const o=document.createElement('option');o.textContent=x;sel.appendChild(o);});}
 function resetForm(){['f-cmr','f-sname','f-sa','f-rname','f-ra','f-weight','f-units','f-plate','f-driver','f-km','f-dep','f-arr','f-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});const fd=document.getElementById('f-date');if(fd)fd.value=today();document.getElementById('f-status').value='În desfășurare';document.getElementById('f-sc').value='România';updateCities('f-sc','f-sct');document.getElementById('f-rc').value='România';updateCities('f-rc','f-rct');document.getElementById('f-err').style.display='none';}
 function copyInvite(){navigator.clipboard.writeText(currentCompany?.code||'');toast('✓ Cod copiat!');}
-async function changeRole(uid,role){await FB.update(FB.ref(FB.db,`companies/${currentCompany.id}/members/${uid}`),{role});toast('✓ Rol actualizat!');}  
+async function changeRole(uid,role){await FB.update(FB.ref(FB.db,`companies/${currentCompany.id}/members/${uid}`),{role});toast('✓ Rol actualizat!');} 
+  async function kickMember(uid,name){if(!confirm(`Dai afară "${name}" din firmă?`))return;await FB.remove(FB.ref(FB.db,`companies/${currentCompany.id}/members/${uid}`));await FB.remove(FB.ref(FB.db,`users/${uid}/companies/${currentCompany.id}`));toast('✓ '+name+' a fost dat afară!');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 </script>
 </body>
