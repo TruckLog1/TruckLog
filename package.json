@@ -13,6 +13,12 @@
     "directories": {
       "output": "dist"
     },
+    "files": [
+      "src/**/*",
+      "main.js",
+      "preload.js",
+      "node_modules/**/*"
+    ],
     "win": {
       "target": [{ "target": "nsis", "arch": ["x64"] }]
     },
