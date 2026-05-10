@@ -17,13 +17,12 @@
     },
     "win": {
       "target": [{ "target": "nsis", "arch": ["x64"] }],
-      "icon": "assets/icon.ico"
+      
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "installerIcon": "assets/icon.ico",
-      "installerHeaderIcon": "assets/icon.ico",
+     
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "TruckLog"
