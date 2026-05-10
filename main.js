@@ -19,7 +19,7 @@ function createWindow() {
       webSecurity: false
     },
     autoHideMenuBar: true,
-    icon: path.join(__dirname, 'assets', 'icon.ico'),
+   
     show: false
   });
 
