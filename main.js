@@ -16,10 +16,10 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),
-      webSecurity: false
+      webSecurity: false,
+      allowRunningInsecureContent: true
     },
     autoHideMenuBar: true,
-   
     show: false
   });
 
@@ -29,27 +29,20 @@ function createWindow() {
     mainWindow.show();
   });
 
-  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    shell.openExternal(url);
-    return { action: 'deny' };
+  mainWindow.webContents.on('did-fail-load', (e, code, desc) => {
+    console.log('Load failed:', code, desc);
   });
 }
 
-// Save receipt HTML
 ipcMain.handle('save-receipt', async (_, { filename, html }) => {
   const { filePath } = await dialog.showSaveDialog(mainWindow, {
     title: 'Salvează bon',
     defaultPath: filename,
     filters: [{ name: 'HTML', extensions: ['html'] }]
   });
-  if (filePath) {
-    fs.writeFileSync(filePath, html, 'utf8');
-    shell.openPath(filePath);
-    return true;
-  }
+  if (filePath) { fs.writeFileSync(filePath, html, 'utf8'); return true; }
   return false;
 });
 
 app.whenReady().then(createWindow);
 app.on('window-all-closed', () => app.quit());
-app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
