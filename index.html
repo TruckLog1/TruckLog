@@ -382,14 +382,11 @@ textarea{resize:vertical}
 
 <div id="toast"></div>
 
-<!-- FIREBASE SDK -->
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile }
-  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import { getDatabase, ref, set, get, push, onValue, update, remove, off, serverTimestamp, query, orderByChild, limitToLast }
-  from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
-
+<!-- FIREBASE COMPAT SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script>
 // ════════════════════════════════════
 // FIREBASE CONFIG — înlocuiește cu ale tale!
 // ════════════════════════════════════
@@ -401,24 +398,40 @@ const cfg = {
   storageBucket: "trucklog-5ed06.firebasestorage.app",
   messagingSenderId: "994965363477",
   appId: "1:994965363477:web:a28bf219bfde37d8e4671c"
-
 };
 
-const fbApp = initializeApp(cfg);
-const auth = getAuth(fbApp);
-const db = getDatabase(fbApp);
+firebase.initializeApp(cfg);
+const _auth = firebase.auth();
+const _db = firebase.database();
 
-// Expose to global scope
-window.FB = { auth, db, ref, set, get, push, onValue, update, remove, off, serverTimestamp, updateProfile, query, orderByChild, limitToLast };
-window.signInWithEmailAndPassword = (...a) => signInWithEmailAndPassword(auth, ...a);
-window.createUserWithEmailAndPassword = (...a) => createUserWithEmailAndPassword(auth, ...a);
-window.signOut = () => signOut(auth);
-window.updateProfile = (u,p) => updateProfile(u,p);
-window.onAuthStateChanged = (cb) => onAuthStateChanged(auth, cb);
+// FB wrapper — același API ca înainte
+window.FB = {
+  auth: _auth,
+  db: _db,
+  ref: (db, path) => db.ref(path),
+  set: (ref, data) => ref.set(data),
+  get: (ref) => ref.once('value'),
+  push: (ref, data) => ref.push(data),
+  onValue: (ref, cb) => { ref.on('value', cb); return () => ref.off('value', cb); },
+  update: (ref, data) => ref.update(data),
+  remove: (ref) => ref.remove(),
+  off: (ref) => ref.off(),
+  serverTimestamp: () => firebase.database.ServerValue.TIMESTAMP,
+  updateProfile: (user, data) => user.updateProfile(data),
+  query: (ref) => ref,
+  orderByChild: (key) => key,
+  limitToLast: (n) => n
+};
+
+window.signInWithEmailAndPassword = (email, pass) => _auth.signInWithEmailAndPassword(email, pass);
+window.createUserWithEmailAndPassword = (email, pass) => _auth.createUserWithEmailAndPassword(email, pass);
+window.signOut = () => _auth.signOut();
+window.updateProfile = (user, data) => user.updateProfile(data);
+window.onAuthStateChanged = (cb) => _auth.onAuthStateChanged(cb);
 window.FIREBASE_CONFIGURED = cfg.apiKey !== 'FIREBASE_API_KEY';
 
-// Auth state
-onAuthStateChanged(auth, user => {
+// Auth state listener
+_auth.onAuthStateChanged(user => {
   if (user) {
     window.currentUser = user;
     showCompanyScreen(user);
