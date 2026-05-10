@@ -154,13 +154,6 @@ textarea{resize:vertical}
       <div style="font-size:10px;letter-spacing:.18em;color:#3a4560;margin-bottom:12px">FIRMELE TALE</div>
       <div id="my-companies-list"></div>
     </div>
-
-    <!-- ADAUGAT: Lista publica firme -->
-    <div style="margin-top:28px">
-      <div style="font-size:10px;letter-spacing:.18em;color:#3a4560;margin-bottom:12px">TOATE FIRMELE DIN TRUCKLOG</div>
-      <div id="all-companies-list"></div>
-    </div>
-
   </div>
 </div>
 
@@ -338,8 +331,6 @@ textarea{resize:vertical}
         </div>
       </div></div>
       <div class="section"><div class="sec-hd">👤 PROFILUL MEU</div><div class="sec-bd" id="my-profile-edit"></div></div>
-      <!-- ADAUGAT: Zona periculoasa - apare doar pentru owner -->
-      <div id="danger-zone"></div>
     </div>
 
   </div>
@@ -396,6 +387,9 @@ textarea{resize:vertical}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
+// ════════════════════════════════════
+// FIREBASE CONFIG — înlocuiește cu ale tale!
+// ════════════════════════════════════
 const cfg = {
   apiKey: "AIzaSyAzmREboS0ZYbmJCAPLBAaTniXz2bI4xXs",
   authDomain: "trucklog-5ed06.firebaseapp.com",
@@ -410,6 +404,7 @@ firebase.initializeApp(cfg);
 const _auth = firebase.auth();
 const _db = firebase.database();
 
+// FB wrapper — același API ca înainte
 window.FB = {
   auth: _auth,
   db: _db,
@@ -435,6 +430,7 @@ window.updateProfile = (user, data) => user.updateProfile(data);
 window.onAuthStateChanged = (cb) => _auth.onAuthStateChanged(cb);
 window.FIREBASE_CONFIGURED = cfg.apiKey !== 'FIREBASE_API_KEY';
 
+// Auth state listener
 _auth.onAuthStateChanged(user => {
   if (user) {
     window.currentUser = user;
@@ -446,27 +442,77 @@ _auth.onAuthStateChanged(user => {
     document.getElementById('app').style.display = 'none';
   }
 });
+</script>
 
+<script>
+// ══════════════════════════════════════════════
+//  CONSTANTS
+// ══════════════════════════════════════════════
 const EU_COUNTRIES = ["Austria","Belgia","Bulgaria","Cehia","Croația","Cipru","Danemarca","Estonia","Finlanda","Franța","Germania","Grecia","Irlanda","Italia","Letonia","Lituania","Luxemburg","Malta","Olanda","Polonia","Portugalia","România","Slovacia","Slovenia","Spania","Suedia","Ungaria"];
 const CITIES = {"România":["București","Cluj-Napoca","Timișoara","Iași","Constanța","Brașov","Galați","Craiova","Ploiești","Oradea","Sibiu","Bacău"],"Germania":["Berlin","München","Hamburg","Frankfurt","Köln","Stuttgart","Düsseldorf","Leipzig","Dresden","Hannover"],"Franța":["Paris","Lyon","Marseille","Toulouse","Nice","Nantes","Strasbourg","Bordeaux","Rennes","Lille"],"Italia":["Roma","Milano","Napoli","Torino","Palermo","Genova","Bologna","Firenze","Venezia","Verona"],"Polonia":["Warszawa","Kraków","Łódź","Wrocław","Poznań","Gdańsk","Szczecin","Katowice","Lublin","Rzeszów"],"Spania":["Madrid","Barcelona","Valencia","Sevilla","Bilbao","Málaga","Zaragoza","Alicante","Murcia","Valladolid"],"Cehia":["Praha","Brno","Ostrava","Plzeň","Liberec"],"Ungaria":["Budapest","Debrecen","Miskolc","Pécs","Győr"],"Austria":["Wien","Graz","Linz","Salzburg","Innsbruck"],"Belgia":["Bruxelles","Antwerpen","Gent","Liège","Bruges"],"Olanda":["Amsterdam","Rotterdam","Den Haag","Utrecht","Eindhoven","Groningen"],"Bulgaria":["Sofia","Plovdiv","Varna","Burgas","Ruse","Stara Zagora"],"Croația":["Zagreb","Split","Rijeka","Osijek","Zadar"],"Danemarca":["København","Aarhus","Odense","Aalborg"],"Estonia":["Tallinn","Tartu","Narva"],"Finlanda":["Helsinki","Tampere","Turku","Oulu"],"Grecia":["Atena","Salonic","Patra","Larissa","Iraklion"],"Irlanda":["Dublin","Cork","Limerick","Galway"],"Letonia":["Riga","Daugavpils","Liepāja"],"Lituania":["Vilnius","Kaunas","Klaipėda","Šiauliai"],"Luxemburg":["Luxembourg City"],"Portugalia":["Lisabona","Porto","Braga","Coimbra","Setubal"],"Slovacia":["Bratislava","Košice","Žilina","Prešov","Nitra"],"Slovenia":["Ljubljana","Maribor","Celje","Kranj"],"Suedia":["Stockholm","Göteborg","Malmö","Uppsala","Västerås"],"Cipru":["Nicosia","Limassol","Larnaca"],"Malta":["Valletta","Sliema","Birkirkara"]};
 const CARGO_TYPES = ["ADR Clasa 1 – Explozivi","ADR Clasa 2 – Gaze","ADR Clasa 3 – Lichide inflamabile","ADR Clasa 4 – Solide inflamabile","ADR Clasa 5 – Oxidanți","ADR Clasa 6 – Toxice","ADR Clasa 7 – Radioactive","ADR Clasa 8 – Corozive","ADR Clasa 9 – Diverse","Alimente generale","Animale vii","Articole casnice","Auto / Vehicule","Blocuri de beton","Chimicale","Containere","Echipamente agricole","Echipamente industriale","Lemn / Cherestea","Materiale de construcții","Mobilă","Produse farmaceutice","Produse petroliere","Textile","Vrac uscat"];
 const VEHICLE_TYPES = ["Camion Solo","Camion + Remorcă","Camion + Semiremorcă","Tanc","Frigorific","Platformă","Camion Basculant"];
 const STATUS_COLORS = {"În desfășurare":"#E4A11B","Finalizat":"#14A44D","Anulat":"#e03050"};
-const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1503149455237709970/3qRBjXfWkgm7WeHj01cB-Ll9rJ0TY0wNhU4NiX2ULiixVYUYBcYwp9xF9bSiLPextLsY';
+  const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1503149455237709970/3qRBjXfWkgm7WeHj01cB-Ll9rJ0TY0wNhU4NiX2ULiixVYUYBcYwp9xF9bSiLPextLsY';
 
 async function sendDiscordCMR(trip) {
-  try { await fetch(DISCORD_WEBHOOK, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({embeds:[{title:'🚛 CURSĂ FINALIZATĂ',color:0x14d9a0,fields:[{name:'📋 CMR',value:trip.cmrNumber||'—',inline:true},{name:'📅 Data',value:trip.date||'—',inline:true},{name:'👤 Șofer',value:trip.driverName||'—',inline:true},{name:'🏭 Plecare',value:`${trip.senderCity}, ${trip.senderCountry}`,inline:true},{name:'🏬 Destinație',value:`${trip.receiverCity}, ${trip.receiverCountry}`,inline:true},{name:'🛣️ Distanță',value:`${Number(trip.distanceKm||0).toLocaleString('ro-RO')} km`,inline:true},{name:'📦 Marfă',value:trip.cargoType||'—',inline:true},{name:'🚛 Vehicul',value:trip.vehicleType||'—',inline:true},{name:'🔢 Nr. Înm.',value:trip.plateNumber||'—',inline:true}],footer:{text:`TruckLog · ${currentCompany?.name||'—'}`},timestamp:new Date().toISOString()}]})); } catch(e) {}
+  await fetch(DISCORD_WEBHOOK, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      embeds: [{
+        title: '🚛 CURSĂ FINALIZATĂ',
+        color: 0x14d9a0,
+        fields: [
+          {name:'📋 CMR',value:trip.cmrNumber||'—',inline:true},
+          {name:'📅 Data',value:trip.date||'—',inline:true},
+          {name:'👤 Șofer',value:trip.driverName||'—',inline:true},
+          {name:'🏭 Plecare',value:`${trip.senderCity}, ${trip.senderCountry}`,inline:true},
+          {name:'🏬 Destinație',value:`${trip.receiverCity}, ${trip.receiverCountry}`,inline:true},
+          {name:'🛣️ Distanță',value:`${Number(trip.distanceKm||0).toLocaleString('ro-RO')} km`,inline:true},
+          {name:'📦 Marfă',value:trip.cargoType||'—',inline:true},
+          {name:'🚛 Vehicul',value:trip.vehicleType||'—',inline:true},
+          {name:'🔢 Nr. Înm.',value:trip.plateNumber||'—',inline:true},
+        ],
+        footer:{text:`TruckLog · ${currentCompany?.name||'—'}`},
+        timestamp: new Date().toISOString()
+      }]
+    })
+  });
 }
 
 async function sendDiscordTacho(s) {
+  const total = s.driveSeconds+s.breakSeconds+s.restSeconds;
   const ok = s.driveSeconds<=32400 && s.breakSeconds>=2700;
-  try { await fetch(DISCORD_WEBHOOK, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({embeds:[{title:'⏱ SESIUNE TAHOGRAF',color:ok?0x14d9a0:0xe03050,fields:[{name:'👤 Șofer',value:s.driverName||'—',inline:true},{name:'📅 Data',value:s.date||'—',inline:true},{name:'⏰ Interval',value:`${s.startTime} → ${s.endTime}`,inline:true},{name:'🚛 Condus',value:fmtHM(s.driveSeconds),inline:true},{name:'☕ Pauze',value:fmtHM(s.breakSeconds),inline:true},{name:'🛌 Repaus',value:fmtHM(s.restSeconds),inline:true},{name:'✅ Conformitate EU',value:ok?'✓ CONFORM':'⚠ VERIFICĂ',inline:false}],footer:{text:`TruckLog · ${currentCompany?.name||'—'}`},timestamp:new Date().toISOString()}]})); } catch(e) {}
+  await fetch(DISCORD_WEBHOOK, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      embeds: [{
+        title: '⏱ SESIUNE TAHOGRAF',
+        color: ok ? 0x14d9a0 : 0xe03050,
+        fields: [
+          {name:'👤 Șofer',value:s.driverName||'—',inline:true},
+          {name:'📅 Data',value:s.date||'—',inline:true},
+          {name:'⏰ Interval',value:`${s.startTime} → ${s.endTime}`,inline:true},
+          {name:'🚛 Condus',value:fmtHM(s.driveSeconds),inline:true},
+          {name:'☕ Pauze',value:fmtHM(s.breakSeconds),inline:true},
+          {name:'🛌 Repaus',value:fmtHM(s.restSeconds),inline:true},
+          {name:'✅ Conformitate EU',value:ok?'✓ CONFORM':'⚠ VERIFICĂ',inline:false},
+        ],
+        footer:{text:`TruckLog · ${currentCompany?.name||'—'}`},
+        timestamp: new Date().toISOString()
+      }]
+    })
+  });
 }
-
 const PALETTE = ["#f5a623","#14d9a0","#7c5cbf","#e03050","#3b82f6","#ec4899","#10b981","#f59e0b","#06b6d4","#8b5cf6"];
 
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
 let currentUser = null;
-let currentCompany = null;
+let currentCompany = null; // {id, name, code, role}
 let members = {};
 let trips = [];
 let tachoSessions = [];
@@ -474,11 +520,15 @@ let listeners = [];
 let currentDetailId = null;
 let currentTab_ = 0;
 
+// Tacho
 let tachoState = 'stopped';
 let tachoTimer = null;
 let driveSec = 0, breakSec = 0, restSec = 0, contDrive = 0;
 let sessStart = null, segStart = null, segs = [];
 
+// ══════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════
 const fmtT = s => `${Math.floor(s/3600)}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
 const fmtHM = s => `${Math.floor(s/3600)}h ${String(Math.floor((s%3600)/60)).padStart(2,'0')}min`;
 const today = () => new Date().toISOString().split('T')[0];
@@ -494,6 +544,9 @@ function toast(msg, isError=false) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
+// ══════════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════════
 function switchAuth(mode) {
   document.getElementById('auth-login').style.display = mode==='login' ? 'block' : 'none';
   document.getElementById('auth-register').style.display = mode==='register' ? 'block' : 'none';
@@ -502,7 +555,7 @@ function switchAuth(mode) {
 }
 
 async function doLogin() {
-  if (!window.FIREBASE_CONFIGURED) { showAuthError('Firebase neconfigurat.'); return; }
+  if (!window.FIREBASE_CONFIGURED) { showAuthError('Firebase neconfigurat. Vezi SETUP.txt'); return; }
   const email = document.getElementById('l-email').value.trim();
   const pass = document.getElementById('l-pass').value;
   if (!email || !pass) { showAuthError('Completează email și parola'); return; }
@@ -516,7 +569,7 @@ async function doLogin() {
 }
 
 async function doRegister() {
-  if (!window.FIREBASE_CONFIGURED) { showAuthError('Firebase neconfigurat.'); return; }
+  if (!window.FIREBASE_CONFIGURED) { showAuthError('Firebase neconfigurat. Vezi SETUP.txt'); return; }
   const name = document.getElementById('r-name').value.trim();
   const email = document.getElementById('r-email').value.trim();
   const pass = document.getElementById('r-pass').value;
@@ -550,6 +603,9 @@ function authError(code) {
 function showAuthError(msg) { const el=document.getElementById('auth-error'); el.textContent=msg; el.style.display='block'; }
 function setAuthLoading(v) { document.getElementById('auth-loading').style.display=v?'block':'none'; document.getElementById('auth-error').style.display='none'; }
 
+// ══════════════════════════════════════════════
+//  COMPANY SCREEN
+// ══════════════════════════════════════════════
 async function showCompanyScreen(user) {
   currentUser = user;
   document.getElementById('auth-screen').style.display = 'none';
@@ -558,11 +614,10 @@ async function showCompanyScreen(user) {
   document.getElementById('cs-username').textContent = user.displayName || user.email;
   setAuthLoading(false);
   loadMyCompanies();
-  loadAllCompanies(); // ADAUGAT
 }
 
 async function loadMyCompanies() {
-  if (!window.FIREBASE_CONFIGURED) { document.getElementById('my-companies-list').innerHTML='<div style="color:#3a4560;font-size:12px">Firebase neconfigurat</div>'; return; }
+  if (!window.FIREBASE_CONFIGURED) { document.getElementById('my-companies-list').innerHTML='<div style="color:#3a4560;font-size:12px">Firebase neconfigurat — vezi SETUP.txt</div>'; return; }
   const snap = await FB.get(FB.ref(FB.db, `users/${currentUser.uid}/companies`));
   const list = document.getElementById('my-companies-list');
   if (!snap.exists()) { list.innerHTML='<div style="color:#3a4560;font-size:12px;padding:8px 0">Nicio firmă. Crează una sau alătură-te cu un cod.</div>'; return; }
@@ -588,27 +643,6 @@ async function loadMyCompanies() {
   }
 }
 
-// ADAUGAT: Incarca toate firmele publice
-async function loadAllCompanies() {
-  const el = document.getElementById('all-companies-list'); if(!el) return;
-  el.innerHTML = '<div style="color:#3a4560;font-size:12px">Se încarcă...</div>';
-  try {
-    const snap = await FB.get(FB.ref(FB.db, 'companies'));
-    if (!snap.exists()) { el.innerHTML='<div style="color:#3a4560;font-size:12px">Nicio firmă înregistrată încă</div>'; return; }
-    el.innerHTML = '';
-    snap.forEach(child => {
-      const comp = child.val().info; if(!comp) return;
-      const mc = child.val().members ? Object.keys(child.val().members).length : 0;
-      const div = document.createElement('div');
-      div.style.cssText = 'background:#080c14;border:1px solid #1a2035;border-radius:8px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:14px';
-      div.innerHTML = `<div style="width:40px;height:40px;border-radius:8px;background:#f5a62318;border:1px solid #f5a62330;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🏢</div><div style="flex:1"><div style="font-size:14px;font-weight:700;color:#e8e0d0">${comp.name}</div><div style="font-size:10px;color:#4a5575;margin-top:2px">${mc} șofer${mc!==1?'i':''} · Cod: <span style="color:#f5a623;font-family:'Share Tech Mono',monospace">${comp.code}</span>${comp.desc?'<br><span style="color:#3a4560">'+comp.desc+'</span>':''}</div></div><button onclick="quickJoin('${comp.code}')" style="background:#0a2018;border:1px solid #14d9a0;color:#14d9a0;padding:7px 14px;border-radius:4px;font-size:11px;font-weight:700;font-family:'Rajdhani',monospace;cursor:pointer">ALĂTURĂ-TE</button>`;
-      el.appendChild(div);
-    });
-  } catch(e) { el.innerHTML='<div style="color:#3a4560;font-size:12px">—</div>'; }
-}
-
-function quickJoin(code) { document.getElementById('j-code').value=code; showJoinCompany(); }
-
 function showCreateCompany() { document.getElementById('modal-create').classList.add('open'); document.getElementById('c-name').focus(); }
 function showJoinCompany() { document.getElementById('modal-join').classList.add('open'); document.getElementById('j-code').focus(); }
 
@@ -627,7 +661,6 @@ async function createCompany() {
     closeModal('modal-create');
     toast('✓ Firmă creată! Cod: '+code);
     loadMyCompanies();
-    loadAllCompanies();
   } catch(e) { document.getElementById('create-err').textContent='Eroare: '+e.message; document.getElementById('create-err').style.display='block'; }
   btn.disabled=false; btn.textContent='CREAZĂ FIRMA';
 }
@@ -637,11 +670,13 @@ async function joinCompany() {
   if (!code) { document.getElementById('join-err').textContent='Introdu codul!'; document.getElementById('join-err').style.display='block'; return; }
   const btn = document.getElementById('btn-join-c'); btn.disabled=true; btn.textContent='Se caută...';
   try {
+    // Find company by code
     const snap = await FB.get(FB.ref(FB.db, 'companies'));
     if (!snap.exists()) { throw new Error('Cod invalid'); }
     let foundId = null, foundComp = null;
     snap.forEach(child => { if (child.val().info?.code === code) { foundId = child.key; foundComp = child.val().info; } });
     if (!foundId) throw new Error('Cod invalid — firma nu există');
+    // Check not already member
     const memSnap = await FB.get(FB.ref(FB.db, `companies/${foundId}/members/${currentUser.uid}`));
     if (memSnap.exists()) { throw new Error('Ești deja în această firmă!'); }
     await FB.set(FB.ref(FB.db, `companies/${foundId}/members/${currentUser.uid}`), { name: currentUser.displayName||currentUser.email, role:'driver', joinedAt: Date.now(), online: false, uid: currentUser.uid });
@@ -653,6 +688,9 @@ async function joinCompany() {
   btn.disabled=false; btn.textContent='ALĂTURĂ-TE';
 }
 
+// ══════════════════════════════════════════════
+//  ENTER COMPANY — MAIN APP
+// ══════════════════════════════════════════════
 function enterCompany(cid, name, code, role) {
   currentCompany = { id: cid, name, code, role };
   document.getElementById('company-screen').style.display = 'none';
@@ -663,12 +701,6 @@ function enterCompany(cid, name, code, role) {
   document.getElementById('company-info-display').innerHTML = `
     <div class="r2"><div><div style="font-size:9px;color:#3a4560;letter-spacing:.14em;margin-bottom:3px">NUME FIRMĂ</div><div style="font-size:15px;font-weight:700;color:#e8e0d0">${name}</div></div>
     <div><div style="font-size:9px;color:#3a4560;letter-spacing:.14em;margin-bottom:3px">ROLUL TĂU</div><div style="font-size:15px;font-weight:700;color:#f5a623">${role.toUpperCase()}</div></div></div>`;
-  // ADAUGAT: Zona periculoasa pentru owner
-  if (role === 'owner') {
-    document.getElementById('danger-zone').innerHTML = `<div class="section" style="border-color:#e0305040;margin-top:12px"><div class="sec-hd" style="color:#e03050">⚠ ZONA PERICULOASĂ</div><div class="sec-bd"><div style="font-size:12px;color:#8090b0;margin-bottom:12px">Ștergerea firmei este permanentă și șterge toate cursele, sesiunile și membrii.</div><button class="btn-red" onclick="deleteCompany()" style="padding:10px 20px;font-size:13px">🗑 ȘTERGE FIRMA PERMANENT</button></div></div>`;
-  } else {
-    document.getElementById('danger-zone').innerHTML = '';
-  }
   initSelects();
   subscribeAll();
   setOnline(true);
@@ -684,32 +716,11 @@ function leaveApp() {
   document.getElementById('app').style.display = 'none';
   document.getElementById('company-screen').style.display = 'block';
   loadMyCompanies();
-  loadAllCompanies();
 }
 
-// ADAUGAT: Sterge firma
-async function deleteCompany() {
-  if (!confirm(`Ești sigur că vrei să ștergi firma "${currentCompany.name}"? PERMANENT!`)) return;
-  if (!confirm('Ultima confirmare — ștergi TOT inclusiv cursele și membrii?')) return;
-  try {
-    const membSnap = await FB.get(FB.ref(FB.db, `companies/${currentCompany.id}/members`));
-    if (membSnap.exists()) {
-      for (const uid of Object.keys(membSnap.val())) {
-        await FB.remove(FB.ref(FB.db, `users/${uid}/companies/${currentCompany.id}`));
-      }
-    }
-    await FB.remove(FB.ref(FB.db, `companies/${currentCompany.id}`));
-    toast('Firmă ștearsă!');
-    leaveApp();
-  } catch(e) { toast('Eroare: '+e.message, true); }
-}
-
-// ADAUGAT: Schimba rolul unui sofer
-async function changeRole(uid, role) {
-  await FB.update(FB.ref(FB.db, `companies/${currentCompany.id}/members/${uid}`), {role});
-  toast('✓ Rol actualizat!');
-}
-
+// ══════════════════════════════════════════════
+//  REALTIME SUBSCRIPTIONS
+// ══════════════════════════════════════════════
 function subscribeAll() {
   const cid = currentCompany.id;
 
@@ -743,6 +754,9 @@ const setOffline = () => setOnline(false);
 window.addEventListener('beforeunload', setOffline);
 setInterval(() => { if(currentCompany) setOnline(true); }, 25000);
 
+// ══════════════════════════════════════════════
+//  TRIPS
+// ══════════════════════════════════════════════
 async function saveTrip() {
   const sc=document.getElementById('f-sct').value, rc=document.getElementById('f-rct').value, km=document.getElementById('f-km').value;
   if (!sc||!rc||!km) { document.getElementById('f-err').style.display='block'; return; }
@@ -779,6 +793,9 @@ async function deleteTrip(key) {
   toast('Cursă ștearsă');
 }
 
+// ══════════════════════════════════════════════
+//  TACHOGRAPH
+// ══════════════════════════════════════════════
 function tachoAction(type) {
   if (tachoState===type) return;
   if (tachoState!=='stopped'&&segStart) segs.push({type:tachoState, seconds:Math.round((Date.now()-segStart)/1000), start:new Date(segStart).toLocaleTimeString('ro-RO')});
@@ -817,11 +834,13 @@ function updateTachoUI() {
   document.getElementById('tacho-status').textContent = lbl[tachoState];
   document.getElementById('tacho-status').style.color = clr[tachoState];
   if (sessStart) document.getElementById('tacho-info').textContent = 'Start: '+sessStart.toLocaleTimeString('ro-RO');
+  // EU limits
   const lims = document.getElementById('eu-limits');
   if (lims) {
     const items=[{l:'Condus continuu max 4h30',v:contDrive,m:16200,c:'#14d9a0'},{l:'Condus zilnic max 9h',v:driveSec,m:32400,c:'#f5a623'},{l:'Pauza (țintă 45min)',v:breakSec,m:2700,c:'#E4A11B'}];
     lims.innerHTML=items.map(x=>{const p=Math.min(x.v/x.m*100,100);const c=p>85?'#e03050':p>60?'#E4A11B':x.c;return `<div><div style="font-size:9px;color:#3a4560;margin-bottom:3px">${x.l}</div><div style="background:#111827;border-radius:3px;height:6px;overflow:hidden"><div style="height:100%;background:${c};width:${p}%;transition:width .5s;border-radius:3px"></div></div><div style="font-size:9px;color:${c};margin-top:2px">${fmtHM(x.v)}</div></div>`;}).join('');
   }
+  // Segment bar
   const bar = document.getElementById('seg-bar');
   if (bar) {
     const all=[...segs]; if(tachoState!=='stopped'&&segStart) all.push({type:tachoState,seconds:Math.round((Date.now()-segStart)/1000)});
@@ -844,6 +863,9 @@ function renderSessList() {
     </div>`).join('');
 }
 
+// ══════════════════════════════════════════════
+//  BON TAHOGRAF
+// ══════════════════════════════════════════════
 function openBon(idx=0) {
   const sel = document.getElementById('bon-sel');
   sel.innerHTML = tachoSessions.map((s,i)=>`<option value="${i}">${s.date} – ${s.startTime} – ${s.driverName||'?'}</option>`).join('');
@@ -869,6 +891,9 @@ function downloadBon() {
   const a=document.createElement('a'); a.href='data:text/html;charset=utf-8,'+encodeURIComponent(html); a.download=`Bon_Tahograf_${s?.date||'nou'}.html`; a.click();
 }
 
+// ══════════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════════
 function showTab(n) {
   document.querySelectorAll('.page').forEach((p,i)=>p.classList.toggle('active',i===n));
   document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===n));
@@ -913,6 +938,7 @@ function renderDash() {
 
   document.getElementById('dash-drivers-live').innerHTML=online.length?online.map(m=>{const uid=Object.keys(members).find(k=>members[k]===m)||'';const c=color(uid);const dkm=trips.filter(t=>t.driverId===uid&&t.status==='Finalizat').reduce((s,t)=>s+Number(t.distanceKm||0),0);return `<div style="background:#0d1120;border:1px solid #0a1a10;border-radius:6px;padding:9px 12px;margin-bottom:7px;display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:50%;background:${c}18;border:2px solid ${c};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:${c};flex-shrink:0">${initials(m.name)}</div><div style="flex:1"><div style="font-size:12px;font-weight:700;color:${c}">${m.name}</div><div style="font-size:10px;color:#4a5575">${dkm.toLocaleString('ro-RO')} km · ${m.role||'driver'}</div></div><span class="dot-online"></span></div>`; }).join(''):'<div style="color:#3a4560;font-size:12px;padding:8px 0">Niciun șofer online</div>';
 
+  // Chart
   const byMonth={};
   fin.forEach(t=>{const m=(t.date||'').slice(0,7);if(m)byMonth[m]=(byMonth[m]||0)+Number(t.distanceKm||0);});
   const months=Object.entries(byMonth).sort((a,b)=>a[0]>b[0]?1:-1).slice(-6);
@@ -930,6 +956,7 @@ function renderArchive() {
     const s=[t.cmrNumber,t.senderCity,t.receiverCity,t.driverName,t.cargoType].join(' ').toLowerCase();
     return s.includes(q)&&(sf==='Toate'||t.status===sf)&&(!df||t.driverName===df);
   });
+  // Update driver filter options
   const dsel=document.getElementById('arch-drv');
   if(dsel){ const cur=dsel.value; dsel.innerHTML='<option value="">Toți șoferii</option>'; Object.values(members).forEach(m=>{const o=document.createElement('option');o.textContent=m.name;o.value=m.name;dsel.appendChild(o);}); dsel.value=cur; }
 
@@ -987,13 +1014,11 @@ function renderDrivers() {
     const dDrive=tachoSessions.filter(s=>s.driverId===uid).reduce((s,x)=>s+x.driveSeconds,0);
     const active=dTrips.filter(t=>t.status==='În desfășurare');
     const last=m.lastSeen?new Date(m.lastSeen).toLocaleTimeString('ro-RO'):'—';
-    // ADAUGAT: Dropdown schimbare rol (doar owner vede)
-    const roleSelect = currentCompany?.role==='owner' && !isMe ? `<select onchange="changeRole('${uid}',this.value)" style="background:#111827;border:1px solid #252d45;color:#e8e0d0;padding:3px 6px;border-radius:4px;font-size:10px;font-family:'Rajdhani',monospace;margin-left:8px"><option value="driver" ${m.role==='driver'?'selected':''}>Șofer</option><option value="dispatcher" ${m.role==='dispatcher'?'selected':''}>Dispatcher</option><option value="owner" ${m.role==='owner'?'selected':''}>Owner</option></select>` : '';
     return `<div style="background:#0d1120;border:1px solid ${c}25;border-radius:10px;padding:18px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
         <div class="avatar" style="background:${c}18;border:2px solid ${c};color:${c}">${initials(m.name)}</div>
         <div>
-          <div style="display:flex;align-items:center;gap:4px"><div style="font-size:14px;font-weight:700;color:${c}">${m.name}${isMe?' <span style="font-size:9px;font-weight:400;color:#3a4560">(eu)</span>':''}</div>${roleSelect}</div>
+          <div style="font-size:14px;font-weight:700;color:${c}">${m.name}${isMe?' <span style="font-size:9px;font-weight:400;color:#3a4560">(eu)</span>':''}</div>
           <div style="font-size:9px;margin-top:2px;display:flex;align-items:center;gap:5px">
             <span class="${m.online?'dot-online':'dot-offline'}"></span>
             <span style="color:${m.online?'#14d9a0':'#3a4560'}">${m.online?'ONLINE':'offline · '+last}</span>
@@ -1045,6 +1070,9 @@ function renderStats() {
     ||'<div style="color:#3a4560;font-size:12px">—</div>';
 }
 
+// ══════════════════════════════════════════════
+//  FORM HELPERS
+// ══════════════════════════════════════════════
 function initSelects() {
   const cs=document.getElementById('f-cargo'); if(cs&&!cs.children.length){CARGO_TYPES.forEach(c=>{const o=document.createElement('option');o.textContent=c;cs.appendChild(o);}); cs.value='Alimente generale';}
   const vs=document.getElementById('f-vtype'); if(vs&&!vs.children.length) VEHICLE_TYPES.forEach(v=>{const o=document.createElement('option');o.textContent=v;vs.appendChild(o);});
