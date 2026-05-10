@@ -24,19 +24,16 @@ label{font-size:11px;letter-spacing:.14em;color:#3a4560;display:block;margin-bot
 .sec-hd{padding:9px 16px;border-bottom:1px solid #1a2035;font-size:10px;letter-spacing:.16em;color:#4a5575;font-weight:600}
 .sec-bd{padding:16px}
 textarea{resize:vertical}
-/* ANIMATIONS */
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes glow{0%,100%{box-shadow:0 0 8px #f5a62340}50%{box-shadow:0 0 20px #f5a62370}}
 .fade-up{animation:fadeUp .3s ease}
 .spinner{width:20px;height:20px;border:2px solid #1a2035;border-top-color:#f5a623;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle}
-/* TABS */
 .tab-btn{background:none;border:none;padding:10px 20px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#4a5575;border-bottom:2px solid transparent;transition:all .2s;font-family:'Rajdhani',monospace;white-space:nowrap}
 .tab-btn.active{color:#f5a623;border-bottom-color:#f5a623}
 .tab-btn:hover:not(.active){color:#8090b0}
 .page{display:none}.page.active{display:block}
-/* BUTTONS */
 .btn{padding:10px 20px;border-radius:5px;font-size:13px;font-weight:700;letter-spacing:.12em;border:none;font-family:'Rajdhani',monospace;cursor:pointer;transition:all .15s}
 .btn-primary{background:#f5a623;color:#0a0d14}.btn-primary:hover{background:#e09520;transform:translateY(-1px)}
 .btn-primary:disabled{background:#252d45;color:#4a5575;cursor:not-allowed;transform:none}
@@ -44,39 +41,27 @@ textarea{resize:vertical}
 .btn-green{background:#0a2018;border:1px solid #14d9a0;color:#14d9a0;padding:5px 11px;border-radius:4px;font-size:11px;font-weight:700;font-family:'Rajdhani',monospace}
 .btn-red{background:#1c0a0f;border:1px solid #e03050;color:#e03050;padding:5px 11px;border-radius:4px;font-size:11px;font-weight:700;font-family:'Rajdhani',monospace}
 .btn-ghost{background:none;border:1px solid #1a2035;color:#4a5575;padding:5px 10px;border-radius:4px;font-size:11px;font-family:'Rajdhani',monospace}
-/* BADGE */
 .badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:4px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
-/* ONLINE DOT */
 .dot-online{width:7px;height:7px;border-radius:50%;background:#14d9a0;display:inline-block;animation:pulse 2s infinite}
 .dot-offline{width:7px;height:7px;border-radius:50%;background:#3a4560;display:inline-block}
-/* TACHOGRAPH */
 .tacho-card{background:#080c14;border:1px solid #f5a62325;border-radius:8px;padding:18px;text-align:center;transition:border-color .3s}
-.tacho-card.active-drive{border-color:#14d9a060;animation:glow 2s infinite}
 .tacho-time{font-family:'Share Tech Mono',monospace;font-size:40px;letter-spacing:.06em;line-height:1}
-/* AUTH SCREEN */
 #auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(ellipse at 50% 30%,#0f1525 0%,#080c14 70%)}
 .auth-box{background:#0d1120;border:1px solid #1a2035;border-radius:12px;padding:40px;width:100%;max-width:440px}
 .auth-logo{text-align:center;margin-bottom:32px}
 .auth-tabs{display:flex;background:#080c14;border-radius:6px;padding:3px;margin-bottom:24px;gap:3px}
 .auth-tab{flex:1;padding:8px;border:none;background:none;color:#4a5575;font-family:'Rajdhani',monospace;font-size:12px;font-weight:600;letter-spacing:.12em;border-radius:4px;cursor:pointer;transition:all .2s}
 .auth-tab.active{background:#f5a623;color:#0a0d14}
-/* COMPANY SELECT */
 .company-card{background:#080c14;border:1px solid #1a2035;border-radius:8px;padding:16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px}
 .company-card:hover{border-color:#f5a62350;background:#0d1120}
-/* PROFILE */
-.profile-card{background:#080c14;border-radius:10px;padding:20px;border:1px solid #1a2035}
 .avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex-shrink:0}
-/* TOAST */
 #toast{position:fixed;bottom:20px;right:20px;background:#0d1120;border:1px solid #f5a623;border-radius:6px;padding:11px 18px;font-size:13px;font-weight:600;color:#f5a623;z-index:9999;transform:translateY(70px);opacity:0;transition:all .3s;max-width:320px}
 #toast.show{transform:none;opacity:1}
 #toast.error{border-color:#e03050;color:#e03050}
-/* MODAL */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;align-items:center;justify-content:center}
 .modal-bg.open{display:flex}
 .modal-box{background:#0d1120;border:1px solid #252d45;border-radius:10px;padding:28px;width:92%;max-width:680px;max-height:90vh;overflow-y:auto}
-/* LIVE BADGE */
 .live-badge{display:inline-flex;align-items:center;gap:5px;background:#0a1a10;border:1px solid #14d9a030;border-radius:20px;padding:3px 10px;font-size:9px;color:#14d9a0;letter-spacing:.12em}
-/* TRIP ROW */
 .trip-row{display:grid;padding:10px 14px;border-bottom:1px solid #0f1520;cursor:pointer;transition:background .12s}
 .trip-row:hover{background:#111827}
 .trip-row.selected{background:#111827}
@@ -84,7 +69,6 @@ textarea{resize:vertical}
 </head>
 <body>
 
-<!-- ══════════════ AUTH SCREEN ══════════════ -->
 <div id="auth-screen">
   <div class="auth-box fade-up">
     <div class="auth-logo">
@@ -99,34 +83,27 @@ textarea{resize:vertical}
       <div style="font-size:26px;font-weight:700;letter-spacing:.22em;color:#f5a623">TRUCKLOG</div>
       <div style="font-size:9px;letter-spacing:.28em;color:#3a4560;margin-top:4px">VIRTUAL TRUCKING COMPANY · ETS2</div>
     </div>
-
     <div class="auth-tabs">
       <button class="auth-tab active" onclick="switchAuth('login')">INTRĂ ÎN CONT</button>
       <button class="auth-tab" onclick="switchAuth('register')">CONT NOU</button>
     </div>
-
-    <!-- LOGIN -->
     <div id="auth-login">
       <div class="field"><label>Email</label><input id="l-email" type="email" placeholder="email@exemplu.com"></div>
       <div class="field"><label>Parolă</label><input id="l-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
-      <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="doLogin()" id="btn-login">INTRĂ ÎN CONT</button>
+      <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="doLogin()">INTRĂ ÎN CONT</button>
     </div>
-
-    <!-- REGISTER -->
     <div id="auth-register" style="display:none">
-      <div class="field"><label>Nume Șofer (cum apari în joc)</label><input id="r-name" placeholder="Ex: Ion Popescu" maxlength="24"></div>
+      <div class="field"><label>Nume Șofer</label><input id="r-name" placeholder="Ex: Ion Popescu" maxlength="24"></div>
       <div class="field"><label>Email</label><input id="r-email" type="email" placeholder="email@exemplu.com"></div>
       <div class="field"><label>Parolă (minim 6 caractere)</label><input id="r-pass" type="password" placeholder="••••••••"></div>
       <div class="field"><label>Confirmare Parolă</label><input id="r-pass2" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doRegister()"></div>
-      <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="doRegister()" id="btn-register">CREEAZĂ CONT</button>
+      <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="doRegister()">CREEAZĂ CONT</button>
     </div>
-
     <div id="auth-error" style="color:#e03050;font-size:12px;margin-top:10px;text-align:center;display:none"></div>
     <div id="auth-loading" style="text-align:center;margin-top:12px;display:none"><span class="spinner"></span></div>
   </div>
 </div>
 
-<!-- ══════════════ COMPANY SELECT ══════════════ -->
 <div id="company-screen" style="display:none;min-height:100vh;background:radial-gradient(ellipse at 50% 20%,#0f1525 0%,#080c14 70%);padding:40px 20px">
   <div style="max-width:700px;margin:0 auto">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px">
@@ -136,7 +113,6 @@ textarea{resize:vertical}
       </div>
       <button class="btn btn-ghost" onclick="doLogout()">IEȘI DIN CONT</button>
     </div>
-
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px">
       <button onclick="showCreateCompany()" style="background:#0d1120;border:2px dashed #252d45;border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:all .2s;color:#e8e0d0" onmouseover="this.style.borderColor='#f5a623'" onmouseout="this.style.borderColor='#252d45'">
         <div style="font-size:28px;margin-bottom:8px">🏢</div>
@@ -149,18 +125,18 @@ textarea{resize:vertical}
         <div style="font-size:11px;color:#4a5575;margin-top:4px">Intră cu cod de invitație</div>
       </button>
     </div>
-
     <div>
       <div style="font-size:10px;letter-spacing:.18em;color:#3a4560;margin-bottom:12px">FIRMELE TALE</div>
       <div id="my-companies-list"></div>
     </div>
+    <div style="margin-top:28px">
+      <div style="font-size:10px;letter-spacing:.18em;color:#3a4560;margin-bottom:12px">TOATE FIRMELE DIN TRUCKLOG</div>
+      <div id="all-companies-list"></div>
+    </div>
   </div>
 </div>
 
-<!-- ══════════════ MAIN APP ══════════════ -->
 <div id="app" style="display:none">
-
-  <!-- HEADER -->
   <div style="background:#080c14;border-bottom:1px solid #141c2e;padding:0 18px;position:sticky;top:0;z-index:100">
     <div style="display:flex;align-items:center;gap:14px;height:54px">
       <div style="display:flex;align-items:center;gap:9px">
@@ -203,8 +179,6 @@ textarea{resize:vertical}
   </div>
 
   <div style="padding:20px;max-width:1240px;margin:0 auto">
-
-    <!-- PAGE 0: DASHBOARD -->
     <div id="page-0" class="page active fade-up">
       <div id="dash-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:18px"></div>
       <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:16px">
@@ -223,13 +197,12 @@ textarea{resize:vertical}
       </div>
     </div>
 
-    <!-- PAGE 1: TAHOGRAF -->
     <div id="page-1" class="page fade-up">
       <div style="max-width:820px">
         <div class="r3" style="margin-bottom:16px">
-          <div class="tacho-card" id="tc-drive"><div style="font-size:9px;letter-spacing:.18em;color:#14d9a0;margin-bottom:8px">🚛 CONDUS</div><div class="tacho-time" id="t-drive" style="color:#14d9a0">0:00:00</div><div style="font-size:9px;color:#3a4560;margin-top:4px">ore:min:sec</div></div>
-          <div class="tacho-card" id="tc-break"><div style="font-size:9px;letter-spacing:.18em;color:#E4A11B;margin-bottom:8px">☕ PAUZĂ</div><div class="tacho-time" id="t-break" style="color:#E4A11B">0:00:00</div><div style="font-size:9px;color:#3a4560;margin-top:4px">ore:min:sec</div></div>
-          <div class="tacho-card" id="tc-rest"><div style="font-size:9px;letter-spacing:.18em;color:#7c5cbf;margin-bottom:8px">🛌 REPAUS</div><div class="tacho-time" id="t-rest" style="color:#7c5cbf">0:00:00</div><div style="font-size:9px;color:#3a4560;margin-top:4px">ore:min:sec</div></div>
+          <div class="tacho-card"><div style="font-size:9px;letter-spacing:.18em;color:#14d9a0;margin-bottom:8px">🚛 CONDUS</div><div class="tacho-time" id="t-drive" style="color:#14d9a0">0:00:00</div></div>
+          <div class="tacho-card"><div style="font-size:9px;letter-spacing:.18em;color:#E4A11B;margin-bottom:8px">☕ PAUZĂ</div><div class="tacho-time" id="t-break" style="color:#E4A11B">0:00:00</div></div>
+          <div class="tacho-card"><div style="font-size:9px;letter-spacing:.18em;color:#7c5cbf;margin-bottom:8px">🛌 REPAUS</div><div class="tacho-time" id="t-rest" style="color:#7c5cbf">0:00:00</div></div>
         </div>
         <div class="card" style="margin-bottom:14px">
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
@@ -258,7 +231,6 @@ textarea{resize:vertical}
       </div>
     </div>
 
-    <!-- PAGE 2: NEW CMR -->
     <div id="page-2" class="page fade-up" style="max-width:820px">
       <div style="font-size:10px;letter-spacing:.2em;color:#3a4560;margin-bottom:16px">DOCUMENT CMR – CURSĂ NOUĂ</div>
       <div class="section"><div class="sec-hd">📋 DATE GENERALE</div><div class="sec-bd">
@@ -289,7 +261,6 @@ textarea{resize:vertical}
       <div id="f-err" style="color:#e03050;font-size:12px;margin-top:6px;display:none">⚠ Completează orașul de plecare, destinație și KM.</div>
     </div>
 
-    <!-- PAGE 3: ARCHIVE -->
     <div id="page-3" class="page fade-up">
       <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
         <input id="arch-q" placeholder="🔍 Caută CMR, oraș, șofer, marfă..." oninput="renderArchive()" style="flex:1;min-width:200px">
@@ -301,13 +272,11 @@ textarea{resize:vertical}
       <div id="detail-panel" style="display:none;margin-top:14px"></div>
     </div>
 
-    <!-- PAGE 4: DRIVERS -->
     <div id="page-4" class="page fade-up">
       <div style="font-size:9px;letter-spacing:.18em;color:#3a4560;margin-bottom:16px">ȘOFERI ÎNREGISTRAȚI ÎN FIRMĂ</div>
       <div id="drivers-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px"></div>
     </div>
 
-    <!-- PAGE 5: STATS -->
     <div id="page-5" class="page fade-up">
       <div id="stats-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin-bottom:18px"></div>
       <div class="r2" style="gap:16px">
@@ -317,27 +286,23 @@ textarea{resize:vertical}
       <div class="section" style="margin-top:14px"><div class="sec-hd">TIP MARFĂ</div><div class="sec-bd"><div id="cargo-chart"></div></div></div>
     </div>
 
-    <!-- PAGE 6: COMPANY SETTINGS -->
     <div id="page-6" class="page fade-up" style="max-width:700px">
       <div class="section"><div class="sec-hd">🏢 DETALII FIRMĂ</div><div class="sec-bd">
         <div id="company-info-display"></div>
         <div style="margin-top:16px;background:#080c14;border:1px solid #1a2035;border-radius:6px;padding:16px">
-          <div style="font-size:9px;letter-spacing:.18em;color:#3a4560;margin-bottom:8px">COD INVITAȚIE — TRIMITE PRIETENILOR</div>
+          <div style="font-size:9px;letter-spacing:.18em;color:#3a4560;margin-bottom:8px">COD INVITAȚIE</div>
           <div style="display:flex;align-items:center;gap:12px">
             <div id="invite-code" style="font-family:'Share Tech Mono',monospace;font-size:30px;font-weight:700;color:#f5a623;letter-spacing:.25em"></div>
             <button onclick="copyInvite()" class="btn btn-outline" style="padding:8px 14px;font-size:12px">📋 COPIAZĂ</button>
           </div>
-          <div style="font-size:10px;color:#3a4560;margin-top:6px">Partajează codul și prietenii se pot alătura firmei</div>
         </div>
       </div></div>
       <div class="section"><div class="sec-hd">👤 PROFILUL MEU</div><div class="sec-bd" id="my-profile-edit"></div></div>
+      <div id="danger-zone"></div>
     </div>
-
   </div>
 </div>
 
-<!-- MODALS -->
-<!-- Create Company Modal -->
 <div class="modal-bg" id="modal-create">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
@@ -352,7 +317,6 @@ textarea{resize:vertical}
   </div>
 </div>
 
-<!-- Join Company Modal -->
 <div class="modal-bg" id="modal-join">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
@@ -365,7 +329,6 @@ textarea{resize:vertical}
   </div>
 </div>
 
-<!-- BON Modal -->
 <div class="modal-bg" id="modal-bon">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
@@ -382,14 +345,10 @@ textarea{resize:vertical}
 
 <div id="toast"></div>
 
-<!-- FIREBASE COMPAT SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
-// ════════════════════════════════════
-// FIREBASE CONFIG — înlocuiește cu ale tale!
-// ════════════════════════════════════
 const cfg = {
   apiKey: "AIzaSyAzmREboS0ZYbmJCAPLBAaTniXz2bI4xXs",
   authDomain: "trucklog-5ed06.firebaseapp.com",
@@ -399,15 +358,11 @@ const cfg = {
   messagingSenderId: "994965363477",
   appId: "1:994965363477:web:a28bf219bfde37d8e4671c"
 };
-
 firebase.initializeApp(cfg);
 const _auth = firebase.auth();
 const _db = firebase.database();
-
-// FB wrapper — același API ca înainte
 window.FB = {
-  auth: _auth,
-  db: _db,
+  auth: _auth, db: _db,
   ref: (db, path) => db.ref(path),
   set: (ref, data) => ref.set(data),
   get: (ref) => ref.once('value'),
@@ -417,530 +372,245 @@ window.FB = {
   remove: (ref) => ref.remove(),
   off: (ref) => ref.off(),
   serverTimestamp: () => firebase.database.ServerValue.TIMESTAMP,
-  updateProfile: (user, data) => user.updateProfile(data),
-  query: (ref) => ref,
-  orderByChild: (key) => key,
-  limitToLast: (n) => n
 };
-
-window.signInWithEmailAndPassword = (email, pass) => _auth.signInWithEmailAndPassword(email, pass);
-window.createUserWithEmailAndPassword = (email, pass) => _auth.createUserWithEmailAndPassword(email, pass);
+window.signInWithEmailAndPassword = (e, p) => _auth.signInWithEmailAndPassword(e, p);
+window.createUserWithEmailAndPassword = (e, p) => _auth.createUserWithEmailAndPassword(e, p);
 window.signOut = () => _auth.signOut();
-window.updateProfile = (user, data) => user.updateProfile(data);
+window.updateProfile = (u, d) => u.updateProfile(d);
 window.onAuthStateChanged = (cb) => _auth.onAuthStateChanged(cb);
-window.FIREBASE_CONFIGURED = cfg.apiKey !== 'FIREBASE_API_KEY';
-
-// Auth state listener
+window.FIREBASE_CONFIGURED = true;
 _auth.onAuthStateChanged(user => {
-  if (user) {
-    window.currentUser = user;
-    showCompanyScreen(user);
-  } else {
-    window.currentUser = null;
-    document.getElementById('auth-screen').style.display = 'flex';
-    document.getElementById('company-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'none';
-  }
+  if (user) { window.currentUser = user; showCompanyScreen(user); }
+  else { window.currentUser = null; document.getElementById('auth-screen').style.display='flex'; document.getElementById('company-screen').style.display='none'; document.getElementById('app').style.display='none'; }
 });
 </script>
 
 <script>
-// ══════════════════════════════════════════════
-//  CONSTANTS
-// ══════════════════════════════════════════════
 const EU_COUNTRIES = ["Austria","Belgia","Bulgaria","Cehia","Croația","Cipru","Danemarca","Estonia","Finlanda","Franța","Germania","Grecia","Irlanda","Italia","Letonia","Lituania","Luxemburg","Malta","Olanda","Polonia","Portugalia","România","Slovacia","Slovenia","Spania","Suedia","Ungaria"];
 const CITIES = {"România":["București","Cluj-Napoca","Timișoara","Iași","Constanța","Brașov","Galați","Craiova","Ploiești","Oradea","Sibiu","Bacău"],"Germania":["Berlin","München","Hamburg","Frankfurt","Köln","Stuttgart","Düsseldorf","Leipzig","Dresden","Hannover"],"Franța":["Paris","Lyon","Marseille","Toulouse","Nice","Nantes","Strasbourg","Bordeaux","Rennes","Lille"],"Italia":["Roma","Milano","Napoli","Torino","Palermo","Genova","Bologna","Firenze","Venezia","Verona"],"Polonia":["Warszawa","Kraków","Łódź","Wrocław","Poznań","Gdańsk","Szczecin","Katowice","Lublin","Rzeszów"],"Spania":["Madrid","Barcelona","Valencia","Sevilla","Bilbao","Málaga","Zaragoza","Alicante","Murcia","Valladolid"],"Cehia":["Praha","Brno","Ostrava","Plzeň","Liberec"],"Ungaria":["Budapest","Debrecen","Miskolc","Pécs","Győr"],"Austria":["Wien","Graz","Linz","Salzburg","Innsbruck"],"Belgia":["Bruxelles","Antwerpen","Gent","Liège","Bruges"],"Olanda":["Amsterdam","Rotterdam","Den Haag","Utrecht","Eindhoven","Groningen"],"Bulgaria":["Sofia","Plovdiv","Varna","Burgas","Ruse","Stara Zagora"],"Croația":["Zagreb","Split","Rijeka","Osijek","Zadar"],"Danemarca":["København","Aarhus","Odense","Aalborg"],"Estonia":["Tallinn","Tartu","Narva"],"Finlanda":["Helsinki","Tampere","Turku","Oulu"],"Grecia":["Atena","Salonic","Patra","Larissa","Iraklion"],"Irlanda":["Dublin","Cork","Limerick","Galway"],"Letonia":["Riga","Daugavpils","Liepāja"],"Lituania":["Vilnius","Kaunas","Klaipėda","Šiauliai"],"Luxemburg":["Luxembourg City"],"Portugalia":["Lisabona","Porto","Braga","Coimbra","Setubal"],"Slovacia":["Bratislava","Košice","Žilina","Prešov","Nitra"],"Slovenia":["Ljubljana","Maribor","Celje","Kranj"],"Suedia":["Stockholm","Göteborg","Malmö","Uppsala","Västerås"],"Cipru":["Nicosia","Limassol","Larnaca"],"Malta":["Valletta","Sliema","Birkirkara"]};
 const CARGO_TYPES = ["ADR Clasa 1 – Explozivi","ADR Clasa 2 – Gaze","ADR Clasa 3 – Lichide inflamabile","ADR Clasa 4 – Solide inflamabile","ADR Clasa 5 – Oxidanți","ADR Clasa 6 – Toxice","ADR Clasa 7 – Radioactive","ADR Clasa 8 – Corozive","ADR Clasa 9 – Diverse","Alimente generale","Animale vii","Articole casnice","Auto / Vehicule","Blocuri de beton","Chimicale","Containere","Echipamente agricole","Echipamente industriale","Lemn / Cherestea","Materiale de construcții","Mobilă","Produse farmaceutice","Produse petroliere","Textile","Vrac uscat"];
 const VEHICLE_TYPES = ["Camion Solo","Camion + Remorcă","Camion + Semiremorcă","Tanc","Frigorific","Platformă","Camion Basculant"];
 const STATUS_COLORS = {"În desfășurare":"#E4A11B","Finalizat":"#14A44D","Anulat":"#e03050"};
-  const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1503149455237709970/3qRBjXfWkgm7WeHj01cB-Ll9rJ0TY0wNhU4NiX2ULiixVYUYBcYwp9xF9bSiLPextLsY';
+const PALETTE = ["#f5a623","#14d9a0","#7c5cbf","#e03050","#3b82f6","#ec4899","#10b981","#f59e0b","#06b6d4","#8b5cf6"];
+const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1503149455237709970/3qRBjXfWkgm7WeHj01cB-Ll9rJ0TY0wNhU4NiX2ULiixVYUYBcYwp9xF9bSiLPextLsY';
+
+let currentUser=null, currentCompany=null, members={}, trips=[], tachoSessions=[], listeners=[], currentDetailId=null, currentTab_=0;
+let tachoState='stopped', tachoTimer=null, driveSec=0, breakSec=0, restSec=0, contDrive=0, sessStart=null, segStart=null, segs=[];
+
+const fmtT = s=>`${Math.floor(s/3600)}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+const fmtHM = s=>`${Math.floor(s/3600)}h ${String(Math.floor((s%3600)/60)).padStart(2,'0')}min`;
+const today = ()=>new Date().toISOString().split('T')[0];
+const genCMR = n=>'CMR-'+new Date().getFullYear()+'-'+String(n).padStart(5,'0');
+const genCode = ()=>{ const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let r=''; for(let i=0;i<8;i++) r+=c[Math.floor(Math.random()*c.length)]; return r; };
+const color = uid=>PALETTE[Object.keys(members).indexOf(uid)%PALETTE.length]||'#f5a623';
+const initials = name=>name?name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2):'?';
+
+function toast(msg,isError=false){ const t=document.getElementById('toast'); t.textContent=msg; t.className=isError?'error':''; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
 
 async function sendDiscordCMR(trip) {
-  await fetch(DISCORD_WEBHOOK, {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({
-      embeds: [{
-        title: '🚛 CURSĂ FINALIZATĂ',
-        color: 0x14d9a0,
-        fields: [
-          {name:'📋 CMR',value:trip.cmrNumber||'—',inline:true},
-          {name:'📅 Data',value:trip.date||'—',inline:true},
-          {name:'👤 Șofer',value:trip.driverName||'—',inline:true},
-          {name:'🏭 Plecare',value:`${trip.senderCity}, ${trip.senderCountry}`,inline:true},
-          {name:'🏬 Destinație',value:`${trip.receiverCity}, ${trip.receiverCountry}`,inline:true},
-          {name:'🛣️ Distanță',value:`${Number(trip.distanceKm||0).toLocaleString('ro-RO')} km`,inline:true},
-          {name:'📦 Marfă',value:trip.cargoType||'—',inline:true},
-          {name:'🚛 Vehicul',value:trip.vehicleType||'—',inline:true},
-          {name:'🔢 Nr. Înm.',value:trip.plateNumber||'—',inline:true},
-        ],
-        footer:{text:`TruckLog · ${currentCompany?.name||'—'}`},
-        timestamp: new Date().toISOString()
-      }]
-    })
-  });
+  try { await fetch(DISCORD_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({embeds:[{title:'🚛 CURSĂ FINALIZATĂ',color:0x14d9a0,fields:[{name:'📋 CMR',value:trip.cmrNumber||'—',inline:true},{name:'📅 Data',value:trip.date||'—',inline:true},{name:'👤 Șofer',value:trip.driverName||'—',inline:true},{name:'🏭 Plecare',value:`${trip.senderCity}, ${trip.senderCountry}`,inline:true},{name:'🏬 Destinație',value:`${trip.receiverCity}, ${trip.receiverCountry}`,inline:true},{name:'🛣️ Distanță',value:`${Number(trip.distanceKm||0).toLocaleString('ro-RO')} km`,inline:true},{name:'📦 Marfă',value:trip.cargoType||'—',inline:true},{name:'🚛 Vehicul',value:trip.vehicleType||'—',inline:true},{name:'🔢 Nr. Înm.',value:trip.plateNumber||'—',inline:true}],footer:{text:`TruckLog · ${currentCompany?.name||'—'}`},timestamp:new Date().toISOString()}]})); } catch(e){}
 }
 
 async function sendDiscordTacho(s) {
-  const total = s.driveSeconds+s.breakSeconds+s.restSeconds;
-  const ok = s.driveSeconds<=32400 && s.breakSeconds>=2700;
-  await fetch(DISCORD_WEBHOOK, {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({
-      embeds: [{
-        title: '⏱ SESIUNE TAHOGRAF',
-        color: ok ? 0x14d9a0 : 0xe03050,
-        fields: [
-          {name:'👤 Șofer',value:s.driverName||'—',inline:true},
-          {name:'📅 Data',value:s.date||'—',inline:true},
-          {name:'⏰ Interval',value:`${s.startTime} → ${s.endTime}`,inline:true},
-          {name:'🚛 Condus',value:fmtHM(s.driveSeconds),inline:true},
-          {name:'☕ Pauze',value:fmtHM(s.breakSeconds),inline:true},
-          {name:'🛌 Repaus',value:fmtHM(s.restSeconds),inline:true},
-          {name:'✅ Conformitate EU',value:ok?'✓ CONFORM':'⚠ VERIFICĂ',inline:false},
-        ],
-        footer:{text:`TruckLog · ${currentCompany?.name||'—'}`},
-        timestamp: new Date().toISOString()
-      }]
-    })
-  });
-}
-const PALETTE = ["#f5a623","#14d9a0","#7c5cbf","#e03050","#3b82f6","#ec4899","#10b981","#f59e0b","#06b6d4","#8b5cf6"];
-
-// ══════════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════════
-let currentUser = null;
-let currentCompany = null; // {id, name, code, role}
-let members = {};
-let trips = [];
-let tachoSessions = [];
-let listeners = [];
-let currentDetailId = null;
-let currentTab_ = 0;
-
-// Tacho
-let tachoState = 'stopped';
-let tachoTimer = null;
-let driveSec = 0, breakSec = 0, restSec = 0, contDrive = 0;
-let sessStart = null, segStart = null, segs = [];
-
-// ══════════════════════════════════════════════
-//  UTILS
-// ══════════════════════════════════════════════
-const fmtT = s => `${Math.floor(s/3600)}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
-const fmtHM = s => `${Math.floor(s/3600)}h ${String(Math.floor((s%3600)/60)).padStart(2,'0')}min`;
-const today = () => new Date().toISOString().split('T')[0];
-const genCMR = n => 'CMR-'+new Date().getFullYear()+'-'+String(n).padStart(5,'0');
-const genCode = () => { const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let r=''; for(let i=0;i<8;i++) r+=c[Math.floor(Math.random()*c.length)]; return r; };
-const color = uid => PALETTE[Object.keys(members).indexOf(uid) % PALETTE.length] || '#f5a623';
-const initials = name => name ? name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2) : '?';
-
-function toast(msg, isError=false) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = isError ? 'error' : '';
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  const ok=s.driveSeconds<=32400&&s.breakSeconds>=2700;
+  try { await fetch(DISCORD_WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({embeds:[{title:'⏱ SESIUNE TAHOGRAF',color:ok?0x14d9a0:0xe03050,fields:[{name:'👤 Șofer',value:s.driverName||'—',inline:true},{name:'📅 Data',value:s.date||'—',inline:true},{name:'⏰ Interval',value:`${s.startTime} → ${s.endTime}`,inline:true},{name:'🚛 Condus',value:fmtHM(s.driveSeconds),inline:true},{name:'☕ Pauze',value:fmtHM(s.breakSeconds),inline:true},{name:'🛌 Repaus',value:fmtHM(s.restSeconds),inline:true},{name:'✅ Conformitate EU',value:ok?'✓ CONFORM':'⚠ VERIFICĂ',inline:false}],footer:{text:`TruckLog · ${currentCompany?.name||'—'}`},timestamp:new Date().toISOString()}]})); } catch(e){}
 }
 
-// ══════════════════════════════════════════════
-//  AUTH
-// ══════════════════════════════════════════════
-function switchAuth(mode) {
-  document.getElementById('auth-login').style.display = mode==='login' ? 'block' : 'none';
-  document.getElementById('auth-register').style.display = mode==='register' ? 'block' : 'none';
-  document.querySelectorAll('.auth-tab').forEach((b,i) => b.classList.toggle('active', (i===0&&mode==='login')||(i===1&&mode==='register')));
-  document.getElementById('auth-error').style.display = 'none';
-}
+function switchAuth(mode){ document.getElementById('auth-login').style.display=mode==='login'?'block':'none'; document.getElementById('auth-register').style.display=mode==='register'?'block':'none'; document.querySelectorAll('.auth-tab').forEach((b,i)=>b.classList.toggle('active',(i===0&&mode==='login')||(i===1&&mode==='register'))); document.getElementById('auth-error').style.display='none'; }
+async function doLogin(){ const e=document.getElementById('l-email').value.trim(),p=document.getElementById('l-pass').value; if(!e||!p){showAuthError('Completează email și parola');return;} setAuthLoading(true); try{await window.signInWithEmailAndPassword(e,p);}catch(err){showAuthError(authError(err.code));setAuthLoading(false);} }
+async function doRegister(){ const name=document.getElementById('r-name').value.trim(),e=document.getElementById('r-email').value.trim(),p=document.getElementById('r-pass').value,p2=document.getElementById('r-pass2').value; if(!name||!e||!p){showAuthError('Completează toate câmpurile');return;} if(p!==p2){showAuthError('Parolele nu coincid');return;} if(p.length<6){showAuthError('Parola trebuie să aibă minim 6 caractere');return;} setAuthLoading(true); try{const cred=await window.createUserWithEmailAndPassword(e,p);await window.updateProfile(cred.user,{displayName:name});await FB.set(FB.ref(FB.db,`users/${cred.user.uid}`),{name,email:e,createdAt:Date.now()});}catch(err){showAuthError(authError(err.code));setAuthLoading(false);} }
+async function doLogout(){ setOffline(); listeners.forEach(u=>typeof u==='function'&&u()); listeners=[]; currentCompany=null;trips=[];members={};tachoSessions=[]; await window.signOut(); }
+function authError(code){ const map={'auth/user-not-found':'Email negăsit','auth/wrong-password':'Parolă greșită','auth/email-already-in-use':'Email deja folosit','auth/invalid-email':'Email invalid','auth/weak-password':'Parola prea slabă','auth/invalid-credential':'Email sau parolă greșite'}; return map[code]||'Eroare: '+code; }
+function showAuthError(msg){ const el=document.getElementById('auth-error'); el.textContent=msg; el.style.display='block'; }
+function setAuthLoading(v){ document.getElementById('auth-loading').style.display=v?'block':'none'; document.getElementById('auth-error').style.display='none'; }
 
-async function doLogin() {
-  if (!window.FIREBASE_CONFIGURED) { showAuthError('Firebase neconfigurat. Vezi SETUP.txt'); return; }
-  const email = document.getElementById('l-email').value.trim();
-  const pass = document.getElementById('l-pass').value;
-  if (!email || !pass) { showAuthError('Completează email și parola'); return; }
-  setAuthLoading(true);
-  try {
-    await window.signInWithEmailAndPassword(email, pass);
-  } catch(e) {
-    showAuthError(authError(e.code));
-    setAuthLoading(false);
-  }
-}
+async function showCompanyScreen(user){ currentUser=user; document.getElementById('auth-screen').style.display='none'; document.getElementById('app').style.display='none'; document.getElementById('company-screen').style.display='block'; document.getElementById('cs-username').textContent=user.displayName||user.email; setAuthLoading(false); loadMyCompanies(); loadAllCompanies(); }
 
-async function doRegister() {
-  if (!window.FIREBASE_CONFIGURED) { showAuthError('Firebase neconfigurat. Vezi SETUP.txt'); return; }
-  const name = document.getElementById('r-name').value.trim();
-  const email = document.getElementById('r-email').value.trim();
-  const pass = document.getElementById('r-pass').value;
-  const pass2 = document.getElementById('r-pass2').value;
-  if (!name || !email || !pass) { showAuthError('Completează toate câmpurile'); return; }
-  if (pass !== pass2) { showAuthError('Parolele nu coincid'); return; }
-  if (pass.length < 6) { showAuthError('Parola trebuie să aibă minim 6 caractere'); return; }
-  setAuthLoading(true);
-  try {
-    const cred = await window.createUserWithEmailAndPassword(email, pass);
-    await window.updateProfile(cred.user, { displayName: name });
-    await FB.set(FB.ref(FB.db, `users/${cred.user.uid}`), { name, email, createdAt: Date.now() });
-  } catch(e) {
-    showAuthError(authError(e.code));
-    setAuthLoading(false);
-  }
-}
-
-async function doLogout() {
-  setOffline();
-  listeners.forEach(u => typeof u === 'function' && u());
-  listeners = [];
-  currentCompany = null; trips = []; members = {}; tachoSessions = [];
-  await window.signOut();
-}
-
-function authError(code) {
-  const map = {'auth/user-not-found':'Email negăsit','auth/wrong-password':'Parolă greșită','auth/email-already-in-use':'Email deja folosit','auth/invalid-email':'Email invalid','auth/weak-password':'Parola prea slabă','auth/invalid-credential':'Email sau parolă greșite'};
-  return map[code] || 'Eroare: '+code;
-}
-function showAuthError(msg) { const el=document.getElementById('auth-error'); el.textContent=msg; el.style.display='block'; }
-function setAuthLoading(v) { document.getElementById('auth-loading').style.display=v?'block':'none'; document.getElementById('auth-error').style.display='none'; }
-
-// ══════════════════════════════════════════════
-//  COMPANY SCREEN
-// ══════════════════════════════════════════════
-async function showCompanyScreen(user) {
-  currentUser = user;
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('company-screen').style.display = 'block';
-  document.getElementById('cs-username').textContent = user.displayName || user.email;
-  setAuthLoading(false);
-  loadMyCompanies();
-}
-
-async function loadMyCompanies() {
-  if (!window.FIREBASE_CONFIGURED) { document.getElementById('my-companies-list').innerHTML='<div style="color:#3a4560;font-size:12px">Firebase neconfigurat — vezi SETUP.txt</div>'; return; }
-  const snap = await FB.get(FB.ref(FB.db, `users/${currentUser.uid}/companies`));
-  const list = document.getElementById('my-companies-list');
-  if (!snap.exists()) { list.innerHTML='<div style="color:#3a4560;font-size:12px;padding:8px 0">Nicio firmă. Crează una sau alătură-te cu un cod.</div>'; return; }
-  const companies = snap.val();
-  list.innerHTML = '';
-  for (const [cid, info] of Object.entries(companies)) {
-    const compSnap = await FB.get(FB.ref(FB.db, `companies/${cid}/info`));
-    if (!compSnap.exists()) continue;
-    const comp = compSnap.val();
-    const membersSnap = await FB.get(FB.ref(FB.db, `companies/${cid}/members`));
-    const memberCount = membersSnap.exists() ? Object.keys(membersSnap.val()).length : 0;
-    const div = document.createElement('div');
-    div.className = 'company-card';
-    div.style.marginBottom = '10px';
-    div.innerHTML = `
-      <div style="width:44px;height:44px;border-radius:8px;background:#f5a62318;border:1px solid #f5a62330;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🏢</div>
-      <div style="flex:1">
-        <div style="font-size:14px;font-weight:700;color:#e8e0d0">${comp.name}</div>
-        <div style="font-size:10px;color:#4a5575;margin-top:2px">${memberCount} șofer${memberCount!==1?'i':''} · Rol: ${info.role||'driver'} · Cod: <span style="color:#f5a623;font-family:'Share Tech Mono',monospace">${comp.code}</span></div>
-      </div>
-      <button class="btn btn-primary" style="padding:8px 18px;font-size:12px" onclick="enterCompany('${cid}','${comp.name}','${comp.code}','${info.role||'driver'}')">INTRĂ →</button>`;
+async function loadMyCompanies(){
+  const snap=await FB.get(FB.ref(FB.db,`users/${currentUser.uid}/companies`));
+  const list=document.getElementById('my-companies-list');
+  if(!snap.exists()){list.innerHTML='<div style="color:#3a4560;font-size:12px;padding:8px 0">Nicio firmă. Crează una sau alătură-te cu un cod.</div>';return;}
+  list.innerHTML='';
+  for(const [cid,info] of Object.entries(snap.val())){
+    const compSnap=await FB.get(FB.ref(FB.db,`companies/${cid}/info`)); if(!compSnap.exists()) continue;
+    const comp=compSnap.val();
+    const membersSnap=await FB.get(FB.ref(FB.db,`companies/${cid}/members`));
+    const mc=membersSnap.exists()?Object.keys(membersSnap.val()).length:0;
+    const div=document.createElement('div'); div.className='company-card'; div.style.marginBottom='10px';
+    div.innerHTML=`<div style="width:44px;height:44px;border-radius:8px;background:#f5a62318;border:1px solid #f5a62330;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🏢</div><div style="flex:1"><div style="font-size:14px;font-weight:700;color:#e8e0d0">${comp.name}</div><div style="font-size:10px;color:#4a5575;margin-top:2px">${mc} șofer${mc!==1?'i':''} · Rol: ${info.role||'driver'} · Cod: <span style="color:#f5a623;font-family:'Share Tech Mono',monospace">${comp.code}</span></div></div><button class="btn btn-primary" style="padding:8px 18px;font-size:12px" onclick="enterCompany('${cid}','${comp.name}','${comp.code}','${info.role||'driver'}')">INTRĂ →</button>`;
     list.appendChild(div);
   }
 }
 
-function showCreateCompany() { document.getElementById('modal-create').classList.add('open'); document.getElementById('c-name').focus(); }
-function showJoinCompany() { document.getElementById('modal-join').classList.add('open'); document.getElementById('j-code').focus(); }
+async function loadAllCompanies(){
+  const el=document.getElementById('all-companies-list'); if(!el) return;
+  el.innerHTML='<div style="color:#3a4560;font-size:12px">Se încarcă...</div>';
+  const snap=await FB.get(FB.ref(FB.db,'companies'));
+  if(!snap.exists()){el.innerHTML='<div style="color:#3a4560;font-size:12px">Nicio firmă încă</div>';return;}
+  el.innerHTML='';
+  snap.forEach(child=>{
+    const comp=child.val().info; if(!comp) return;
+    const mc=child.val().members?Object.keys(child.val().members).length:0;
+    const div=document.createElement('div'); div.style.cssText='background:#080c14;border:1px solid #1a2035;border-radius:8px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:14px';
+    div.innerHTML=`<div style="width:40px;height:40px;border-radius:8px;background:#f5a62318;border:1px solid #f5a62330;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🏢</div><div style="flex:1"><div style="font-size:14px;font-weight:700;color:#e8e0d0">${comp.name}</div><div style="font-size:10px;color:#4a5575;margin-top:2px">${mc} șofer${mc!==1?'i':''} · Cod: <span style="color:#f5a623;font-family:'Share Tech Mono',monospace">${comp.code}</span>${comp.desc?'<br><span style="color:#3a4560">'+comp.desc+'</span>':''}</div></div><button onclick="quickJoin('${comp.code}')" style="background:#0a2018;border:1px solid #14d9a0;color:#14d9a0;padding:7px 14px;border-radius:4px;font-size:11px;font-weight:700;font-family:'Rajdhani',monospace;cursor:pointer">ALĂTURĂ-TE</button>`;
+    el.appendChild(div);
+  });
+}
 
-async function createCompany() {
-  const name = document.getElementById('c-name').value.trim();
-  if (!name) { document.getElementById('create-err').textContent='Pune un nume firmei!'; document.getElementById('create-err').style.display='block'; return; }
-  const btn = document.getElementById('btn-create-c'); btn.disabled=true; btn.textContent='Se crează...';
-  const cid = 'comp_'+Date.now();
-  const code = genCode();
-  const role = document.getElementById('c-role').value;
-  const desc = document.getElementById('c-desc').value.trim();
-  try {
-    await FB.set(FB.ref(FB.db, `companies/${cid}/info`), { name, code, desc, ownerId: currentUser.uid, createdAt: Date.now() });
-    await FB.set(FB.ref(FB.db, `companies/${cid}/members/${currentUser.uid}`), { name: currentUser.displayName||currentUser.email, role, joinedAt: Date.now(), online: false, uid: currentUser.uid });
-    await FB.set(FB.ref(FB.db, `users/${currentUser.uid}/companies/${cid}`), { role, joinedAt: Date.now() });
-    closeModal('modal-create');
-    toast('✓ Firmă creată! Cod: '+code);
-    loadMyCompanies();
-  } catch(e) { document.getElementById('create-err').textContent='Eroare: '+e.message; document.getElementById('create-err').style.display='block'; }
+function quickJoin(code){ document.getElementById('j-code').value=code; showJoinCompany(); }
+function showCreateCompany(){ document.getElementById('modal-create').classList.add('open'); document.getElementById('c-name').focus(); }
+function showJoinCompany(){ document.getElementById('modal-join').classList.add('open'); document.getElementById('j-code').focus(); }
+
+async function createCompany(){
+  const name=document.getElementById('c-name').value.trim(); if(!name){document.getElementById('create-err').textContent='Pune un nume firmei!';document.getElementById('create-err').style.display='block';return;}
+  const btn=document.getElementById('btn-create-c'); btn.disabled=true; btn.textContent='Se crează...';
+  const cid='comp_'+Date.now(), code=genCode(), role=document.getElementById('c-role').value, desc=document.getElementById('c-desc').value.trim();
+  try{
+    await FB.set(FB.ref(FB.db,`companies/${cid}/info`),{name,code,desc,ownerId:currentUser.uid,createdAt:Date.now()});
+    await FB.set(FB.ref(FB.db,`companies/${cid}/members/${currentUser.uid}`),{name:currentUser.displayName||currentUser.email,role,joinedAt:Date.now(),online:false,uid:currentUser.uid});
+    await FB.set(FB.ref(FB.db,`users/${currentUser.uid}/companies/${cid}`),{role,joinedAt:Date.now()});
+    closeModal('modal-create'); toast('✓ Firmă creată! Cod: '+code); loadMyCompanies(); loadAllCompanies();
+  }catch(e){document.getElementById('create-err').textContent='Eroare: '+e.message;document.getElementById('create-err').style.display='block';}
   btn.disabled=false; btn.textContent='CREAZĂ FIRMA';
 }
 
-async function joinCompany() {
-  const code = document.getElementById('j-code').value.trim();
-  if (!code) { document.getElementById('join-err').textContent='Introdu codul!'; document.getElementById('join-err').style.display='block'; return; }
-  const btn = document.getElementById('btn-join-c'); btn.disabled=true; btn.textContent='Se caută...';
-  try {
-    // Find company by code
-    const snap = await FB.get(FB.ref(FB.db, 'companies'));
-    if (!snap.exists()) { throw new Error('Cod invalid'); }
-    let foundId = null, foundComp = null;
-    snap.forEach(child => { if (child.val().info?.code === code) { foundId = child.key; foundComp = child.val().info; } });
-    if (!foundId) throw new Error('Cod invalid — firma nu există');
-    // Check not already member
-    const memSnap = await FB.get(FB.ref(FB.db, `companies/${foundId}/members/${currentUser.uid}`));
-    if (memSnap.exists()) { throw new Error('Ești deja în această firmă!'); }
-    await FB.set(FB.ref(FB.db, `companies/${foundId}/members/${currentUser.uid}`), { name: currentUser.displayName||currentUser.email, role:'driver', joinedAt: Date.now(), online: false, uid: currentUser.uid });
-    await FB.set(FB.ref(FB.db, `users/${currentUser.uid}/companies/${foundId}`), { role:'driver', joinedAt: Date.now() });
-    closeModal('modal-join');
-    toast('✓ Te-ai alăturat firmei '+foundComp.name+'!');
-    loadMyCompanies();
-  } catch(e) { document.getElementById('join-err').textContent=e.message; document.getElementById('join-err').style.display='block'; }
+async function joinCompany(){
+  const code=document.getElementById('j-code').value.trim(); if(!code){document.getElementById('join-err').textContent='Introdu codul!';document.getElementById('join-err').style.display='block';return;}
+  const btn=document.getElementById('btn-join-c'); btn.disabled=true; btn.textContent='Se caută...';
+  try{
+    const snap=await FB.get(FB.ref(FB.db,'companies')); if(!snap.exists()) throw new Error('Cod invalid');
+    let foundId=null,foundComp=null;
+    snap.forEach(child=>{if(child.val().info?.code===code){foundId=child.key;foundComp=child.val().info;}});
+    if(!foundId) throw new Error('Cod invalid — firma nu există');
+    const memSnap=await FB.get(FB.ref(FB.db,`companies/${foundId}/members/${currentUser.uid}`));
+    if(memSnap.exists()) throw new Error('Ești deja în această firmă!');
+    await FB.set(FB.ref(FB.db,`companies/${foundId}/members/${currentUser.uid}`),{name:currentUser.displayName||currentUser.email,role:'driver',joinedAt:Date.now(),online:false,uid:currentUser.uid});
+    await FB.set(FB.ref(FB.db,`users/${currentUser.uid}/companies/${foundId}`),{role:'driver',joinedAt:Date.now()});
+    closeModal('modal-join'); toast('✓ Te-ai alăturat firmei '+foundComp.name+'!'); loadMyCompanies();
+  }catch(e){document.getElementById('join-err').textContent=e.message;document.getElementById('join-err').style.display='block';}
   btn.disabled=false; btn.textContent='ALĂTURĂ-TE';
 }
 
-// ══════════════════════════════════════════════
-//  ENTER COMPANY — MAIN APP
-// ══════════════════════════════════════════════
-function enterCompany(cid, name, code, role) {
-  currentCompany = { id: cid, name, code, role };
-  document.getElementById('company-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  document.getElementById('hdr-company').textContent = name;
-  document.getElementById('hdr-user').textContent = '🚛 '+(currentUser.displayName||currentUser.email);
-  document.getElementById('invite-code').textContent = code;
-  document.getElementById('company-info-display').innerHTML = `
-    <div class="r2"><div><div style="font-size:9px;color:#3a4560;letter-spacing:.14em;margin-bottom:3px">NUME FIRMĂ</div><div style="font-size:15px;font-weight:700;color:#e8e0d0">${name}</div></div>
-    <div><div style="font-size:9px;color:#3a4560;letter-spacing:.14em;margin-bottom:3px">ROLUL TĂU</div><div style="font-size:15px;font-weight:700;color:#f5a623">${role.toUpperCase()}</div></div></div>`;
-  initSelects();
-  subscribeAll();
-  setOnline(true);
-  showTab(0);
+function enterCompany(cid,name,code,role){
+  currentCompany={id:cid,name,code,role};
+  document.getElementById('company-screen').style.display='none'; document.getElementById('app').style.display='block';
+  document.getElementById('hdr-company').textContent=name; document.getElementById('hdr-user').textContent='🚛 '+(currentUser.displayName||currentUser.email);
+  document.getElementById('invite-code').textContent=code;
+  document.getElementById('company-info-display').innerHTML=`<div class="r2"><div><div style="font-size:9px;color:#3a4560;letter-spacing:.14em;margin-bottom:3px">NUME FIRMĂ</div><div style="font-size:15px;font-weight:700;color:#e8e0d0">${name}</div></div><div><div style="font-size:9px;color:#3a4560;letter-spacing:.14em;margin-bottom:3px">ROLUL TĂU</div><div style="font-size:15px;font-weight:700;color:#f5a623">${role.toUpperCase()}</div></div></div>`;
+  // Danger zone only for owner
+  if(role==='owner'){
+    document.getElementById('danger-zone').innerHTML=`<div class="section" style="border-color:#e0305040"><div class="sec-hd" style="color:#e03050">⚠ ZONA PERICULOASĂ</div><div class="sec-bd"><div style="font-size:12px;color:#8090b0;margin-bottom:12px">Ștergerea firmei este permanentă și șterge toate cursele, sesiunile și membrii.</div><button class="btn-red" onclick="deleteCompany()" style="padding:10px 20px;font-size:13px">🗑 ȘTERGE FIRMA PERMANENT</button></div></div>`;
+  }
+  initSelects(); subscribeAll(); setOnline(true); showTab(0);
 }
 
-function leaveApp() {
-  setOffline();
-  listeners.forEach(u => typeof u === 'function' && u());
-  listeners = [];
-  currentCompany = null; trips = []; members = {}; tachoSessions = [];
-  stopTachoClean();
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('company-screen').style.display = 'block';
-  loadMyCompanies();
+function leaveApp(){ setOffline(); listeners.forEach(u=>typeof u==='function'&&u()); listeners=[]; currentCompany=null;trips=[];members={};tachoSessions=[]; stopTachoClean(); document.getElementById('app').style.display='none'; document.getElementById('company-screen').style.display='block'; loadMyCompanies(); loadAllCompanies(); }
+
+async function deleteCompany(){
+  if(!confirm(`Ești sigur că vrei să ștergi firma "${currentCompany.name}"? PERMANENT!`)) return;
+  if(!confirm('Ultima confirmare — ștergi TOT?')) return;
+  const membSnap=await FB.get(FB.ref(FB.db,`companies/${currentCompany.id}/members`));
+  if(membSnap.exists()) for(const uid of Object.keys(membSnap.val())) await FB.remove(FB.ref(FB.db,`users/${uid}/companies/${currentCompany.id}`));
+  await FB.remove(FB.ref(FB.db,`companies/${currentCompany.id}`));
+  toast('Firmă ștearsă!'); leaveApp();
 }
 
-// ══════════════════════════════════════════════
-//  REALTIME SUBSCRIPTIONS
-// ══════════════════════════════════════════════
-function subscribeAll() {
-  const cid = currentCompany.id;
-
-  const u1 = FB.onValue(FB.ref(FB.db, `companies/${cid}/trips`), snap => {
-    trips = [];
-    if (snap.exists()) snap.forEach(c => trips.push({...c.val(), _key: c.key}));
-    trips.sort((a,b) => (b.createdAt||0)-(a.createdAt||0));
-    renderAll();
-  });
-
-  const u2 = FB.onValue(FB.ref(FB.db, `companies/${cid}/members`), snap => {
-    members = snap.exists() ? snap.val() : {};
-    renderAll();
-  });
-
-  const u3 = FB.onValue(FB.ref(FB.db, `companies/${cid}/tacho/${currentUser.uid}`), snap => {
-    tachoSessions = [];
-    if (snap.exists()) snap.forEach(c => tachoSessions.push({...c.val(), _key: c.key}));
-    tachoSessions.sort((a,b) => (b.createdAt||0)-(a.createdAt||0));
-    renderSessList();
-  });
-
-  listeners = [u1, u2, u3];
+function subscribeAll(){
+  const cid=currentCompany.id;
+  const u1=FB.onValue(FB.ref(FB.db,`companies/${cid}/trips`),snap=>{trips=[];if(snap.exists())snap.forEach(c=>trips.push({...c.val(),_key:c.key}));trips.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));renderAll();});
+  const u2=FB.onValue(FB.ref(FB.db,`companies/${cid}/members`),snap=>{members=snap.exists()?snap.val():{};renderAll();});
+  const u3=FB.onValue(FB.ref(FB.db,`companies/${cid}/tacho/${currentUser.uid}`),snap=>{tachoSessions=[];if(snap.exists())snap.forEach(c=>tachoSessions.push({...c.val(),_key:c.key}));tachoSessions.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));renderSessList();});
+  listeners=[u1,u2,u3];
 }
 
-async function setOnline(v) {
-  if (!currentCompany || !currentUser) return;
-  await FB.update(FB.ref(FB.db, `companies/${currentCompany.id}/members/${currentUser.uid}`), { online: v, lastSeen: Date.now() });
-}
-const setOffline = () => setOnline(false);
-window.addEventListener('beforeunload', setOffline);
-setInterval(() => { if(currentCompany) setOnline(true); }, 25000);
+async function setOnline(v){ if(!currentCompany||!currentUser) return; await FB.update(FB.ref(FB.db,`companies/${currentCompany.id}/members/${currentUser.uid}`),{online:v,lastSeen:Date.now()}); }
+const setOffline=()=>setOnline(false);
+window.addEventListener('beforeunload',setOffline);
+setInterval(()=>{if(currentCompany)setOnline(true);},25000);
 
-// ══════════════════════════════════════════════
-//  TRIPS
-// ══════════════════════════════════════════════
-async function saveTrip() {
-  const sc=document.getElementById('f-sct').value, rc=document.getElementById('f-rct').value, km=document.getElementById('f-km').value;
-  if (!sc||!rc||!km) { document.getElementById('f-err').style.display='block'; return; }
+async function saveTrip(){
+  const sc=document.getElementById('f-sct').value,rc=document.getElementById('f-rct').value,km=document.getElementById('f-km').value;
+  if(!sc||!rc||!km){document.getElementById('f-err').style.display='block';return;}
   document.getElementById('f-err').style.display='none';
   const btn=document.getElementById('btn-save'); btn.disabled=true; btn.textContent='Se salvează...';
-  const trip = {
-    cmrNumber: document.getElementById('f-cmr').value || genCMR(trips.length+1),
-    date: document.getElementById('f-date').value, status: document.getElementById('f-status').value,
-    senderName: document.getElementById('f-sname').value, senderCountry: document.getElementById('f-sc').value, senderCity: sc, senderAddress: document.getElementById('f-sa').value,
-    receiverName: document.getElementById('f-rname').value, receiverCountry: document.getElementById('f-rc').value, receiverCity: rc, receiverAddress: document.getElementById('f-ra').value,
-    cargoType: document.getElementById('f-cargo').value, cargoWeight: document.getElementById('f-weight').value, cargoUnits: document.getElementById('f-units').value,
-    vehicleType: document.getElementById('f-vtype').value, plateNumber: document.getElementById('f-plate').value,
-    driverName: document.getElementById('f-driver').value || (currentUser.displayName||currentUser.email),
-    driverId: currentUser.uid,
-    distanceKm: parseFloat(km), departureTime: document.getElementById('f-dep').value, arrivalTime: document.getElementById('f-arr').value,
-    notes: document.getElementById('f-notes').value, createdAt: Date.now()
-  };
-  await FB.push(FB.ref(FB.db, `companies/${currentCompany.id}/trips`), trip);
-  btn.disabled=false; btn.textContent='⊕ SALVEAZĂ CURSA';
-  resetForm(); showTab(3); toast('✓ Cursă CMR salvată!');
+  const trip={cmrNumber:document.getElementById('f-cmr').value||genCMR(trips.length+1),date:document.getElementById('f-date').value,status:document.getElementById('f-status').value,senderName:document.getElementById('f-sname').value,senderCountry:document.getElementById('f-sc').value,senderCity:sc,senderAddress:document.getElementById('f-sa').value,receiverName:document.getElementById('f-rname').value,receiverCountry:document.getElementById('f-rc').value,receiverCity:rc,receiverAddress:document.getElementById('f-ra').value,cargoType:document.getElementById('f-cargo').value,cargoWeight:document.getElementById('f-weight').value,cargoUnits:document.getElementById('f-units').value,vehicleType:document.getElementById('f-vtype').value,plateNumber:document.getElementById('f-plate').value,driverName:document.getElementById('f-driver').value||(currentUser.displayName||currentUser.email),driverId:currentUser.uid,distanceKm:parseFloat(km),departureTime:document.getElementById('f-dep').value,arrivalTime:document.getElementById('f-arr').value,notes:document.getElementById('f-notes').value,createdAt:Date.now()};
+  await FB.push(FB.ref(FB.db,`companies/${currentCompany.id}/trips`),trip);
+  btn.disabled=false; btn.textContent='⊕ SALVEAZĂ CURSA'; resetForm(); showTab(3); toast('✓ Cursă CMR salvată!');
 }
 
-async function updateTripStatus(key, status) {
-  await FB.update(FB.ref(FB.db, `companies/${currentCompany.id}/trips/${key}`), {status});
-  if (status === 'Finalizat') {
-    const t = trips.find(x=>x._key===key);
-    if (t) sendDiscordCMR(t);
-  }
+async function updateTripStatus(key,status){
+  await FB.update(FB.ref(FB.db,`companies/${currentCompany.id}/trips/${key}`),{status});
+  if(status==='Finalizat'){const t=trips.find(x=>x._key===key);if(t)sendDiscordCMR(t);}
   toast('✓ Status actualizat');
 }
-async function deleteTrip(key) {
-  await FB.remove(FB.ref(FB.db, `companies/${currentCompany.id}/trips/${key}`));
-  currentDetailId=null; document.getElementById('detail-panel').style.display='none';
-  toast('Cursă ștearsă');
-}
+async function deleteTrip(key){ await FB.remove(FB.ref(FB.db,`companies/${currentCompany.id}/trips/${key}`)); currentDetailId=null; document.getElementById('detail-panel').style.display='none'; toast('Cursă ștearsă'); }
 
-// ══════════════════════════════════════════════
-//  TACHOGRAPH
-// ══════════════════════════════════════════════
-function tachoAction(type) {
-  if (tachoState===type) return;
-  if (tachoState!=='stopped'&&segStart) segs.push({type:tachoState, seconds:Math.round((Date.now()-segStart)/1000), start:new Date(segStart).toLocaleTimeString('ro-RO')});
-  if (!sessStart) sessStart = new Date();
-  segStart = Date.now(); tachoState = type;
-  if (!tachoTimer) tachoTimer = setInterval(() => {
-    if(tachoState==='drive'){driveSec++;contDrive++;}
-    if(tachoState==='break'){breakSec++;if(breakSec>=2700)contDrive=0;}
-    if(tachoState==='rest'){restSec++;contDrive=0;}
-    updateTachoUI();
-  }, 1000);
+async function changeRole(uid,role){ await FB.update(FB.ref(FB.db,`companies/${currentCompany.id}/members/${uid}`),{role}); toast('✓ Rol actualizat!'); }
+
+function tachoAction(type){
+  if(tachoState===type) return;
+  if(tachoState!=='stopped'&&segStart) segs.push({type:tachoState,seconds:Math.round((Date.now()-segStart)/1000),start:new Date(segStart).toLocaleTimeString('ro-RO')});
+  if(!sessStart) sessStart=new Date(); segStart=Date.now(); tachoState=type;
+  if(!tachoTimer) tachoTimer=setInterval(()=>{if(tachoState==='drive'){driveSec++;contDrive++;}if(tachoState==='break'){breakSec++;if(breakSec>=2700)contDrive=0;}if(tachoState==='rest'){restSec++;contDrive=0;}updateTachoUI();},1000);
   updateTachoUI();
 }
 
-async function stopTacho() {
-  if (tachoState!=='stopped'&&segStart) segs.push({type:tachoState, seconds:Math.round((Date.now()-segStart)/1000), start:new Date(segStart).toLocaleTimeString('ro-RO')});
+async function stopTacho(){
+  if(tachoState!=='stopped'&&segStart) segs.push({type:tachoState,seconds:Math.round((Date.now()-segStart)/1000),start:new Date(segStart).toLocaleTimeString('ro-RO')});
   clearInterval(tachoTimer); tachoTimer=null;
-  if (sessStart && (driveSec+breakSec+restSec)>10) {
-    const s = { date:sessStart.toLocaleDateString('ro-RO'), startTime:sessStart.toLocaleTimeString('ro-RO'), endTime:new Date().toLocaleTimeString('ro-RO'), driverName:currentUser.displayName||currentUser.email, driverId:currentUser.uid, driveSeconds:driveSec, breakSeconds:breakSec, restSeconds:restSec, segments:[...segs], createdAt:Date.now() };
-    await FB.push(FB.ref(FB.db, `companies/${currentCompany.id}/tacho/${currentUser.uid}`), s);
-    toast('✓ Sesiune tahograf salvată!');
-    sendDiscordTacho(s);
+  if(sessStart&&(driveSec+breakSec+restSec)>10){
+    const s={date:sessStart.toLocaleDateString('ro-RO'),startTime:sessStart.toLocaleTimeString('ro-RO'),endTime:new Date().toLocaleTimeString('ro-RO'),driverName:currentUser.displayName||currentUser.email,driverId:currentUser.uid,driveSeconds:driveSec,breakSeconds:breakSec,restSeconds:restSec,segments:[...segs],createdAt:Date.now()};
+    await FB.push(FB.ref(FB.db,`companies/${currentCompany.id}/tacho/${currentUser.uid}`),s);
+    toast('✓ Sesiune tahograf salvată!'); sendDiscordTacho(s);
   }
   stopTachoClean();
 }
 
-function stopTachoClean() { clearInterval(tachoTimer); tachoTimer=null; tachoState='stopped'; driveSec=0;breakSec=0;restSec=0;contDrive=0; sessStart=null;segStart=null;segs=[]; updateTachoUI(); }
+function stopTachoClean(){ clearInterval(tachoTimer);tachoTimer=null;tachoState='stopped';driveSec=0;breakSec=0;restSec=0;contDrive=0;sessStart=null;segStart=null;segs=[];updateTachoUI(); }
 
-function updateTachoUI() {
-  if (!document.getElementById('t-drive')) return;
-  document.getElementById('t-drive').textContent = fmtT(driveSec);
-  document.getElementById('t-break').textContent = fmtT(breakSec);
-  document.getElementById('t-rest').textContent = fmtT(restSec);
+function updateTachoUI(){
+  if(!document.getElementById('t-drive')) return;
+  document.getElementById('t-drive').textContent=fmtT(driveSec); document.getElementById('t-break').textContent=fmtT(breakSec); document.getElementById('t-rest').textContent=fmtT(restSec);
   const lbl={drive:'🚛 CONDUC',break:'⏸ PAUZĂ',rest:'🛌 REPAUS',stopped:'⏹ OPRIT'};
   const clr={drive:'#14d9a0',break:'#E4A11B',rest:'#7c5cbf',stopped:'#4a5575'};
-  document.getElementById('tacho-status').textContent = lbl[tachoState];
-  document.getElementById('tacho-status').style.color = clr[tachoState];
-  if (sessStart) document.getElementById('tacho-info').textContent = 'Start: '+sessStart.toLocaleTimeString('ro-RO');
-  // EU limits
-  const lims = document.getElementById('eu-limits');
-  if (lims) {
-    const items=[{l:'Condus continuu max 4h30',v:contDrive,m:16200,c:'#14d9a0'},{l:'Condus zilnic max 9h',v:driveSec,m:32400,c:'#f5a623'},{l:'Pauza (țintă 45min)',v:breakSec,m:2700,c:'#E4A11B'}];
-    lims.innerHTML=items.map(x=>{const p=Math.min(x.v/x.m*100,100);const c=p>85?'#e03050':p>60?'#E4A11B':x.c;return `<div><div style="font-size:9px;color:#3a4560;margin-bottom:3px">${x.l}</div><div style="background:#111827;border-radius:3px;height:6px;overflow:hidden"><div style="height:100%;background:${c};width:${p}%;transition:width .5s;border-radius:3px"></div></div><div style="font-size:9px;color:${c};margin-top:2px">${fmtHM(x.v)}</div></div>`;}).join('');
-  }
-  // Segment bar
-  const bar = document.getElementById('seg-bar');
-  if (bar) {
-    const all=[...segs]; if(tachoState!=='stopped'&&segStart) all.push({type:tachoState,seconds:Math.round((Date.now()-segStart)/1000)});
-    const tot=all.reduce((s,x)=>s+x.seconds,0)||1;
-    const sc={drive:'#14d9a0',break:'#E4A11B',rest:'#7c5cbf'};
-    bar.innerHTML=all.length?all.map(s=>`<div style="background:${sc[s.type]||'#333'};width:${Math.max(s.seconds/tot*100,0.5)}%;height:100%;opacity:.85" title="${s.type} ${fmtHM(s.seconds)}"></div>`).join(''):'<div style="color:#3a4560;font-size:10px;padding:7px 10px">Pornește tahograful</div>';
-  }
+  document.getElementById('tacho-status').textContent=lbl[tachoState]; document.getElementById('tacho-status').style.color=clr[tachoState];
+  if(sessStart) document.getElementById('tacho-info').textContent='Start: '+sessStart.toLocaleTimeString('ro-RO');
+  const lims=document.getElementById('eu-limits');
+  if(lims){const items=[{l:'Condus continuu max 4h30',v:contDrive,m:16200,c:'#14d9a0'},{l:'Condus zilnic max 9h',v:driveSec,m:32400,c:'#f5a623'},{l:'Pauza (țintă 45min)',v:breakSec,m:2700,c:'#E4A11B'}];lims.innerHTML=items.map(x=>{const p=Math.min(x.v/x.m*100,100);const c=p>85?'#e03050':p>60?'#E4A11B':x.c;return `<div><div style="font-size:9px;color:#3a4560;margin-bottom:3px">${x.l}</div><div style="background:#111827;border-radius:3px;height:6px;overflow:hidden"><div style="height:100%;background:${c};width:${p}%;transition:width .5s;border-radius:3px"></div></div><div style="font-size:9px;color:${c};margin-top:2px">${fmtHM(x.v)}</div></div>`;}).join('');}
+  const bar=document.getElementById('seg-bar');
+  if(bar){const all=[...segs];if(tachoState!=='stopped'&&segStart)all.push({type:tachoState,seconds:Math.round((Date.now()-segStart)/1000)});const tot=all.reduce((s,x)=>s+x.seconds,0)||1;const sc={drive:'#14d9a0',break:'#E4A11B',rest:'#7c5cbf'};bar.innerHTML=all.length?all.map(s=>`<div style="background:${sc[s.type]||'#333'};width:${Math.max(s.seconds/tot*100,0.5)}%;height:100%;opacity:.85"></div>`).join(''):'<div style="color:#3a4560;font-size:10px;padding:7px 10px">Pornește tahograful</div>';}
 }
 
-function renderSessList() {
-  const el = document.getElementById('sess-list'); if(!el) return;
-  if (!tachoSessions.length) { el.innerHTML='<div style="color:#3a4560;font-size:12px">Nicio sesiune salvată</div>'; return; }
-  el.innerHTML = tachoSessions.slice(0,10).map((s,i) => `
-    <div style="background:#111827;border-radius:5px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px">
-      <div style="flex:1">
-        <div style="font-size:11px;font-weight:700;color:#f5a623">${s.date} · ${s.startTime} → ${s.endTime}</div>
-        <div style="font-size:10px;margin-top:2px"><span style="color:#14d9a0">▶ ${fmtHM(s.driveSeconds)}</span> · <span style="color:#E4A11B">⏸ ${fmtHM(s.breakSeconds)}</span> · <span style="color:#7c5cbf">🛌 ${fmtHM(s.restSeconds)}</span></div>
-      </div>
-      <button onclick="openBon(${i})" class="btn-ghost" style="font-size:10px;padding:4px 8px">🖨</button>
-    </div>`).join('');
+function renderSessList(){
+  const el=document.getElementById('sess-list'); if(!el) return;
+  if(!tachoSessions.length){el.innerHTML='<div style="color:#3a4560;font-size:12px">Nicio sesiune salvată</div>';return;}
+  el.innerHTML=tachoSessions.slice(0,10).map((s,i)=>`<div style="background:#111827;border-radius:5px;padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-size:11px;font-weight:700;color:#f5a623">${s.date} · ${s.startTime} → ${s.endTime}</div><div style="font-size:10px;margin-top:2px"><span style="color:#14d9a0">▶ ${fmtHM(s.driveSeconds)}</span> · <span style="color:#E4A11B">⏸ ${fmtHM(s.breakSeconds)}</span> · <span style="color:#7c5cbf">🛌 ${fmtHM(s.restSeconds)}</span></div></div><button onclick="openBon(${i})" class="btn-ghost" style="font-size:10px;padding:4px 8px">🖨</button></div>`).join('');
 }
 
-// ══════════════════════════════════════════════
-//  BON TAHOGRAF
-// ══════════════════════════════════════════════
-function openBon(idx=0) {
-  const sel = document.getElementById('bon-sel');
-  sel.innerHTML = tachoSessions.map((s,i)=>`<option value="${i}">${s.date} – ${s.startTime} – ${s.driverName||'?'}</option>`).join('');
-  sel.value = idx; previewBon();
-  document.getElementById('modal-bon').classList.add('open');
-}
-function previewBon() {
-  const s = tachoSessions[parseInt(document.getElementById('bon-sel').value)||0];
-  if (!s) { document.getElementById('bon-text').textContent='Nicio sesiune'; return; }
-  const total=s.driveSeconds+s.breakSeconds+s.restSeconds;
-  const c=str=>(' '.repeat(Math.max(0,Math.floor((50-str.length)/2)))+str);
-  const ok=s.driveSeconds<=32400;
+function openBon(idx=0){ const sel=document.getElementById('bon-sel'); sel.innerHTML=tachoSessions.map((s,i)=>`<option value="${i}">${s.date} – ${s.startTime} – ${s.driverName||'?'}</option>`).join(''); sel.value=idx; previewBon(); document.getElementById('modal-bon').classList.add('open'); }
+function previewBon(){
+  const s=tachoSessions[parseInt(document.getElementById('bon-sel').value)||0]; if(!s){document.getElementById('bon-text').textContent='Nicio sesiune';return;}
+  const total=s.driveSeconds+s.breakSeconds+s.restSeconds, c=str=>(' '.repeat(Math.max(0,Math.floor((50-str.length)/2)))+str), ok=s.driveSeconds<=32400;
   let t=`\n${c('★  TRUCKLOG  ★')}\n${c('BON ACTIVITATE TAHOGRAF')}\n${c('EURO TRUCK SIMULATOR 2')}\n${'─'.repeat(50)}\nȘOFER:          ${s.driverName||'—'}\nCOMPANIE:       ${currentCompany?.name||'—'}\nDATA:           ${s.date}\nSTART:          ${s.startTime}\nSTOP:           ${s.endTime}\nDURATĂ TOTALĂ:  ${fmtHM(total)}\n${'─'.repeat(50)}\n  🚛 CONDUS:    ${fmtHM(s.driveSeconds)}\n  ☕ PAUZE:     ${fmtHM(s.breakSeconds)}\n  🛌 REPAUS:    ${fmtHM(s.restSeconds)}\n${'─'.repeat(50)}\nSEGMENTE:`;
   (s.segments||[]).forEach((seg,i)=>{const ic={drive:'🚛',break:'☕',rest:'🛌'}[seg.type]||'•';t+=`\n  ${String(i+1).padStart(2,'0')}. ${ic} ${(seg.type||'').toUpperCase().padEnd(7)} ora ${(seg.start||'').padEnd(10)} ${fmtHM(seg.seconds)}`;});
   t+=`\n${'─'.repeat(50)}\nCONFORMITATE EU REG. 561/2006:\n  Condus max 9h:   ${fmtHM(s.driveSeconds)} ${s.driveSeconds<=32400?'✓ OK':'✗ DEPĂȘIT'}\n  Pauze min 45min: ${fmtHM(s.breakSeconds)} ${s.breakSeconds>=2700?'✓ OK':'⚠ INSUFICIENT'}\n${'─'.repeat(50)}\n${c(ok?'✓  SESIUNE CONFORMĂ  ✓':'⚠  VERIFICĂ CONFORMITATEA')}\n${'─'.repeat(50)}\n${c('TruckLog · '+new Date().toLocaleDateString('ro-RO'))}\n`;
-  document.getElementById('bon-text').textContent = t;
+  document.getElementById('bon-text').textContent=t;
 }
-function downloadBon() {
-  const s = tachoSessions[parseInt(document.getElementById('bon-sel').value)||0];
-  const txt = document.getElementById('bon-text').textContent;
-  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Bon ${s?.date||''}</title><style>body{background:#111;color:#eee;font-family:'Courier New',monospace;font-size:13px;padding:32px;white-space:pre;line-height:1.6}@media print{body{background:#fff;color:#000}}</style></head><body>${txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</body></html>`;
-  if (window.electron) { window.electron.saveReceipt(`Bon_${s?.date||'tahograf'}.html`, html); return; }
-  const a=document.createElement('a'); a.href='data:text/html;charset=utf-8,'+encodeURIComponent(html); a.download=`Bon_Tahograf_${s?.date||'nou'}.html`; a.click();
-}
+function downloadBon(){ const s=tachoSessions[parseInt(document.getElementById('bon-sel').value)||0]; const txt=document.getElementById('bon-text').textContent; const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Bon ${s?.date||''}</title><style>body{background:#111;color:#eee;font-family:'Courier New',monospace;font-size:13px;padding:32px;white-space:pre;line-height:1.6}@media print{body{background:#fff;color:#000}}</style></head><body>${txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</body></html>`; if(window.electron){window.electron.saveReceipt(`Bon_${s?.date||'tahograf'}.html`,html);return;} const a=document.createElement('a');a.href='data:text/html;charset=utf-8,'+encodeURIComponent(html);a.download=`Bon_Tahograf_${s?.date||'nou'}.html`;a.click(); }
 
-// ══════════════════════════════════════════════
-//  RENDER
-// ══════════════════════════════════════════════
-function showTab(n) {
-  document.querySelectorAll('.page').forEach((p,i)=>p.classList.toggle('active',i===n));
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===n));
-  currentTab_=n; renderAll();
-}
+function showTab(n){ document.querySelectorAll('.page').forEach((p,i)=>p.classList.toggle('active',i===n)); document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===n)); currentTab_=n; renderAll(); }
 
-function renderAll() {
-  updateHeader();
-  if(currentTab_===0) renderDash();
-  if(currentTab_===1) { updateTachoUI(); renderSessList(); }
-  if(currentTab_===3) renderArchive();
-  if(currentTab_===4) renderDrivers();
-  if(currentTab_===5) renderStats();
-}
+function renderAll(){ updateHeader(); if(currentTab_===0)renderDash(); if(currentTab_===1){updateTachoUI();renderSessList();} if(currentTab_===3)renderArchive(); if(currentTab_===4)renderDrivers(); if(currentTab_===5)renderStats(); }
 
-function updateHeader() {
-  const fin=trips.filter(t=>t.status==='Finalizat');
-  document.getElementById('hdr-km').textContent=fin.reduce((s,t)=>s+Number(t.distanceKm||0),0).toLocaleString('ro-RO');
-  document.getElementById('hdr-trips').textContent=trips.length;
-  const on=Object.values(members).filter(m=>m.online).length;
-  document.getElementById('hdr-online').textContent=on+' online';
-}
+function updateHeader(){ const fin=trips.filter(t=>t.status==='Finalizat'); document.getElementById('hdr-km').textContent=fin.reduce((s,t)=>s+Number(t.distanceKm||0),0).toLocaleString('ro-RO'); document.getElementById('hdr-trips').textContent=trips.length; document.getElementById('hdr-online').textContent=Object.values(members).filter(m=>m.online).length+' online'; }
 
-function renderDash() {
-  const fin=trips.filter(t=>t.status==='Finalizat');
-  const act=trips.filter(t=>t.status==='În desfășurare');
-  const km=fin.reduce((s,t)=>s+Number(t.distanceKm||0),0);
-  const allDrive=tachoSessions.reduce((s,x)=>s+x.driveSeconds,0);
-  const online=Object.values(members).filter(m=>m.online);
-
-  document.getElementById('dash-stats').innerHTML=[
-    {l:'KM FIRMĂ',v:km.toLocaleString('ro-RO'),u:'km',c:'#f5a623'},
-    {l:'CURSE TOTALE',v:trips.length,u:'curse',c:'#14d9a0'},
-    {l:'CURSE ACTIVE',v:act.length,u:'în curs',c:'#E4A11B'},
-    {l:'ȘOFERI ONLINE',v:online.length+'/'+Object.keys(members).length,u:'acum',c:'#7c5cbf'},
-    {l:'ORE CONDUS',v:Math.round(allDrive/3600*10)/10,u:'ore',c:'#3b82f6'},
-  ].map(x=>`<div class="card" style="border-left:3px solid ${x.c};border-color:#1a2035;border-left-color:${x.c}"><div style="font-size:9px;letter-spacing:.15em;color:#3a4560;margin-bottom:4px">${x.l}</div><div style="font-size:24px;font-weight:700;color:${x.c}">${x.v}</div><div style="font-size:9px;color:#3a4560;margin-top:1px">${x.u}</div></div>`).join('');
-
-  document.getElementById('dash-active').innerHTML=act.length?act.slice(0,5).map(t=>{const c=color(t.driverId);return `<div style="background:#0d1120;border:1px solid #1a2035;border-left:3px solid ${c};border-radius:6px;padding:10px 12px;margin-bottom:7px;display:flex;gap:8px;align-items:center"><div style="flex:1"><div style="font-size:11px;font-weight:700;color:#f5a623">${t.cmrNumber}</div><div style="font-size:10px;color:#8090b0;margin-top:1px">${t.senderCity} → ${t.receiverCity} · ${Number(t.distanceKm||0)} km</div><div style="font-size:10px;color:${c};margin-top:1px">🚛 ${t.driverName||'?'}</div></div><button class="btn-green" onclick="updateTripStatus('${t._key}','Finalizat')" style="font-size:10px">✓</button></div>`;}  ).join(''):'<div style="color:#3a4560;font-size:12px;padding:8px 0">Nicio cursă activă</div>';
-
+function renderDash(){
+  const fin=trips.filter(t=>t.status==='Finalizat'),act=trips.filter(t=>t.status==='În desfășurare'),km=fin.reduce((s,t)=>s+Number(t.distanceKm||0),0),allDrive=tachoSessions.reduce((s,x)=>s+x.driveSeconds,0),online=Object.values(members).filter(m=>m.online);
+  document.getElementById('dash-stats').innerHTML=[{l:'KM FIRMĂ',v:km.toLocaleString('ro-RO'),u:'km',c:'#f5a623'},{l:'CURSE TOTALE',v:trips.length,u:'curse',c:'#14d9a0'},{l:'CURSE ACTIVE',v:act.length,u:'în curs',c:'#E4A11B'},{l:'ȘOFERI ONLINE',v:online.length+'/'+Object.keys(members).length,u:'acum',c:'#7c5cbf'},{l:'ORE CONDUS',v:Math.round(allDrive/3600*10)/10,u:'ore',c:'#3b82f6'}].map(x=>`<div class="card" style="border-left:3px solid ${x.c};border-color:#1a2035;border-left-color:${x.c}"><div style="font-size:9px;letter-spacing:.15em;color:#3a4560;margin-bottom:4px">${x.l}</div><div style="font-size:24px;font-weight:700;color:${x.c}">${x.v}</div><div style="font-size:9px;color:#3a4560;margin-top:1px">${x.u}</div></div>`).join('');
+  document.getElementById('dash-active').innerHTML=act.length?act.slice(0,5).map(t=>{const c=color(t.driverId);return `<div style="background:#0d1120;border:1px solid #1a2035;border-left:3px solid ${c};border-radius:6px;padding:10px 12px;margin-bottom:7px;display:flex;gap:8px;align-items:center"><div style="flex:1"><div style="font-size:11px;font-weight:700;color:#f5a623">${t.cmrNumber}</div><div style="font-size:10px;color:#8090b0;margin-top:1px">${t.senderCity} → ${t.receiverCity} · ${Number(t.distanceKm||0)} km</div><div style="font-size:10px;color:${c};margin-top:1px">🚛 ${t.driverName||'?'}</div></div><button class="btn-green" onclick="updateTripStatus('${t._key}','Finalizat')" style="font-size:10px">✓</button></div>`}).join(''):'<div style="color:#3a4560;font-size:12px;padding:8px 0">Nicio cursă activă</div>';
   document.getElementById('dash-recent').innerHTML=fin.slice(0,4).map(t=>`<div style="background:#0d1120;border:1px solid #1a2035;border-radius:6px;padding:9px 12px;margin-bottom:6px;display:flex;gap:8px;align-items:center"><div style="flex:1"><div style="font-size:11px;font-weight:700;color:#14d9a0">${t.cmrNumber}</div><div style="font-size:10px;color:#8090b0;margin-top:1px">${t.senderCity} → ${t.receiverCity} · ${Number(t.distanceKm||0)} km · ${t.driverName||'?'}</div></div><div style="font-size:10px;color:#4a5575">${t.date||''}</div></div>`).join('')||'<div style="color:#3a4560;font-size:12px">—</div>';
-
-  document.getElementById('dash-drivers-live').innerHTML=online.length?online.map(m=>{const uid=Object.keys(members).find(k=>members[k]===m)||'';const c=color(uid);const dkm=trips.filter(t=>t.driverId===uid&&t.status==='Finalizat').reduce((s,t)=>s+Number(t.distanceKm||0),0);return `<div style="background:#0d1120;border:1px solid #0a1a10;border-radius:6px;padding:9px 12px;margin-bottom:7px;display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:50%;background:${c}18;border:2px solid ${c};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:${c};flex-shrink:0">${initials(m.name)}</div><div style="flex:1"><div style="font-size:12px;font-weight:700;color:${c}">${m.name}</div><div style="font-size:10px;color:#4a5575">${dkm.toLocaleString('ro-RO')} km · ${m.role||'driver'}</div></div><span class="dot-online"></span></div>`; }).join(''):'<div style="color:#3a4560;font-size:12px;padding:8px 0">Niciun șofer online</div>';
-
-  // Chart
-  const byMonth={};
-  fin.forEach(t=>{const m=(t.date||'').slice(0,7);if(m)byMonth[m]=(byMonth[m]||0)+Number(t.distanceKm||0);});
+  document.getElementById('dash-drivers-live').innerHTML=online.length?online.map(m=>{const uid=Object.keys(members).find(k=>members[k]===m)||'';const c=color(uid);const dkm=trips.filter(t=>t.driverId===uid&&t.status==='Finalizat').reduce((s,t)=>s+Number(t.distanceKm||0),0);return `<div style="background:#0d1120;border:1px solid #0a1a10;border-radius:6px;padding:9px 12px;margin-bottom:7px;display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:50%;background:${c}18;border:2px solid ${c};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:${c};flex-shrink:0">${initials(m.name)}</div><div style="flex:1"><div style="font-size:12px;font-weight:700;color:${c}">${m.name}</div><div style="font-size:10px;color:#4a5575">${dkm.toLocaleString('ro-RO')} km · ${m.role||'driver'}</div></div><span class="dot-online"></span></div>`;}).join(''):'<div style="color:#3a4560;font-size:12px;padding:8px 0">Niciun șofer online</div>';
+  const byMonth={};fin.forEach(t=>{const m=(t.date||'').slice(0,7);if(m)byMonth[m]=(byMonth[m]||0)+Number(t.distanceKm||0);});
   const months=Object.entries(byMonth).sort((a,b)=>a[0]>b[0]?1:-1).slice(-6);
   const chart=document.getElementById('dash-chart');
   if(!months.length){chart.innerHTML='<div style="color:#3a4560;font-size:10px;align-self:center">Date insuficiente</div>';return;}
@@ -948,142 +618,51 @@ function renderDash() {
   chart.innerHTML=months.map(([m,k])=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end"><div style="font-size:8px;color:#f5a623;font-weight:600">${Math.round(k/1000*10)/10}k</div><div style="width:100%;background:#f5a623;border-radius:2px 2px 0 0;height:${Math.round((k/mx)*68)}px;min-height:3px"></div><div style="font-size:8px;color:#3a4560">${m.slice(5)}/${m.slice(2,4)}</div></div>`).join('');
 }
 
-function renderArchive() {
-  const q=(document.getElementById('arch-q')?.value||'').toLowerCase();
-  const sf=document.getElementById('arch-status')?.value||'Toate';
-  const df=document.getElementById('arch-drv')?.value||'';
-  const filtered=trips.filter(t=>{
-    const s=[t.cmrNumber,t.senderCity,t.receiverCity,t.driverName,t.cargoType].join(' ').toLowerCase();
-    return s.includes(q)&&(sf==='Toate'||t.status===sf)&&(!df||t.driverName===df);
-  });
-  // Update driver filter options
+function renderArchive(){
+  const q=(document.getElementById('arch-q')?.value||'').toLowerCase(),sf=document.getElementById('arch-status')?.value||'Toate',df=document.getElementById('arch-drv')?.value||'';
+  const filtered=trips.filter(t=>{const s=[t.cmrNumber,t.senderCity,t.receiverCity,t.driverName,t.cargoType].join(' ').toLowerCase();return s.includes(q)&&(sf==='Toate'||t.status===sf)&&(!df||t.driverName===df);});
   const dsel=document.getElementById('arch-drv');
-  if(dsel){ const cur=dsel.value; dsel.innerHTML='<option value="">Toți șoferii</option>'; Object.values(members).forEach(m=>{const o=document.createElement('option');o.textContent=m.name;o.value=m.name;dsel.appendChild(o);}); dsel.value=cur; }
-
+  if(dsel){const cur=dsel.value;dsel.innerHTML='<option value="">Toți șoferii</option>';Object.values(members).forEach(m=>{const o=document.createElement('option');o.textContent=m.name;o.value=m.name;dsel.appendChild(o);});dsel.value=cur;}
   const tbl=document.getElementById('arch-table');
   if(!filtered.length){tbl.innerHTML='<div style="text-align:center;padding:28px;color:#3a4560;font-size:13px">Nicio cursă</div>';return;}
   const bl=s=>s==='În desfășurare'?'ACTIV':s==='Finalizat'?'DONE':'ANULAT';
-  tbl.innerHTML=`<div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 75px 75px 65px 85px;padding:7px 14px;border-bottom:1px solid #141c2e;font-size:9px;letter-spacing:.15em;color:#3a4560;font-weight:600"><span>CMR / RUTĂ</span><span>MARFĂ</span><span>ȘOFER</span><span>KM</span><span>DATA</span><span>STATUS</span><span></span></div>
-  ${filtered.map(t=>{const c=color(t.driverId);return `<div class="trip-row${currentDetailId===t._key?' selected':''}" style="grid-template-columns:1.3fr 1fr 1fr 75px 75px 65px 85px" onclick="showDetail('${t._key}')">
-    <div><div style="font-size:11px;font-weight:700;color:#f5a623">${t.cmrNumber}</div><div style="font-size:10px;color:#8090b0;margin-top:1px">${t.senderCity} → ${t.receiverCity}</div></div>
-    <div style="font-size:10px;color:#c0cce0;padding-top:2px">${(t.cargoType||'').length>24?(t.cargoType||'').slice(0,22)+'…':(t.cargoType||'')}</div>
-    <div style="font-size:10px;padding-top:2px"><span style="color:${c};font-weight:700">${t.driverName||'—'}</span></div>
-    <div style="font-size:12px;font-weight:700;padding-top:2px">${Number(t.distanceKm||0).toLocaleString()}</div>
-    <div style="font-size:10px;color:#4a5575;padding-top:2px">${t.date||''}</div>
-    <div style="padding-top:2px"><span class="badge" style="background:${STATUS_COLORS[t.status]||'#888'}22;color:${STATUS_COLORS[t.status]||'#888'};border:1px solid ${STATUS_COLORS[t.status]||'#888'}44">${bl(t.status)}</span></div>
-    <div style="padding-top:2px;display:flex;gap:3px">
-      ${t.status==='În desfășurare'?`<button class="btn-green" onclick="event.stopPropagation();updateTripStatus('${t._key}','Finalizat')" style="padding:3px 7px;font-size:10px">✓</button>`:''}
-      <button class="btn-red" onclick="event.stopPropagation();if(confirm('Ștergi?'))deleteTrip('${t._key}')" style="padding:3px 7px;font-size:10px">🗑</button>
-    </div>
-  </div>`; }).join('')}`;
+  tbl.innerHTML=`<div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 75px 75px 65px 85px;padding:7px 14px;border-bottom:1px solid #141c2e;font-size:9px;letter-spacing:.15em;color:#3a4560;font-weight:600"><span>CMR / RUTĂ</span><span>MARFĂ</span><span>ȘOFER</span><span>KM</span><span>DATA</span><span>STATUS</span><span></span></div>${filtered.map(t=>{const c=color(t.driverId);return `<div class="trip-row${currentDetailId===t._key?' selected':''}" style="grid-template-columns:1.3fr 1fr 1fr 75px 75px 65px 85px" onclick="showDetail('${t._key}')"><div><div style="font-size:11px;font-weight:700;color:#f5a623">${t.cmrNumber}</div><div style="font-size:10px;color:#8090b0;margin-top:1px">${t.senderCity} → ${t.receiverCity}</div></div><div style="font-size:10px;color:#c0cce0;padding-top:2px">${(t.cargoType||'').length>24?(t.cargoType||'').slice(0,22)+'…':(t.cargoType||'')}</div><div style="font-size:10px;padding-top:2px"><span style="color:${c};font-weight:700">${t.driverName||'—'}</span></div><div style="font-size:12px;font-weight:700;padding-top:2px">${Number(t.distanceKm||0).toLocaleString()}</div><div style="font-size:10px;color:#4a5575;padding-top:2px">${t.date||''}</div><div style="padding-top:2px"><span class="badge" style="background:${STATUS_COLORS[t.status]||'#888'}22;color:${STATUS_COLORS[t.status]||'#888'};border:1px solid ${STATUS_COLORS[t.status]||'#888'}44">${bl(t.status)}</span></div><div style="padding-top:2px;display:flex;gap:3px">${t.status==='În desfășurare'?`<button class="btn-green" onclick="event.stopPropagation();updateTripStatus('${t._key}','Finalizat')" style="padding:3px 7px;font-size:10px">✓</button>`:''}<button class="btn-red" onclick="event.stopPropagation();if(confirm('Ștergi?'))deleteTrip('${t._key}')" style="padding:3px 7px;font-size:10px">🗑</button></div></div>`;}).join('')}`;
 }
 
-function showDetail(key) {
-  currentDetailId=key; const t=trips.find(x=>x._key===key); if(!t) return;
-  renderArchive();
-  const panel=document.getElementById('detail-panel'); panel.style.display='block';
-  const sc=STATUS_COLORS[t.status]||'#888'; const dc=color(t.driverId);
-  panel.innerHTML=`<div style="background:#080c14;border:1px solid ${sc}44;border-radius:8px;padding:18px">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-      <div><div style="font-size:17px;font-weight:700;color:#f5a623;letter-spacing:.1em">${t.cmrNumber}</div><div style="font-size:11px;color:#4a5575;margin-top:2px">${t.senderCity}, ${t.senderCountry} → ${t.receiverCity}, ${t.receiverCountry}</div><div style="font-size:11px;color:${dc};margin-top:2px">🚛 ${t.driverName||'—'}</div></div>
-      <div style="display:flex;gap:5px;flex-wrap:wrap">
-        ${t.status==='În desfășurare'?`<button class="btn-green" onclick="updateTripStatus('${t._key}','Finalizat')">✓ FINALIZAT</button><button class="btn-red" onclick="updateTripStatus('${t._key}','Anulat')">✕ ANULAT</button>`:''}
-        <button onclick="if(confirm('Ștergi?'))deleteTrip('${t._key}')" class="btn-ghost" style="font-size:11px">🗑</button>
-        <button onclick="document.getElementById('detail-panel').style.display='none';currentDetailId=null;renderArchive()" class="btn-ghost" style="font-size:13px">✕</button>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
-      ${dg('EXPEDITOR',[['Companie',t.senderName],['Loc',t.senderCity+', '+t.senderCountry]])}
-      ${dg('DESTINATAR',[['Companie',t.receiverName],['Loc',t.receiverCity+', '+t.receiverCountry]])}
-      ${dg('MARFĂ',[['Tip',t.cargoType],['Greutate',t.cargoWeight?t.cargoWeight+' t':'—']])}
-      ${dg('TRANSPORT',[['Vehicul',t.vehicleType],['Nr.',t.plateNumber||'—'],['KM',Number(t.distanceKm||0).toLocaleString()+' km'],['Plecare',t.departureTime||'—'],['Sosire',t.arrivalTime||'—']])}
-    </div>
-    ${t.notes?`<div style="margin-top:10px;background:#111827;border-radius:5px;padding:10px;font-size:11px;color:#8090b0">${t.notes}</div>`:''}
-  </div>`;
+function showDetail(key){
+  currentDetailId=key;const t=trips.find(x=>x._key===key);if(!t)return;renderArchive();
+  const panel=document.getElementById('detail-panel');panel.style.display='block';
+  const sc=STATUS_COLORS[t.status]||'#888',dc=color(t.driverId);
+  panel.innerHTML=`<div style="background:#080c14;border:1px solid ${sc}44;border-radius:8px;padding:18px"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:8px"><div><div style="font-size:17px;font-weight:700;color:#f5a623">${t.cmrNumber}</div><div style="font-size:11px;color:#4a5575;margin-top:2px">${t.senderCity}, ${t.senderCountry} → ${t.receiverCity}, ${t.receiverCountry}</div><div style="font-size:11px;color:${dc};margin-top:2px">🚛 ${t.driverName||'—'}</div></div><div style="display:flex;gap:5px;flex-wrap:wrap">${t.status==='În desfășurare'?`<button class="btn-green" onclick="updateTripStatus('${t._key}','Finalizat')">✓ FINALIZAT</button><button class="btn-red" onclick="updateTripStatus('${t._key}','Anulat')">✕ ANULAT</button>`:''}<button onclick="if(confirm('Ștergi?'))deleteTrip('${t._key}')" class="btn-ghost" style="font-size:11px">🗑</button><button onclick="document.getElementById('detail-panel').style.display='none';currentDetailId=null;renderArchive()" class="btn-ghost" style="font-size:13px">✕</button></div></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">${dg('EXPEDITOR',[['Companie',t.senderName],['Loc',t.senderCity+', '+t.senderCountry]])}${dg('DESTINATAR',[['Companie',t.receiverName],['Loc',t.receiverCity+', '+t.receiverCountry]])}${dg('MARFĂ',[['Tip',t.cargoType],['Greutate',t.cargoWeight?t.cargoWeight+' t':'—']])}${dg('TRANSPORT',[['Vehicul',t.vehicleType],['Nr.',t.plateNumber||'—'],['KM',Number(t.distanceKm||0).toLocaleString()+' km'],['Plecare',t.departureTime||'—'],['Sosire',t.arrivalTime||'—']])}</div>${t.notes?`<div style="margin-top:10px;background:#111827;border-radius:5px;padding:10px;font-size:11px;color:#8090b0">${t.notes}</div>`:''}</div>`;
 }
 
-function dg(title,items){return `<div><div style="font-size:9px;letter-spacing:.15em;color:#3a4560;margin-bottom:7px">${title}</div>${items.map(([k,v])=>(!v||v==='—'||v==='undefined')?'':
-  `<div style="display:flex;justify-content:space-between;margin-bottom:3px;border-bottom:1px solid #111827;padding-bottom:3px"><span style="font-size:10px;color:#3a4560">${k}</span><span style="font-size:10px;color:#c0cce0;text-align:right;max-width:58%">${v}</span></div>`).join('')}</div>`;}
+function dg(title,items){return `<div><div style="font-size:9px;letter-spacing:.15em;color:#3a4560;margin-bottom:7px">${title}</div>${items.map(([k,v])=>(!v||v==='—'||v==='undefined')?'':`<div style="display:flex;justify-content:space-between;margin-bottom:3px;border-bottom:1px solid #111827;padding-bottom:3px"><span style="font-size:10px;color:#3a4560">${k}</span><span style="font-size:10px;color:#c0cce0;text-align:right;max-width:58%">${v}</span></div>`).join('')}</div>`;}
 
-function renderDrivers() {
-  const grid=document.getElementById('drivers-grid');
-  grid.innerHTML=Object.entries(members).map(([uid,m])=>{
-    const c=color(uid); const isMe=uid===currentUser?.uid;
-    const dTrips=trips.filter(t=>t.driverId===uid);
-    const dkm=dTrips.filter(t=>t.status==='Finalizat').reduce((s,t)=>s+Number(t.distanceKm||0),0);
-    const dDrive=tachoSessions.filter(s=>s.driverId===uid).reduce((s,x)=>s+x.driveSeconds,0);
-    const active=dTrips.filter(t=>t.status==='În desfășurare');
-    const last=m.lastSeen?new Date(m.lastSeen).toLocaleTimeString('ro-RO'):'—';
-    return `<div style="background:#0d1120;border:1px solid ${c}25;border-radius:10px;padding:18px">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-        <div class="avatar" style="background:${c}18;border:2px solid ${c};color:${c}">${initials(m.name)}</div>
-        <div>
-          <div style="font-size:14px;font-weight:700;color:${c}">${m.name}${isMe?' <span style="font-size:9px;font-weight:400;color:#3a4560">(eu)</span>':''}</div>
-          <div style="font-size:9px;margin-top:2px;display:flex;align-items:center;gap:5px">
-            <span class="${m.online?'dot-online':'dot-offline'}"></span>
-            <span style="color:${m.online?'#14d9a0':'#3a4560'}">${m.online?'ONLINE':'offline · '+last}</span>
-            <span style="color:#3a4560;margin-left:6px">${(m.role||'driver').toUpperCase()}</span>
-          </div>
-        </div>
-      </div>
-      <div class="r2" style="gap:8px;margin-bottom:8px">
-        <div style="background:#111827;border-radius:5px;padding:8px;text-align:center"><div style="font-size:18px;font-weight:700;color:${c}">${dkm.toLocaleString('ro-RO')}</div><div style="font-size:8px;color:#3a4560;letter-spacing:.12em">KM TOTAL</div></div>
-        <div style="background:#111827;border-radius:5px;padding:8px;text-align:center"><div style="font-size:18px;font-weight:700;color:${c}">${dTrips.length}</div><div style="font-size:8px;color:#3a4560;letter-spacing:.12em">CURSE</div></div>
-      </div>
-      <div style="background:#111827;border-radius:5px;padding:8px;display:flex;justify-content:space-between;align-items:center">
-        <div><div style="font-size:8px;color:#3a4560;letter-spacing:.12em">ORE CONDUS</div><div style="font-size:15px;font-weight:700;color:#14d9a0">${Math.round(dDrive/3600*10)/10}h</div></div>
-        <div style="text-align:right"><div style="font-size:8px;color:#3a4560;letter-spacing:.12em">CURSE ACTIVE</div><div style="font-size:15px;font-weight:700;color:#E4A11B">${active.length}</div></div>
-      </div>
-      ${active.length?`<div style="margin-top:8px;background:#1e1508;border:1px solid #E4A11B30;border-radius:5px;padding:8px;font-size:10px;color:#E4A11B">🚛 ${active[0].senderCity} → ${active[0].receiverCity} · ${Number(active[0].distanceKm||0)} km</div>`:''}
-    </div>`;
+function renderDrivers(){
+  document.getElementById('drivers-grid').innerHTML=Object.entries(members).map(([uid,m])=>{
+    const c=color(uid),isMe=uid===currentUser?.uid,dTrips=trips.filter(t=>t.driverId===uid),dkm=dTrips.filter(t=>t.status==='Finalizat').reduce((s,t)=>s+Number(t.distanceKm||0),0),dDrive=tachoSessions.filter(s=>s.driverId===uid).reduce((s,x)=>s+x.driveSeconds,0),active=dTrips.filter(t=>t.status==='În desfășurare'),last=m.lastSeen?new Date(m.lastSeen).toLocaleTimeString('ro-RO'):'—';
+    const roleSelect=currentCompany?.role==='owner'&&!isMe?`<select onchange="changeRole('${uid}',this.value)" style="background:#111827;border:1px solid #252d45;color:#e8e0d0;padding:3px 6px;border-radius:4px;font-size:10px;font-family:'Rajdhani',monospace;margin-left:8px"><option value="driver" ${m.role==='driver'?'selected':''}>Șofer</option><option value="dispatcher" ${m.role==='dispatcher'?'selected':''}>Dispatcher</option><option value="owner" ${m.role==='owner'?'selected':''}>Owner</option></select>`:'';
+    return `<div style="background:#0d1120;border:1px solid ${c}25;border-radius:10px;padding:18px"><div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="avatar" style="background:${c}18;border:2px solid ${c};color:${c}">${initials(m.name)}</div><div><div style="display:flex;align-items:center"><div style="font-size:14px;font-weight:700;color:${c}">${m.name}${isMe?' <span style="font-size:9px;font-weight:400;color:#3a4560">(eu)</span>':''}</div>${roleSelect}</div><div style="font-size:9px;margin-top:2px;display:flex;align-items:center;gap:5px"><span class="${m.online?'dot-online':'dot-offline'}"></span><span style="color:${m.online?'#14d9a0':'#3a4560'}">${m.online?'ONLINE':'offline · '+last}</span><span style="color:#3a4560;margin-left:6px">${(m.role||'driver').toUpperCase()}</span></div></div></div><div class="r2" style="gap:8px;margin-bottom:8px"><div style="background:#111827;border-radius:5px;padding:8px;text-align:center"><div style="font-size:18px;font-weight:700;color:${c}">${dkm.toLocaleString('ro-RO')}</div><div style="font-size:8px;color:#3a4560;letter-spacing:.12em">KM TOTAL</div></div><div style="background:#111827;border-radius:5px;padding:8px;text-align:center"><div style="font-size:18px;font-weight:700;color:${c}">${dTrips.length}</div><div style="font-size:8px;color:#3a4560;letter-spacing:.12em">CURSE</div></div></div><div style="background:#111827;border-radius:5px;padding:8px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:8px;color:#3a4560;letter-spacing:.12em">ORE CONDUS</div><div style="font-size:15px;font-weight:700;color:#14d9a0">${Math.round(dDrive/3600*10)/10}h</div></div><div style="text-align:right"><div style="font-size:8px;color:#3a4560;letter-spacing:.12em">CURSE ACTIVE</div><div style="font-size:15px;font-weight:700;color:#E4A11B">${active.length}</div></div></div>${active.length?`<div style="margin-top:8px;background:#1e1508;border:1px solid #E4A11B30;border-radius:5px;padding:8px;font-size:10px;color:#E4A11B">🚛 ${active[0].senderCity} → ${active[0].receiverCity} · ${Number(active[0].distanceKm||0)} km</div>`:''}</div>`;
   }).join('');
 }
 
-function renderStats() {
-  const fin=trips.filter(t=>t.status==='Finalizat');
-  const km=fin.reduce((s,t)=>s+Number(t.distanceKm||0),0);
-  const allDrive=tachoSessions.reduce((s,x)=>s+x.driveSeconds,0);
-  const allBreak=tachoSessions.reduce((s,x)=>s+x.breakSeconds,0);
-  document.getElementById('stats-cards').innerHTML=[
-    {l:'KM TOTAL FIRMĂ',v:km.toLocaleString('ro-RO'),u:'km',c:'#f5a623'},
-    {l:'ORE CONDUS',v:Math.round(allDrive/3600*10)/10,u:'ore',c:'#14d9a0'},
-    {l:'ORE PAUZE',v:Math.round(allBreak/3600*10)/10,u:'ore',c:'#E4A11B'},
-    {l:'CURSE FINALIZATE',v:fin.length,u:'curse',c:'#7c5cbf'},
-    {l:'ȘOFERI',v:Object.keys(members).length,u:'total',c:'#3b82f6'},
-    {l:'SESIUNI TAHOGRAF',v:tachoSessions.length,u:'sesiuni',c:'#e03050'},
-  ].map(x=>`<div class="card" style="border-top:2px solid ${x.c};text-align:center"><div style="font-size:8px;letter-spacing:.18em;color:#3a4560;margin-bottom:5px">${x.l}</div><div style="font-size:26px;font-weight:700;color:${x.c}">${x.v}</div><div style="font-size:9px;color:#3a4560;margin-top:2px">${x.u}</div></div>`).join('');
-
+function renderStats(){
+  const fin=trips.filter(t=>t.status==='Finalizat'),km=fin.reduce((s,t)=>s+Number(t.distanceKm||0),0),allDrive=tachoSessions.reduce((s,x)=>s+x.driveSeconds,0),allBreak=tachoSessions.reduce((s,x)=>s+x.breakSeconds,0);
+  document.getElementById('stats-cards').innerHTML=[{l:'KM TOTAL FIRMĂ',v:km.toLocaleString('ro-RO'),u:'km',c:'#f5a623'},{l:'ORE CONDUS',v:Math.round(allDrive/3600*10)/10,u:'ore',c:'#14d9a0'},{l:'ORE PAUZE',v:Math.round(allBreak/3600*10)/10,u:'ore',c:'#E4A11B'},{l:'CURSE FINALIZATE',v:fin.length,u:'curse',c:'#7c5cbf'},{l:'ȘOFERI',v:Object.keys(members).length,u:'total',c:'#3b82f6'},{l:'SESIUNI TAHOGRAF',v:tachoSessions.length,u:'sesiuni',c:'#e03050'}].map(x=>`<div class="card" style="border-top:2px solid ${x.c};text-align:center"><div style="font-size:8px;letter-spacing:.18em;color:#3a4560;margin-bottom:5px">${x.l}</div><div style="font-size:26px;font-weight:700;color:${x.c}">${x.v}</div><div style="font-size:9px;color:#3a4560;margin-top:2px">${x.u}</div></div>`).join('');
   const rm={};fin.forEach(t=>{const k=`${t.senderCity} → ${t.receiverCity}`;if(!rm[k])rm[k]={count:0,km:0};rm[k].count++;rm[k].km+=Number(t.distanceKm||0);});
-  document.getElementById('top-routes').innerHTML=Object.entries(rm).sort((a,b)=>b[1].km-a[1].km).slice(0,8)
-    .map(([r,d],i)=>`<div style="display:flex;align-items:center;gap:7px;margin-bottom:8px"><div style="font-size:9px;color:#3a4560;min-width:16px">#${i+1}</div><div style="flex:1;font-size:11px;color:#c0cce0">${r}</div><div style="font-size:11px;font-weight:700;color:#f5a623">${Math.round(d.km).toLocaleString()} km</div></div>`).join('')
-    ||'<div style="color:#3a4560;font-size:12px">Nicio cursă finalizată</div>';
-
+  document.getElementById('top-routes').innerHTML=Object.entries(rm).sort((a,b)=>b[1].km-a[1].km).slice(0,8).map(([r,d],i)=>`<div style="display:flex;align-items:center;gap:7px;margin-bottom:8px"><div style="font-size:9px;color:#3a4560;min-width:16px">#${i+1}</div><div style="flex:1;font-size:11px;color:#c0cce0">${r}</div><div style="font-size:11px;font-weight:700;color:#f5a623">${Math.round(d.km).toLocaleString()} km</div></div>`).join('')||'<div style="color:#3a4560;font-size:12px">Nicio cursă finalizată</div>';
   const dkm={};fin.forEach(t=>{if(t.driverName)dkm[t.driverName]=(dkm[t.driverName]||0)+Number(t.distanceKm||0);});
   const mdkm=Math.max(...Object.values(dkm),1);
-  document.getElementById('driver-km').innerHTML=Object.entries(dkm).sort((a,b)=>b[1]-a[1])
-    .map(([n,k],i)=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:11px;color:${PALETTE[i%PALETTE.length]};font-weight:700">${n}</span><span style="font-size:11px;color:#4a5575">${Math.round(k).toLocaleString()} km</span></div><div style="height:4px;background:#111827;border-radius:2px"><div style="height:100%;background:${PALETTE[i%PALETTE.length]};width:${Math.round(k/mdkm*100)}%;border-radius:2px"></div></div></div>`).join('')
-    ||'<div style="color:#3a4560;font-size:12px">—</div>';
-
+  document.getElementById('driver-km').innerHTML=Object.entries(dkm).sort((a,b)=>b[1]-a[1]).map(([n,k],i)=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:11px;color:${PALETTE[i%PALETTE.length]};font-weight:700">${n}</span><span style="font-size:11px;color:#4a5575">${Math.round(k).toLocaleString()} km</span></div><div style="height:4px;background:#111827;border-radius:2px"><div style="height:100%;background:${PALETTE[i%PALETTE.length]};width:${Math.round(k/mdkm*100)}%;border-radius:2px"></div></div></div>`).join('')||'<div style="color:#3a4560;font-size:12px">—</div>';
   const cm={};trips.forEach(t=>{cm[t.cargoType]=(cm[t.cargoType]||0)+1;});
-  document.getElementById('cargo-chart').innerHTML=Object.entries(cm).sort((a,b)=>b[1]-a[1]).slice(0,10)
-    .map(([type,cnt])=>{const p=Math.round(cnt/trips.length*100);return `<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:11px;color:#c0cce0">${type}</span><span style="font-size:10px;color:#4a5575">${cnt} (${p}%)</span></div><div style="height:3px;background:#111827;border-radius:2px"><div style="height:100%;background:#f5a623;width:${p}%;border-radius:2px"></div></div></div>`;}).join('')
-    ||'<div style="color:#3a4560;font-size:12px">—</div>';
+  document.getElementById('cargo-chart').innerHTML=Object.entries(cm).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([type,cnt])=>{const p=Math.round(cnt/trips.length*100);return `<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:11px;color:#c0cce0">${type}</span><span style="font-size:10px;color:#4a5575">${cnt} (${p}%)</span></div><div style="height:3px;background:#111827;border-radius:2px"><div style="height:100%;background:#f5a623;width:${p}%;border-radius:2px"></div></div></div>`;}).join('')||'<div style="color:#3a4560;font-size:12px">—</div>';
 }
 
-// ══════════════════════════════════════════════
-//  FORM HELPERS
-// ══════════════════════════════════════════════
-function initSelects() {
-  const cs=document.getElementById('f-cargo'); if(cs&&!cs.children.length){CARGO_TYPES.forEach(c=>{const o=document.createElement('option');o.textContent=c;cs.appendChild(o);}); cs.value='Alimente generale';}
-  const vs=document.getElementById('f-vtype'); if(vs&&!vs.children.length) VEHICLE_TYPES.forEach(v=>{const o=document.createElement('option');o.textContent=v;vs.appendChild(o);});
-  ['f-sc','f-rc'].forEach(id=>{const sel=document.getElementById(id);if(sel&&!sel.children.length){EU_COUNTRIES.forEach(c=>{const o=document.createElement('option');o.textContent=c;if(c==='România')o.selected=true;sel.appendChild(o);}); updateCities(id, id==='f-sc'?'f-sct':'f-rct');}});
-  const fd=document.getElementById('f-date'); if(fd) fd.value=today();
-  const fdrv=document.getElementById('f-driver'); if(fdrv&&currentUser) fdrv.placeholder='Gol = '+(currentUser.displayName||currentUser.email);
-}
-function updateCities(cId,cityId){const c=document.getElementById(cId)?.value;const sel=document.getElementById(cityId);if(!sel)return;sel.innerHTML='<option value="">-- Selectează --</option>';(CITIES[c]||[]).forEach(x=>{const o=document.createElement('option');o.textContent=x;sel.appendChild(o);});}
-function resetForm(){['f-cmr','f-sname','f-sa','f-rname','f-ra','f-weight','f-units','f-plate','f-driver','f-km','f-dep','f-arr','f-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});const fd=document.getElementById('f-date');if(fd)fd.value=today();document.getElementById('f-status').value='În desfășurare';document.getElementById('f-sc').value='România';updateCities('f-sc','f-sct');document.getElementById('f-rc').value='România';updateCities('f-rc','f-rct');document.getElementById('f-err').style.display='none';}
-function copyInvite(){navigator.clipboard.writeText(currentCompany?.code||'');toast('✓ Cod copiat!');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
+function initSelects(){ const cs=document.getElementById('f-cargo');if(cs&&!cs.children.length){CARGO_TYPES.forEach(c=>{const o=document.createElement('option');o.textContent=c;cs.appendChild(o);});cs.value='Alimente generale';} const vs=document.getElementById('f-vtype');if(vs&&!vs.children.length)VEHICLE_TYPES.forEach(v=>{const o=document.createElement('option');o.textContent=v;vs.appendChild(o);}); ['f-sc','f-rc'].forEach(id=>{const sel=document.getElementById(id);if(sel&&!sel.children.length){EU_COUNTRIES.forEach(c=>{const o=document.createElement('option');o.textContent=c;if(c==='România')o.selected=true;sel.appendChild(o);});updateCities(id,id==='f-sc'?'f-sct':'f-rct');}}); const fd=document.getElementById('f-date');if(fd)fd.value=today(); const fdrv=document.getElementById('f-driver');if(fdrv&&currentUser)fdrv.placeholder='Gol = '+(currentUser.displayName||currentUser.email); }
+function updateCities(cId,cityId){ const c=document.getElementById(cId)?.value;const sel=document.getElementById(cityId);if(!sel)return;sel.innerHTML='<option value="">-- Selectează --</option>';(CITIES[c]||[]).forEach(x=>{const o=document.createElement('option');o.textContent=x;sel.appendChild(o);}); }
+function resetForm(){ ['f-cmr','f-sname','f-sa','f-rname','f-ra','f-weight','f-units','f-plate','f-driver','f-km','f-dep','f-arr','f-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';}); const fd=document.getElementById('f-date');if(fd)fd.value=today(); document.getElementById('f-status').value='În desfășurare'; document.getElementById('f-sc').value='România';updateCities('f-sc','f-sct'); document.getElementById('f-rc').value='România';updateCities('f-rc','f-rct'); document.getElementById('f-err').style.display='none'; }
+function copyInvite(){ navigator.clipboard.writeText(currentCompany?.code||''); toast('✓ Cod copiat!'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 </script>
 </body>
 </html>
