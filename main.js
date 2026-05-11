@@ -88,36 +88,14 @@ async function autoInstallPlugin() {
   const pluginsPath = findPluginsPath();
   if (!pluginsPath) return { success: false, error: 'ETS2 nu a fost gasit pe PC' };
   if (!fs.existsSync(pluginsPath)) fs.mkdirSync(pluginsPath, { recursive: true });
-  const zipPath = path.join(os.tmpdir(), 'scs-telemetry.zip');
-  const extractPath = path.join(os.tmpdir(), 'scs_ex_' + Date.now());
-  return new Promise((resolve) => {
-    const download = (url) => {
-      https.get(url, (res) => {
-        if (res.statusCode === 301 || res.statusCode === 302) { download(res.headers.location); return; }
-        const file = fs.createWriteStream(zipPath);
-        res.pipe(file);
-        file.on('finish', () => {
-          file.close();
-          try {
-            execSync(`powershell -command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractPath}' -Force"`);
-            const candidates = [
-              path.join(extractPath, 'release_v_1_12_1', 'Win64', 'scs-telemetry.dll'),
-              path.join(extractPath, 'Win64', 'scs-telemetry.dll'),
-              path.join(extractPath, 'scs-telemetry.dll'),
-            ];
-            const found = candidates.find(c => fs.existsSync(c));
-            if (found) {
-              fs.copyFileSync(found, path.join(pluginsPath, 'scs-telemetry.dll'));
-              resolve({ success: true });
-            } else {
-              resolve({ success: false, error: 'DLL negasit in arhiva' });
-            }
-          } catch(e) { resolve({ success: false, error: e.message }); }
-        });
-      }).on('error', (e) => resolve({ success: false, error: e.message }));
-    };
-    download('https://github.com/RenCloud/scs-sdk-plugin/releases/download/V.1.12.1/scs-sdk-plugin.zip');
-  });
+  try {
+    // Copy DLL from app resources
+    const dllSrc = path.join(__dirname, 'scs-telemetry.dll');
+    const dllDest = path.join(pluginsPath, 'scs-telemetry.dll');
+    if (!fs.existsSync(dllSrc)) return { success: false, error: 'DLL negasit in aplicatie' };
+    fs.copyFileSync(dllSrc, dllDest);
+    return { success: true };
+  } catch(e) { return { success: false, error: e.message }; }
 }
 
 ipcMain.handle('check-plugin', () => checkPlugin());
