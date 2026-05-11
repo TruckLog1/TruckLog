@@ -7,50 +7,52 @@ const { execSync, exec } = require('child_process');
 
 let mainWindow;
 
-// ══════════════════════════════════════════════
-//  ETS2 TELEMETRY via PowerShell shared memory
-// ══════════════════════════════════════════════
-
-// PowerShell script that reads SCS shared memory
+// PowerShell script - citeste SCSTelemetry shared memory
 const PS_TELEMETRY = `
 Add-Type @"
 using System;
-using System.Runtime.InteropServices;
 using System.IO.MemoryMappedFiles;
+using System.Runtime.InteropServices;
 public class SCSTelemetry {
     public static byte[] Read() {
         try {
             var mmf = MemoryMappedFile.OpenExisting("SCSTelemetry");
-            var accessor = mmf.CreateViewAccessor(0, 32768);
+            var view = mmf.CreateViewAccessor(0, 32768);
             byte[] data = new byte[32768];
-            accessor.ReadArray(0, data, 0, 32768);
-            accessor.Dispose();
+            view.ReadArray(0, data, 0, 32768);
+            view.Dispose();
             mmf.Dispose();
             return data;
-        } catch { return null; }
+        } catch(Exception ex) {
+            return null;
+        }
     }
 }
 "@
 $data = [SCSTelemetry]::Read()
 if ($data -eq $null) { Write-Output "null"; exit }
 $sdkActive = [BitConverter]::ToUInt32($data, 0)
-if ($sdkActive -eq 0) { Write-Output "null"; exit }
+if ($sdkActive -eq 0) { Write-Output "inactive"; exit }
 $paused = [BitConverter]::ToUInt32($data, 4)
 $speed = [Math]::Abs([BitConverter]::ToSingle($data, 72)) * 3.6
 $odometer = [BitConverter]::ToSingle($data, 976)
 $engineOn = $data[848]
-Write-Output "{""active"":true,""paused"":$($paused -eq 1 ? ""true"" : ""false""),""speed"":$([Math]::Round($speed)),""odometer"":$([Math]::Round($odometer)),""engineOn"":$($engineOn -eq 1 ? ""true"" : ""false"")}"
+$pausedBool = if ($paused -eq 1) { "true" } else { "false" }
+$engineBool = if ($engineOn -eq 1) { "true" } else { "false" }
+Write-Output ("{""active"":true,""paused"":$pausedBool,""speed"":$([Math]::Round($speed)),""odometer"":$([Math]::Round($odometer)),""engineOn"":$engineBool}")
 `;
 
 function readETS2Telemetry() {
   return new Promise((resolve) => {
     try {
-      const psFile = path.join(os.tmpdir(), 'tl_telemetry.ps1');
+      const psFile = path.join(os.tmpdir(), 'tl_tel.ps1');
       fs.writeFileSync(psFile, PS_TELEMETRY, 'utf8');
-      exec(`powershell -NonInteractive -NoProfile -ExecutionPolicy Bypass -File "${psFile}"`, 
-        { timeout: 2000 }, (err, stdout) => {
-          if (err || !stdout || stdout.trim() === 'null') { resolve(null); return; }
-          try { resolve(JSON.parse(stdout.trim())); } 
+      exec(`powershell -NonInteractive -NoProfile -ExecutionPolicy Bypass -File "${psFile}"`,
+        { timeout: 3000 }, (err, stdout, stderr) => {
+          if (err) { resolve(null); return; }
+          const out = (stdout || '').trim();
+          if (!out || out === 'null' || out === 'inactive') { resolve(null); return; }
+          try { resolve(JSON.parse(out)); }
           catch(e) { resolve(null); }
         });
     } catch(e) { resolve(null); }
@@ -85,8 +87,8 @@ async function autoInstallPlugin() {
   if (!pluginsPath) return { success: false, error: 'ETS2 nu a fost găsit pe PC' };
   if (!fs.existsSync(pluginsPath)) fs.mkdirSync(pluginsPath, { recursive: true });
 
-  const zipPath = path.join(os.tmpdir(), 'scs-sdk-plugin.zip');
-  const extractPath = path.join(os.tmpdir(), 'scs_extract');
+  const zipPath = path.join(os.tmpdir(), 'scs-telemetry.zip');
+  const extractPath = path.join(os.tmpdir(), 'scs_extract_' + Date.now());
 
   return new Promise((resolve) => {
     const download = (url) => {
@@ -98,12 +100,22 @@ async function autoInstallPlugin() {
           file.close();
           try {
             execSync(`powershell -command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractPath}' -Force"`);
-            const dll = path.join(extractPath, 'release_v_1_12_1', 'Win64', 'scs-telemetry.dll');
-            if (fs.existsSync(dll)) {
-              fs.copyFileSync(dll, path.join(pluginsPath, 'scs-telemetry.dll'));
+            // Try different possible paths in the ZIP
+            const candidates = [
+              path.join(extractPath, 'release_v_1_12_1', 'Win64', 'scs-telemetry.dll'),
+              path.join(extractPath, 'Win64', 'scs-telemetry.dll'),
+              path.join(extractPath, 'win_x64', 'scs-telemetry.dll'),
+              path.join(extractPath, 'scs-telemetry.dll'),
+            ];
+            // Also search recursively
+            const found = candidates.find(c => fs.existsSync(c));
+            if (found) {
+              fs.copyFileSync(found, path.join(pluginsPath, 'scs-telemetry.dll'));
               resolve({ success: true });
             } else {
-              resolve({ success: false, error: 'DLL negăsit în arhivă' });
+              // List what's in the extract path for debugging
+              const files = execSync(`dir /s /b "${extractPath}"`, {encoding:'utf8'});
+              resolve({ success: false, error: 'DLL negăsit. Fișiere găsite: ' + files.slice(0, 200) });
             }
           } catch(e) { resolve({ success: false, error: e.message }); }
         });
