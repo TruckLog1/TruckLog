@@ -76,7 +76,7 @@ function findPluginsPath() {
 function checkPlugin() {
   const pluginsPath = findPluginsPath();
   if (!pluginsPath) return { installed: false, noEts2: true };
-  const dll = path.join(pluginsPath, 'scs-sdk-plugin.dll');
+  const dll = path.join(pluginsPath, 'scs-telemetry.dll');
   return { installed: fs.existsSync(dll), pluginsPath };
 }
 
@@ -98,9 +98,9 @@ async function autoInstallPlugin() {
           file.close();
           try {
             execSync(`powershell -command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractPath}' -Force"`);
-            const dll = path.join(extractPath, 'win_x64', 'scs-sdk-plugin.dll');
+            const dll = path.join(extractPath, 'release_v_1_12_1', 'Win64', 'scs-telemetry.dll');
             if (fs.existsSync(dll)) {
-              fs.copyFileSync(dll, path.join(pluginsPath, 'scs-sdk-plugin.dll'));
+              fs.copyFileSync(dll, path.join(pluginsPath, 'scs-telemetry.dll'));
               resolve({ success: true });
             } else {
               resolve({ success: false, error: 'DLL negăsit în arhivă' });
