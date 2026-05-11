@@ -3,54 +3,58 @@ const path = require('path');
 const fs = require('fs');
 const https = require('https');
 const os = require('os');
+const { execSync, exec } = require('child_process');
 
 let mainWindow;
-let ffi, ref;
-let telemetryAvailable = false;
 
-function initTelemetry() {
-  try {
-    ffi = require('ffi-napi');
-    ref = require('ref-napi');
-    telemetryAvailable = true;
-    console.log('[TruckLog] Telemetry ready');
-  } catch(e) {
-    telemetryAvailable = false;
-  }
+// ══════════════════════════════════════════════
+//  ETS2 TELEMETRY via PowerShell shared memory
+// ══════════════════════════════════════════════
+
+// PowerShell script that reads SCS shared memory
+const PS_TELEMETRY = `
+Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+using System.IO.MemoryMappedFiles;
+public class SCSTelemetry {
+    public static byte[] Read() {
+        try {
+            var mmf = MemoryMappedFile.OpenExisting("SCSTelemetry");
+            var accessor = mmf.CreateViewAccessor(0, 32768);
+            byte[] data = new byte[32768];
+            accessor.ReadArray(0, data, 0, 32768);
+            accessor.Dispose();
+            mmf.Dispose();
+            return data;
+        } catch { return null; }
+    }
 }
+"@
+$data = [SCSTelemetry]::Read()
+if ($data -eq $null) { Write-Output "null"; exit }
+$sdkActive = [BitConverter]::ToUInt32($data, 0)
+if ($sdkActive -eq 0) { Write-Output "null"; exit }
+$paused = [BitConverter]::ToUInt32($data, 4)
+$speed = [Math]::Abs([BitConverter]::ToSingle($data, 72)) * 3.6
+$odometer = [BitConverter]::ToSingle($data, 976)
+$engineOn = $data[848]
+Write-Output "{""active"":true,""paused"":$($paused -eq 1 ? ""true"" : ""false""),""speed"":$([Math]::Round($speed)),""odometer"":$([Math]::Round($odometer)),""engineOn"":$($engineOn -eq 1 ? ""true"" : ""false"")}"
+`;
 
 function readETS2Telemetry() {
-  if (!ffi || !ref) return null;
-  try {
-    const kernel32 = ffi.Library('kernel32', {
-      'OpenFileMappingA': ['pointer', ['uint32', 'bool', 'string']],
-      'MapViewOfFile': ['pointer', ['pointer', 'uint32', 'uint32', 'uint32', 'size_t']],
-      'UnmapViewOfFile': ['bool', ['pointer']],
-      'CloseHandle': ['bool', ['pointer']]
-    });
-
-    const handle = kernel32.OpenFileMappingA(0x0004, false, 'Local\\SCSTelemetry');
-    if (handle.isNull()) return null;
-
-    const view = kernel32.MapViewOfFile(handle, 0x0004, 0, 0, 32768);
-    if (view.isNull()) { kernel32.CloseHandle(handle); return null; }
-
-    const buf = Buffer.alloc(32768);
-    view.copy(buf, 0, 0, 32768);
-    kernel32.UnmapViewOfFile(view);
-    kernel32.CloseHandle(handle);
-
-    const sdkActive = buf.readUInt32LE(0);
-    if (!sdkActive) return null;
-
-    return {
-      active: true,
-      paused: buf.readUInt32LE(4) === 1,
-      speed: Math.round(Math.abs(buf.readFloatLE(72)) * 3.6),
-      odometer: Math.round(buf.readFloatLE(976)),
-      engineOn: buf.readUInt8(848) === 1
-    };
-  } catch(e) { return null; }
+  return new Promise((resolve) => {
+    try {
+      const psFile = path.join(os.tmpdir(), 'tl_telemetry.ps1');
+      fs.writeFileSync(psFile, PS_TELEMETRY, 'utf8');
+      exec(`powershell -NonInteractive -NoProfile -ExecutionPolicy Bypass -File "${psFile}"`, 
+        { timeout: 2000 }, (err, stdout) => {
+          if (err || !stdout || stdout.trim() === 'null') { resolve(null); return; }
+          try { resolve(JSON.parse(stdout.trim())); } 
+          catch(e) { resolve(null); }
+        });
+    } catch(e) { resolve(null); }
+  });
 }
 
 function findPluginsPath() {
@@ -59,7 +63,6 @@ function findPluginsPath() {
     'C:\\Program Files\\Steam\\steamapps\\common\\Euro Truck Simulator 2\\bin\\win_x64\\plugins',
   ];
   try {
-    const { execSync } = require('child_process');
     const steamPath = execSync('reg query "HKLM\\SOFTWARE\\WOW6432Node\\Valve\\Steam" /v InstallPath 2>nul', {encoding:'utf8'})
       .match(/InstallPath\s+REG_SZ\s+(.+)/)?.[1]?.trim();
     if (steamPath) bases.unshift(path.join(steamPath, 'steamapps', 'common', 'Euro Truck Simulator 2', 'bin', 'win_x64', 'plugins'));
@@ -83,19 +86,17 @@ async function autoInstallPlugin() {
   if (!fs.existsSync(pluginsPath)) fs.mkdirSync(pluginsPath, { recursive: true });
 
   const zipPath = path.join(os.tmpdir(), 'scs-sdk-plugin.zip');
-  const url = 'https://github.com/RenCloud/scs-sdk-plugin/releases/download/V.1.12.1/scs-sdk-plugin.zip';
+  const extractPath = path.join(os.tmpdir(), 'scs_extract');
 
   return new Promise((resolve) => {
-    const download = (downloadUrl) => {
-      https.get(downloadUrl, (res) => {
+    const download = (url) => {
+      https.get(url, (res) => {
         if (res.statusCode === 301 || res.statusCode === 302) { download(res.headers.location); return; }
         const file = fs.createWriteStream(zipPath);
         res.pipe(file);
         file.on('finish', () => {
           file.close();
           try {
-            const { execSync } = require('child_process');
-            const extractPath = path.join(os.tmpdir(), 'scs_extract');
             execSync(`powershell -command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractPath}' -Force"`);
             const dll = path.join(extractPath, 'win_x64', 'scs-sdk-plugin.dll');
             if (fs.existsSync(dll)) {
@@ -108,7 +109,7 @@ async function autoInstallPlugin() {
         });
       }).on('error', (e) => resolve({ success: false, error: e.message }));
     };
-    download(url);
+    download('https://github.com/RenCloud/scs-sdk-plugin/releases/download/V.1.12.1/scs-sdk-plugin.zip');
   });
 }
 
@@ -141,7 +142,7 @@ function createWindow() {
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  mainWindow.once('ready-to-show', () => { mainWindow.show(); initTelemetry(); });
+  mainWindow.once('ready-to-show', () => mainWindow.show());
 }
 
 app.whenReady().then(createWindow);
