@@ -100,29 +100,15 @@ textarea{resize:vertical}
       <div style="font-size:9px;letter-spacing:.28em;color:#3a4560;margin-top:4px">VIRTUAL TRUCKING COMPANY · ETS2</div>
     </div>
 
-    <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchAuth('login')">INTRĂ ÎN CONT</button>
-      <button class="auth-tab" onclick="switchAuth('register')">CONT NOU</button>
+   <div id="steam-login-box">
+      <div style="text-align:center;margin-bottom:20px;color:#8090b0;font-size:13px">Loghează-te cu contul tău Steam pentru a accesa TruckLog</div>
+      <button onclick="doSteamLogin()" style="width:100%;background:#1b2838;border:2px solid #4c6b8a;color:#ffffff;padding:14px;border-radius:6px;font-size:14px;font-weight:700;letter-spacing:.12em;font-family:'Rajdhani',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px" id="btn-steam-login">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#4c6b8a"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.52 3.73 10.17 8.84 11.54L12 24l3.16-.46C20.27 22.17 24 17.52 24 12c0-6.63-5.37-12-12-12zm0 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm-1 5v6.5l5.25 3.15-.75 1.3L10 14V7h1z"/></svg>
+        INTRĂ CU STEAM
+      </button>
+      <div id="auth-error" style="color:#e03050;font-size:12px;margin-top:10px;text-align:center;display:none"></div>
+      <div id="auth-loading" style="text-align:center;margin-top:12px;display:none"><span class="spinner"></span></div>
     </div>
-
-    <!-- LOGIN -->
-    <div id="auth-login">
-      <div class="field"><label>Email</label><input id="l-email" type="email" placeholder="email@exemplu.com"></div>
-      <div class="field"><label>Parolă</label><input id="l-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
-      <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="doLogin()" id="btn-login">INTRĂ ÎN CONT</button>
-    </div>
-
-    <!-- REGISTER -->
-    <div id="auth-register" style="display:none">
-      <div class="field"><label>Nume Șofer (cum apari în joc)</label><input id="r-name" placeholder="Ex: Ion Popescu" maxlength="24"></div>
-      <div class="field"><label>Email</label><input id="r-email" type="email" placeholder="email@exemplu.com"></div>
-      <div class="field"><label>Parolă (minim 6 caractere)</label><input id="r-pass" type="password" placeholder="••••••••"></div>
-      <div class="field"><label>Confirmare Parolă</label><input id="r-pass2" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doRegister()"></div>
-      <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="doRegister()" id="btn-register">CREEAZĂ CONT</button>
-    </div>
-
-    <div id="auth-error" style="color:#e03050;font-size:12px;margin-top:10px;text-align:center;display:none"></div>
-    <div id="auth-loading" style="text-align:center;margin-top:12px;display:none"><span class="spinner"></span></div>
   </div>
 </div>
 
@@ -600,46 +586,78 @@ function toast(msg, isError=false) {
 // ══════════════════════════════════════════════
 //  AUTH
 // ══════════════════════════════════════════════
-function switchAuth(mode) {
-  document.getElementById('auth-login').style.display = mode==='login' ? 'block' : 'none';
-  document.getElementById('auth-register').style.display = mode==='register' ? 'block' : 'none';
-  document.querySelectorAll('.auth-tab').forEach((b,i) => b.classList.toggle('active', (i===0&&mode==='login')||(i===1&&mode==='register')));
-  document.getElementById('auth-error').style.display = 'none';
+function switchAuth(mode) {}
+
+async function doSteamLogin() {
+  const btn = document.getElementById('btn-steam-login');
+  btn.textContent = 'Se deschide Steam...';
+  btn.disabled = true;
+  try {
+    let authUrl;
+    if (window.electron) {
+      authUrl = await window.electron.getAuthUrl();
+    } else {
+      authUrl = 'https://trucklog-production.up.railway.app/auth/steam';
+    }
+    // Open Steam login in browser
+    if (window.electron) {
+      const { shell } = require('electron');
+      shell.openExternal(authUrl);
+    } else {
+      window.open(authUrl, '_blank');
+    }
+    // Show waiting message
+    btn.textContent = 'Așteaptă autentificarea Steam...';
+    // Listen for protocol callback
+    if (window.electron) {
+      window.electron.onSteamAuth((url) => handleSteamCallback(url));
+    }
+  } catch(e) {
+    btn.textContent = 'INTRĂ CU STEAM';
+    btn.disabled = false;
+    showAuthError('Eroare: ' + e.message);
+  }
 }
 
-async function doLogin() {
-  if (!window.FIREBASE_CONFIGURED) { showAuthError('Firebase neconfigurat. Vezi SETUP.txt'); return; }
-  const email = document.getElementById('l-email').value.trim();
-  const pass = document.getElementById('l-pass').value;
-  if (!email || !pass) { showAuthError('Completează email și parola'); return; }
+async function handleSteamCallback(url) {
+  try {
+    const params = new URLSearchParams(url.replace('trucklog://auth?', ''));
+    const steamId = params.get('steamId');
+    const name = params.get('name');
+    const avatar = params.get('avatar');
+    if (!steamId) { showAuthError('Autentificare eșuată'); return; }
+    // Save to localStorage
+    localStorage.setItem('tl_steam', JSON.stringify({ steamId, name, avatar }));
+    // Create Firebase user with steamId
+    await loginWithSteam(steamId, name, avatar);
+  } catch(e) {
+    showAuthError('Eroare callback: ' + e.message);
+  }
+}
+
+async function loginWithSteam(steamId, name, avatar) {
   setAuthLoading(true);
   try {
-    await window.signInWithEmailAndPassword(email, pass);
+    // Use steamId as email + fixed password for Firebase
+    const email = `steam_${steamId}@trucklog.app`;
+    const pass = `steam_${steamId}_trucklog`;
+    try {
+      await window.signInWithEmailAndPassword(email, pass);
+    } catch(e) {
+      if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential') {
+        const cred = await window.createUserWithEmailAndPassword(email, pass);
+        await window.updateProfile(cred.user, { displayName: name });
+        await FB.set(FB.ref(FB.db, `users/${cred.user.uid}`), { name, steamId, avatar, createdAt: Date.now() });
+      } else throw e;
+    }
   } catch(e) {
-    showAuthError(authError(e.code));
+    showAuthError('Eroare Firebase: ' + e.message);
     setAuthLoading(false);
   }
 }
 
-async function doRegister() {
-  if (!window.FIREBASE_CONFIGURED) { showAuthError('Firebase neconfigurat. Vezi SETUP.txt'); return; }
-  const name = document.getElementById('r-name').value.trim();
-  const email = document.getElementById('r-email').value.trim();
-  const pass = document.getElementById('r-pass').value;
-  const pass2 = document.getElementById('r-pass2').value;
-  if (!name || !email || !pass) { showAuthError('Completează toate câmpurile'); return; }
-  if (pass !== pass2) { showAuthError('Parolele nu coincid'); return; }
-  if (pass.length < 6) { showAuthError('Parola trebuie să aibă minim 6 caractere'); return; }
-  setAuthLoading(true);
-  try {
-    const cred = await window.createUserWithEmailAndPassword(email, pass);
-    await window.updateProfile(cred.user, { displayName: name });
-    await FB.set(FB.ref(FB.db, `users/${cred.user.uid}`), { name, email, createdAt: Date.now() });
-  } catch(e) {
-    showAuthError(authError(e.code));
-    setAuthLoading(false);
-  }
-}
+async function doLogin() {}
+async function doRegister() {}
 
 async function doLogout() {
   setOffline();
