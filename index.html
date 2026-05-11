@@ -609,7 +609,7 @@ async function doSteamLogin() {
     btn.textContent = 'Așteaptă autentificarea Steam...';
     // Listen for protocol callback
     if (window.electron) {
-      window.electron.onSteamAuth((url) => handleSteamCallback(url));
+      window.addEventListener('message', (e) => {   if (e.data?.type === 'steam-auth') {     handleSteamCallback(e.data);   } });
     }
   } catch(e) {
     btn.textContent = 'INTRĂ CU STEAM';
@@ -618,19 +618,15 @@ async function doSteamLogin() {
   }
 }
 
-async function handleSteamCallback(url) {
+async function handleSteamCallback(data) {
   try {
-    const params = new URLSearchParams(url.replace('trucklog://auth?', ''));
-    const steamId = params.get('steamId');
-    const name = params.get('name');
-    const avatar = params.get('avatar');
+    const steamId = data.steamId;
+    const name = data.name;
+    const avatar = data.avatar;
     if (!steamId) { showAuthError('Autentificare eșuată'); return; }
-    // Save to localStorage
-    localStorage.setItem('tl_steam', JSON.stringify({ steamId, name, avatar }));
-    // Create Firebase user with steamId
     await loginWithSteam(steamId, name, avatar);
   } catch(e) {
-    showAuthError('Eroare callback: ' + e.message);
+    showAuthError('Eroare: ' + e.message);
   }
 }
 
