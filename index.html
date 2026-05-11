@@ -1216,6 +1216,11 @@ let ets2Connected = false;
 let pluginInstalled = false;
 
 async function initETS2() {
+  window.electron.onPluginInstalled(() => {
+  toast('✓ Plugin ETS2 instalat automat!');
+  pluginInstalled = true;
+  document.getElementById('btn-install-plugin').style.display = 'none';
+});
   if (!window.electron) return;
   const check = await window.electron.checkPlugin();
   pluginInstalled = check.installed;
