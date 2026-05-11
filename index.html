@@ -592,10 +592,12 @@ async function doSteamLogin() {
   const btn = document.getElementById('btn-steam-login');
   btn.textContent = 'Se deschide Steam...';
   btn.disabled = true;
+  showAuthError('');
+document.getElementById('auth-error').style.display = 'none';
   try {
     const AUTH_SERVER = 'https://trucklog-production.up.railway.app';
     // Get a token
-    const tokenRes = await fetch(`${AUTH_SERVER}/auth/token`);
+    const tokenRes = await fetch(`${AUTH_SERVER}/auth/token`).catch(e => { throw new Error('Server offline: ' + e.message); });
     const { token } = await tokenRes.json();
     // Open Steam login
     const authUrl = `${AUTH_SERVER}/auth/steam?token=${token}`;
