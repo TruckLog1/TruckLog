@@ -4,6 +4,23 @@ const fs = require('fs');
 const https = require('https');
 const os = require('os');
 const { execSync, exec } = require('child_process');
+const AUTH_SERVER = 'https://trucklog-production.up.railway.app';
+
+// Register trucklog:// protocol
+if (process.defaultApp) {
+  if (process.argv.length >= 2) app.setAsDefaultProtocolClient('trucklog', process.execPath, [path.resolve(process.argv[1])]);
+} else {
+  app.setAsDefaultProtocolClient('trucklog');
+}
+
+// Handle protocol on Windows
+app.on('second-instance', (event, commandLine) => {
+  const url = commandLine.find(arg => arg.startsWith('trucklog://'));
+  if (url && mainWindow) {
+    mainWindow.webContents.send('steam-auth', url);
+    mainWindow.focus();
+  }
+});
 
 let mainWindow;
 
@@ -123,6 +140,8 @@ async function autoInstallPlugin() {
 ipcMain.handle('check-plugin', () => checkPlugin());
 ipcMain.handle('auto-install-plugin', () => autoInstallPlugin());
 ipcMain.handle('get-telemetry', () => readETS2Telemetry());
+ipcMain.handle('get-auth-url', () => `${AUTH_SERVER}/auth/steam`);
+ipcMain.handle('get-auth-server', () => AUTH_SERVER);
 ipcMain.handle('save-receipt', async (_, { filename, html }) => {
   const { filePath } = await dialog.showSaveDialog(mainWindow, {
     title: 'Salveaza bon', defaultPath: filename,
