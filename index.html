@@ -203,6 +203,7 @@ textarea{resize:vertical}
       <button class="tab-btn" onclick="showTab(4)">👥 Șoferi</button>
       <button class="tab-btn" onclick="showTab(5)">📊 Statistici</button>
       <button class="tab-btn" onclick="showTab(6)">⚙️ Firmă</button>
+<button class="tab-btn" onclick="showTab(7)">🎮 Live ETS2</button>
     </div>
   </div>
 
@@ -340,6 +341,52 @@ textarea{resize:vertical}
 
   </div>
 </div>
+
+  <!-- PAGE 7: LIVE ETS2 -->
+    <div id="page-7" class="page fade-up" style="max-width:900px">
+      <div id="ets2-status-bar" style="background:#0d1120;border:1px solid #1a2035;border-radius:8px;padding:16px;margin-bottom:16px;display:flex;align-items:center;gap:14px">
+        <div id="ets2-dot" style="width:12px;height:12px;border-radius:50%;background:#3a4560;flex-shrink:0"></div>
+        <div id="ets2-status-text" style="font-size:13px;font-weight:700;letter-spacing:.1em;color:#4a5575">ETS2 DECONECTAT</div>
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <button id="btn-install-plugin" onclick="installPlugin()" style="display:none;background:#0a2018;border:1px solid #14d9a0;color:#14d9a0;padding:7px 16px;border-radius:4px;font-size:11px;font-weight:700;font-family:'Rajdhani',monospace;cursor:pointer">⬇ INSTALEAZĂ PLUGIN</button>
+        </div>
+      </div>
+      <div class="r3" style="margin-bottom:16px">
+        <div style="background:#080c14;border:1px solid #f5a62325;border-radius:8px;padding:20px;text-align:center">
+          <div style="font-size:10px;letter-spacing:.18em;color:#3a4560;margin-bottom:8px">🚀 VITEZĂ</div>
+          <div id="ets2-speed" style="font-family:'Share Tech Mono',monospace;font-size:48px;color:#f5a623;line-height:1">0</div>
+          <div style="font-size:10px;color:#3a4560;margin-top:4px">km/h</div>
+        </div>
+        <div style="background:#080c14;border:1px solid #14d9a025;border-radius:8px;padding:20px;text-align:center">
+          <div style="font-size:10px;letter-spacing:.18em;color:#3a4560;margin-bottom:8px">🛣️ ODOMETRU</div>
+          <div id="ets2-odometer" style="font-family:'Share Tech Mono',monospace;font-size:48px;color:#14d9a0;line-height:1">0</div>
+          <div style="font-size:10px;color:#3a4560;margin-top:4px">km total</div>
+        </div>
+        <div style="background:#080c14;border:1px solid #7c5cbf25;border-radius:8px;padding:20px;text-align:center">
+          <div style="font-size:10px;letter-spacing:.18em;color:#3a4560;margin-bottom:8px">📍 KM SESIUNE</div>
+          <div id="ets2-session-km" style="font-family:'Share Tech Mono',monospace;font-size:48px;color:#7c5cbf;line-height:1">0</div>
+          <div style="font-size:10px;color:#3a4560;margin-top:4px">km această sesiune</div>
+        </div>
+      </div>
+      <div style="background:#0d1120;border:1px solid #1a2035;border-radius:8px;padding:16px;margin-bottom:16px">
+        <div style="font-size:10px;letter-spacing:.18em;color:#3a4560;margin-bottom:12px">STARE CAMION</div>
+        <div class="r2">
+          <div style="display:flex;align-items:center;gap:10px;background:#111827;border-radius:6px;padding:12px">
+            <div id="engine-dot" style="width:10px;height:10px;border-radius:50%;background:#3a4560"></div>
+            <div style="font-size:13px;font-weight:700" id="engine-text">MOTOR OPRIT</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:#111827;border-radius:6px;padding:12px">
+            <div id="pause-dot" style="width:10px;height:10px;border-radius:50%;background:#3a4560"></div>
+            <div style="font-size:13px;font-weight:700" id="pause-text">JOC OPRIT</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:#0d1120;border:1px solid #1a2035;border-radius:8px;padding:16px">
+        <div style="font-size:10px;letter-spacing:.18em;color:#3a4560;margin-bottom:12px">SALVEAZĂ KM ÎN CMR</div>
+        <div style="font-size:12px;color:#8090b0;margin-bottom:10px">KM sesiune curentă vor fi salvați automat când adaugi o cursă nouă</div>
+        <button onclick="useSessionKm()" style="background:#f5a623;border:none;color:#0a0d14;padding:10px 20px;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:.12em;font-family:'Rajdhani',monospace;cursor:pointer">📋 FOLOSEȘTE KM ÎN CURSĂ NOUĂ</button>
+      </div>
+    </div>
 
 <!-- MODALS -->
 <!-- Create Company Modal -->
@@ -710,6 +757,7 @@ function enterCompany(cid, name, code, role) {
   subscribeAll();
   setOnline(true);
   showTab(0);
+  initETS2();
 }
 
 function leaveApp() {
@@ -1091,7 +1139,99 @@ function resetForm(){['f-cmr','f-sname','f-sa','f-rname','f-ra','f-weight','f-un
 function copyInvite(){navigator.clipboard.writeText(currentCompany?.code||'');toast('✓ Cod copiat!');}
 async function changeRole(uid,role){await FB.update(FB.ref(FB.db,`companies/${currentCompany.id}/members/${uid}`),{role});toast('✓ Rol actualizat!');} 
   async function kickMember(uid,name){if(!confirm(`Dai afară "${name}" din firmă?`))return;await FB.remove(FB.ref(FB.db,`companies/${currentCompany.id}/members/${uid}`));await FB.remove(FB.ref(FB.db,`users/${uid}/companies/${currentCompany.id}`));toast('✓ '+name+' a fost dat afară!');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
+// ══════════════════════════════════════════════
+//  ETS2 LIVE TELEMETRY
+// ══════════════════════════════════════════════
+let ets2Interval = null;
+let ets2SessionStart = 0;
+let ets2Connected = false;
+let pluginInstalled = false;
+
+async function initETS2() {
+  if (!window.electron) return;
+  const check = await window.electron.checkPlugin();
+  pluginInstalled = check.installed;
+  if (!check.installed) {
+    document.getElementById('btn-install-plugin').style.display = 'block';
+    document.getElementById('ets2-status-text').textContent = check.noEts2 ? 'ETS2 NEGĂSIT PE PC' : 'PLUGIN NEINSTALAT — click butonul';
+  }
+  startTelemetryLoop();
+}
+
+async function installPlugin() {
+  const btn = document.getElementById('btn-install-plugin');
+  btn.textContent = 'Se instalează...'; btn.disabled = true;
+  const result = await window.electron.autoInstallPlugin();
+  if (result.success) {
+    btn.style.display = 'none';
+    pluginInstalled = true;
+    toast('✓ Plugin instalat! Repornește ETS2!');
+  } else {
+    btn.textContent = '⬇ INSTALEAZĂ PLUGIN';
+    btn.disabled = false;
+    toast('Eroare: ' + result.error, true);
+  }
+}
+
+function startTelemetryLoop() {
+  if (ets2Interval) clearInterval(ets2Interval);
+  ets2Interval = setInterval(async () => {
+    if (currentTab_ !== 7) return;
+    if (!window.electron) return;
+    const data = await window.electron.getTelemetry();
+    updateETS2UI(data);
+  }, 1000);
+}
+
+function updateETS2UI(data) {
+  const dot = document.getElementById('ets2-dot');
+  const statusText = document.getElementById('ets2-status-text');
+  if (!dot) return;
+  if (!data || !data.active) {
+    if (ets2Connected) { ets2Connected = false; ets2SessionStart = 0; }
+    dot.style.background = '#3a4560';
+    dot.style.animation = '';
+    statusText.textContent = pluginInstalled ? 'ETS2 DECONECTAT — pornește jocul' : 'PLUGIN NEINSTALAT';
+    statusText.style.color = '#4a5575';
+    document.getElementById('ets2-speed').textContent = '0';
+    document.getElementById('engine-dot').style.background = '#3a4560';
+    document.getElementById('engine-text').textContent = 'MOTOR OPRIT';
+    document.getElementById('engine-text').style.color = '#4a5575';
+    document.getElementById('pause-dot').style.background = '#3a4560';
+    document.getElementById('pause-text').textContent = 'JOC OPRIT';
+    document.getElementById('pause-text').style.color = '#4a5575';
+    return;
+  }
+  if (!ets2Connected) { ets2Connected = true; ets2SessionStart = data.odometer; }
+  dot.style.background = data.paused ? '#E4A11B' : '#14d9a0';
+  dot.style.animation = 'pulse 2s infinite';
+  statusText.textContent = data.paused ? 'JOC ÎN PAUZĂ' : 'ETS2 CONECTAT — LIVE';
+  statusText.style.color = data.paused ? '#E4A11B' : '#14d9a0';
+  document.getElementById('ets2-speed').textContent = data.paused ? '0' : data.speed;
+  document.getElementById('ets2-odometer').textContent = (data.odometer||0).toLocaleString('ro-RO');
+  const sessionKm = Math.max(0, (data.odometer||0) - ets2SessionStart);
+  document.getElementById('ets2-session-km').textContent = Math.round(sessionKm).toLocaleString('ro-RO');
+  document.getElementById('engine-dot').style.background = data.engineOn ? '#14d9a0' : '#3a4560';
+  document.getElementById('engine-text').textContent = data.engineOn ? 'MOTOR PORNIT' : 'MOTOR OPRIT';
+  document.getElementById('engine-text').style.color = data.engineOn ? '#14d9a0' : '#4a5575';
+  document.getElementById('pause-dot').style.background = data.paused ? '#E4A11B' : '#14d9a0';
+  document.getElementById('pause-text').textContent = data.paused ? 'JOC ÎN PAUZĂ' : 'JOC ACTIV';
+  document.getElementById('pause-text').style.color = data.paused ? '#E4A11B' : '#14d9a0';
+}
+
+function useSessionKm() {
+  const sessionKmEl = document.getElementById('ets2-session-km');
+  if (!sessionKmEl) return;
+  const km = sessionKmEl.textContent.replace(/\./g,'').replace(/,/g,'');
+  if (km && km !== '0') {
+    showTab(2);
+    setTimeout(() => { const el = document.getElementById('f-km'); if(el) { el.value = km; el.focus(); } }, 100);
+    toast('✓ KM copiați în formularul CMR!');
+  } else {
+    toast('Niciun KM de copiat — pornește ETS2 mai întâi', true);
+  }
+}
+  function closeModal(id){document.getElementById(id).classList.remove('open');}
 </script>
 </body>
 </html>
