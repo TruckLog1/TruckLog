@@ -8,6 +8,6 @@ contextBridge.exposeInMainWorld('electron', {
   getAuthUrl: () => ipcRenderer.invoke('get-auth-url'),
   getAuthServer: () => ipcRenderer.invoke('get-auth-server'),
   openExternal: (url) => ipcRenderer.invoke('open-external', url),
-  onSteamAuth: (cb) => ipcRenderer.on('steam-auth', (_, url) => cb(url))
-  onPluginInstalled: (cb) => ipcRenderer.on('plugin-installed', (_, v) => cb(v)),
+  onSteamAuth: (cb) => ipcRenderer.on('steam-auth', (_, url) => cb(url)),
+  onPluginInstalled: (cb) => ipcRenderer.on('plugin-installed', (_, v) => cb(v))
 });
