@@ -35,6 +35,8 @@
     "electron-builder": "^24.9.1"
   },
   "dependencies": {
-    "firebase": "^10.7.1"
-  }
+  "firebase": "^10.7.1",
+  "ffi-napi": "^4.0.3",
+  "ref-napi": "^3.0.3"
+}
 }
