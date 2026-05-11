@@ -99,16 +99,21 @@ textarea{resize:vertical}
       <div style="font-size:26px;font-weight:700;letter-spacing:.22em;color:#f5a623">TRUCKLOG</div>
       <div style="font-size:9px;letter-spacing:.28em;color:#3a4560;margin-top:4px">VIRTUAL TRUCKING COMPANY · ETS2</div>
     </div>
-
-   <div id="steam-login-box">
-      <div style="text-align:center;margin-bottom:20px;color:#8090b0;font-size:13px">Loghează-te cu contul tău Steam pentru a accesa TruckLog</div>
-      <button onclick="doSteamLogin()" style="width:100%;background:#1b2838;border:2px solid #4c6b8a;color:#ffffff;padding:14px;border-radius:6px;font-size:14px;font-weight:700;letter-spacing:.12em;font-family:'Rajdhani',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px" id="btn-steam-login">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="#4c6b8a"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.52 3.73 10.17 8.84 11.54L12 24l3.16-.46C20.27 22.17 24 17.52 24 12c0-6.63-5.37-12-12-12zm0 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm-1 5v6.5l5.25 3.15-.75 1.3L10 14V7h1z"/></svg>
-        INTRĂ CU STEAM
-      </button>
-      <div id="auth-error" style="color:#e03050;font-size:12px;margin-top:10px;text-align:center;display:none"></div>
-      <div id="auth-loading" style="text-align:center;margin-top:12px;display:none"><span class="spinner"></span></div>
-    </div>
+<div id="steam-login-box">
+  <div style="text-align:center;margin-bottom:20px;color:#8090b0;font-size:13px">Loghează-te cu contul tău Steam pentru a accesa TruckLog</div>
+  <button onclick="doSteamLogin()" style="width:100%;background:#1b2838;border:2px solid #4c6b8a;color:#ffffff;padding:14px;border-radius:6px;font-size:14px;font-weight:700;letter-spacing:.12em;font-family:'Rajdhani',monospace;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px" id="btn-steam-login">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="#4c6b8a"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.52 3.73 10.17 8.84 11.54L12 24l3.16-.46C20.27 22.17 24 17.52 24 12c0-6.63-5.37-12-12-12zm0 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm-1 5v6.5l5.25 3.15-.75 1.3L10 14V7h1z"/></svg>
+    INTRĂ CU STEAM
+  </button>
+  <div id="access-code-box" style="display:none;margin-top:16px">
+    <div style="font-size:12px;color:#8090b0;margin-bottom:8px;text-align:center">Introdu codul de acces primit</div>
+    <input id="access-code-input" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" style="text-align:center;letter-spacing:.15em;font-size:16px;text-transform:uppercase" oninput="this.value=this.value.toUpperCase()">
+    <button onclick="submitAccessCode()" style="width:100%;margin-top:8px;background:#f5a623;border:none;color:#0a0d14;padding:12px;border-radius:5px;font-size:14px;font-weight:700;letter-spacing:.12em;font-family:'Rajdhani',monospace;cursor:pointer">✓ ACTIVEAZĂ</button>
+  </div>
+  <div id="auth-error" style="color:#e03050;font-size:12px;margin-top:10px;text-align:center;display:none"></div>
+  <div id="auth-loading" style="text-align:center;margin-top:12px;display:none"><span class="spinner"></span></div>
+</div>
+   
   </div>
 </div>
 
@@ -643,25 +648,59 @@ async function handleSteamCallback(data) {
   }
 }
 
+let pendingSteamData = null;
+
 async function loginWithSteam(steamId, name, avatar) {
+  // Check if already has access
+  const email = `s${steamId}@tl.io`;
+  const pass = `Trucklog2024`;
   setAuthLoading(true);
   try {
-    // Use steamId as email + fixed password for Firebase
-    const email = `s${steamId}@tl.io`;
-    const pass = `Trucklog2024`;
-    try {
-      await window.signInWithEmailAndPassword(email, pass);
-    } catch(e) {
-      if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential' || e.code === 'auth/invalid-login-credentials' || e.message?.includes('INVALID_LOGIN_CREDENTIALS')) {
-        const cred = await window.createUserWithEmailAndPassword(email, pass);
-        await window.updateProfile(cred.user, { displayName: name });
-        window.currentUser = cred.user;
-        await cred.user.reload();
-        await FB.set(FB.ref(FB.db, `users/${cred.user.uid}`), { name, steamId, avatar, createdAt: Date.now() });
-      } else throw e;
-    }
+    await window.signInWithEmailAndPassword(email, pass);
   } catch(e) {
-    showAuthError('Eroare Firebase: ' + e.message);
+    if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential' || e.code === 'auth/invalid-login-credentials' || e.message?.includes('INVALID_LOGIN_CREDENTIALS')) {
+      // New user - need access code
+      pendingSteamData = { steamId, name, avatar };
+      setAuthLoading(false);
+      document.getElementById('btn-steam-login').style.display = 'none';
+      document.getElementById('access-code-box').style.display = 'block';
+      document.getElementById('btn-steam-login').textContent = 'INTRĂ CU STEAM';
+      document.getElementById('btn-steam-login').disabled = false;
+    } else {
+      showAuthError('Eroare: ' + e.message);
+      setAuthLoading(false);
+    }
+  }
+}
+
+async function submitAccessCode() {
+  const code = document.getElementById('access-code-input').value.trim().toUpperCase();
+  if (!code || code.length < 4) { showAuthError('Introdu codul!'); return; }
+  if (!pendingSteamData) { showAuthError('Loghează-te cu Steam mai întâi!'); return; }
+  setAuthLoading(true);
+  try {
+    // Check code in Firebase
+    const snap = await FB.get(FB.ref(FB.db, `access_codes/${code}`));
+    if (!snap.exists()) { showAuthError('Cod invalid!'); setAuthLoading(false); return; }
+    const data = snap.val();
+    if (data.used) { showAuthError('Cod deja folosit!'); setAuthLoading(false); return; }
+    // Mark code as used
+    await FB.update(FB.ref(FB.db, `access_codes/${code}`), {
+      used: true, steamId: pendingSteamData.steamId,
+      steamName: pendingSteamData.name, usedAt: Date.now()
+    });
+    // Create Firebase account
+    const email = `s${pendingSteamData.steamId}@tl.io`;
+    const pass = `Trucklog2024`;
+    const cred = await window.createUserWithEmailAndPassword(email, pass);
+    await window.updateProfile(cred.user, { displayName: pendingSteamData.name });
+    await FB.set(FB.ref(FB.db, `users/${cred.user.uid}`), {
+      name: pendingSteamData.name, steamId: pendingSteamData.steamId,
+      avatar: pendingSteamData.avatar, createdAt: Date.now()
+    });
+    pendingSteamData = null;
+  } catch(e) {
+    showAuthError('Eroare: ' + e.message);
     setAuthLoading(false);
   }
 }
