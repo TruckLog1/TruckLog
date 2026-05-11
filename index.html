@@ -602,7 +602,7 @@ document.getElementById('auth-error').style.display = 'none';
     const { token } = await tokenRes.json();
     // Open Steam login
     const authUrl = `${AUTH_SERVER}/auth/steam?token=${token}`;
-    window.electron.openExternal(authUrl);
+    if (window.electron && window.electron.openExternal) {   window.electron.openExternal(authUrl); } else {   window.open(authUrl, '_blank'); }
     btn.textContent = 'Așteaptă autentificarea Steam...';
     // Poll for result
     let attempts = 0;
