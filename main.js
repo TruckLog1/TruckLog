@@ -172,10 +172,21 @@ function createWindow() {
   });
 
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  mainWindow.once('ready-to-show', () => {   mainWindow.show();   
-// Auto-install plugin if not present   const pluginCheck = checkPlugin(); 
- if (!pluginCheck.installed && !pluginCheck.noEts2) {     autoInstallPlugin().then(result => {       if (result.success) {         mainWindow.webContents.send('plugin-installed', true);       }     });   } });                                                    
-}
+ mainWindow.once('ready-to-show', () => {
+  mainWindow.show();
+  setTimeout(() => {
+    try {
+      const pluginCheck = checkPlugin();
+      if (!pluginCheck.installed && !pluginCheck.noEts2) {
+        autoInstallPlugin().then(result => {
+          if (result.success) {
+            mainWindow.webContents.send('plugin-installed', true);
+          }
+        });
+      }
+    } catch(e) { console.log('Plugin check error:', e.message); }
+  }, 3000);
+});
 
 app.whenReady().then(createWindow);
 app.on('window-all-closed', () => app.quit());
