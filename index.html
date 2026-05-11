@@ -608,7 +608,7 @@ document.getElementById('auth-error').style.display = 'none';
     let attempts = 0;
     const poll = setInterval(async () => {
       attempts++;
-      if (attempts > 60) {
+      if (attempts > 120) {
         clearInterval(poll);
         btn.textContent = 'INTRĂ CU STEAM';
         btn.disabled = false;
@@ -623,7 +623,7 @@ document.getElementById('auth-error').style.display = 'none';
           await loginWithSteam(data.steamId, data.name, data.avatar);
         }
       } catch(e) {}
-    }, 2000);
+    }, 3000);
   } catch(e) {
     btn.textContent = 'INTRĂ CU STEAM';
     btn.disabled = false;
