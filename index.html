@@ -652,7 +652,7 @@ async function loginWithSteam(steamId, name, avatar) {
     try {
       await window.signInWithEmailAndPassword(email, pass);
     } catch(e) {
-      if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential') {
+      if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential' || e.code === 'auth/invalid-login-credentials' || e.message?.includes('INVALID_LOGIN_CREDENTIALS')) {
         const cred = await window.createUserWithEmailAndPassword(email, pass);
         await window.updateProfile(cred.user, { displayName: name });
         await FB.set(FB.ref(FB.db, `users/${cred.user.uid}`), { name, steamId, avatar, createdAt: Date.now() });
