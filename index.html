@@ -647,7 +647,7 @@ async function loginWithSteam(steamId, name, avatar) {
   setAuthLoading(true);
   try {
     // Use steamId as email + fixed password for Firebase
-    const email = `steam_${steamId}@trucklog.app`;
+    const email = `s${steamId}@tl.io`;
     const pass = `TL_${steamId.slice(-8)}_2024!`;
     try {
       await window.signInWithEmailAndPassword(email, pass);
