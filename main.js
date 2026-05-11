@@ -34,8 +34,8 @@ if ($data -eq $null) { Write-Output "null"; exit }
 $sdkActive = [BitConverter]::ToUInt32($data, 0)
 if ($sdkActive -eq 0) { Write-Output "inactive"; exit }
 $paused = [BitConverter]::ToUInt32($data, 4)
-$speed = [Math]::Abs([BitConverter]::ToSingle($data, 72)) * 3.6
-$odometer = [BitConverter]::ToSingle($data, 976)
+$speed = [Math]::Round([Math]::Abs([BitConverter]::ToSingle($data, 948)))
+$odometer = [Math]::Round([BitConverter]::ToSingle($data, 1060) / 1000, 1)
 $engineOn = $data[848]
 $pausedBool = if ($paused -eq 1) { "true" } else { "false" }
 $engineBool = if ($engineOn -eq 1) { "true" } else { "false" }
