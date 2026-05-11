@@ -648,13 +648,15 @@ async function loginWithSteam(steamId, name, avatar) {
   try {
     // Use steamId as email + fixed password for Firebase
     const email = `s${steamId}@tl.io`;
-    const pass = `TL_${steamId.slice(-8)}_2024!`;
+    const pass = `Trucklog2024`;
     try {
       await window.signInWithEmailAndPassword(email, pass);
     } catch(e) {
       if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential' || e.code === 'auth/invalid-login-credentials' || e.message?.includes('INVALID_LOGIN_CREDENTIALS')) {
         const cred = await window.createUserWithEmailAndPassword(email, pass);
         await window.updateProfile(cred.user, { displayName: name });
+        window.currentUser = cred.user;
+        await cred.user.reload();
         await FB.set(FB.ref(FB.db, `users/${cred.user.uid}`), { name, steamId, avatar, createdAt: Date.now() });
       } else throw e;
     }
@@ -690,7 +692,7 @@ async function showCompanyScreen(user) {
   document.getElementById('auth-screen').style.display = 'none';
   document.getElementById('app').style.display = 'none';
   document.getElementById('company-screen').style.display = 'block';
-  document.getElementById('cs-username').textContent = user.displayName || user.email;
+ document.getElementById('cs-username').textContent = user.displayName || user.email;
   setAuthLoading(false);
   loadMyCompanies();
 }
