@@ -589,6 +589,7 @@ function toast(msg, isError=false) {
 function switchAuth(mode) {}
 
 async function doSteamLogin() {
+  localStorage.removeItem('tl_steam');
   const btn = document.getElementById('btn-steam-login');
   btn.textContent = 'Se deschide Steam...';
   btn.disabled = true;
