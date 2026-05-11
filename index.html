@@ -601,8 +601,7 @@ async function doSteamLogin() {
     }
     // Open Steam login in browser
     if (window.electron) {
-      const { shell } = require('electron');
-      shell.openExternal(authUrl);
+    window.electron.openExternal(authUrl);
     } else {
       window.open(authUrl, '_blank');
     }
