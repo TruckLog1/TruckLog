@@ -8,4 +8,5 @@ contextBridge.exposeInMainWorld('electron', {
   getAuthUrl: () => ipcRenderer.invoke('get-auth-url'),
   getAuthServer: () => ipcRenderer.invoke('get-auth-server'),
   onSteamAuth: (cb) => ipcRenderer.on('steam-auth', (_, url) => cb(url))
+  openExternal: (url) => { const { shell } = require('electron'); shell.openExternal(url); },
 });
