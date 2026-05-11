@@ -10,15 +10,8 @@
   "build": {
     "appId": "com.trucklog.app",
     "productName": "TruckLog",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "index.html",
-      "main.js",
-      "preload.js",
-      "node_modules/**/*"
-    ],
+    "directories": { "output": "dist" },
+    "files": ["index.html","main.js","preload.js","node_modules/**/*"],
     "win": {
       "target": [{ "target": "nsis", "arch": ["x64"] }]
     },
@@ -35,7 +28,6 @@
     "electron-builder": "^24.9.1"
   },
   "dependencies": {
-  "firebase": "^10.7.1",
-  
-}
+    "firebase": "^10.7.1"
+  }
 }
