@@ -195,6 +195,7 @@ textarea{resize:vertical}
       <button class="tab-btn" onclick="showTab(5)">📊 Statistici</button>
       <button class="tab-btn" onclick="showTab(6)">⚙️ Firmă</button>
 <button class="tab-btn" onclick="showTab(7)">🎮 Live ETS2</button>
+      <button class="tab-btn" onclick="showTab(8)">🤖 Dispecer AI</button>
     </div>
   </div>
 
@@ -379,6 +380,21 @@ textarea{resize:vertical}
         <button onclick="useSessionKm()" style="background:#f5a623;border:none;color:#0a0d14;padding:10px 20px;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:.12em;font-family:'Rajdhani',monospace;cursor:pointer">📋 FOLOSEȘTE KM ÎN CURSĂ NOUĂ</button>
       </div>
     </div>
+
+  <!-- PAGE 8: DISPECER AI -->
+<div id="page-8" class="page fade-up" style="max-width:900px">
+  <div style="font-size:10px;letter-spacing:.2em;color:#3a4560;margin-bottom:16px">🤖 DISPECER AI — CURSE GENERATE AUTOMAT</div>
+  <div class="card" style="margin-bottom:16px">
+    <div style="font-size:10px;letter-spacing:.18em;color:#3a4560;margin-bottom:12px">ORAȘUL TĂU CURENT</div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <select id="ai-city" style="flex:1;max-width:300px">
+        <option value="">-- Selectează orașul --</option>
+      </select>
+      <button onclick="generateAIJobs()" style="background:#f5a623;border:none;color:#0a0d14;padding:10px 20px;border-radius:5px;font-size:13px;font-weight:700;letter-spacing:.1em;font-family:'Rajdhani',monospace;cursor:pointer" id="btn-generate-ai">⚡ GENEREAZĂ CURSE</button>
+    </div>
+  </div>
+  <div id="ai-jobs-list"></div>
+</div>
 
 <!-- MODALS -->
 <!-- Create Company Modal -->
@@ -826,6 +842,7 @@ function enterCompany(cid, name, code, role) {
   setOnline(true);
   showTab(0);
   initETS2();
+  initAIDispatcher();
 }
 
 function leaveApp() {
@@ -1309,6 +1326,79 @@ function launchETS2() {
   } else {
     toast('Niciun KM de copiat — pornește ETS2 mai întâi', true);
   }
+}
+  // ══════════════════════════════════════════════
+//  DISPECER AI
+// ══════════════════════════════════════════════
+const ALL_CITIES = ["București","Cluj-Napoca","Timișoara","Iași","Constanța","Brașov","Galați","Craiova","Ploiești","Oradea","Sibiu","Bacău","Berlin","München","Hamburg","Frankfurt","Paris","Lyon","Roma","Milano","Warszawa","Kraków","Madrid","Barcelona","Praha","Budapest","Wien","Bruxelles","Amsterdam","Sofia","Zagreb","Bratislava","Ljubljana","Tallinn","Vilnius","Riga","Helsinki","Stockholm","Oslo","København"];
+
+function initAIDispatcher() {
+  const sel = document.getElementById('ai-city');
+  if (!sel || sel.children.length > 1) return;
+  ALL_CITIES.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = c;
+    sel.appendChild(o);
+  });
+}
+
+async function generateAIJobs() {
+  const city = document.getElementById('ai-city').value;
+  if (!city) { toast('Selectează orașul!', true); return; }
+  const btn = document.getElementById('btn-generate-ai');
+  btn.textContent = 'Se generează...'; btn.disabled = true;
+  const list = document.getElementById('ai-jobs-list');
+  list.innerHTML = '<div style="color:#3a4560;font-size:13px;padding:20px;text-align:center">🤖 AI generează curse...</div>';
+
+  const otherCities = ALL_CITIES.filter(c => c !== city);
+  const picked = otherCities.sort(() => Math.random() - 0.5).slice(0, 3);
+  const jobs = picked.map(dest => {
+    const cargos = ['Alimente generale','Containere','Lemn / Cherestea','Materiale de construcții','Produse farmaceutice','Echipamente industriale','Chimicale','Mobilă','Auto / Vehicule','Vrac uscat'];
+    const vehicles = ['Camion Solo','Camion + Remorcă','Camion + Semiremorcă','Frigorific','Platformă'];
+    const cargo = cargos[Math.floor(Math.random() * cargos.length)];
+    const vehicle = vehicles[Math.floor(Math.random() * vehicles.length)];
+    const km = Math.round(Math.random() * 800 + 100);
+    const difficulty = km > 600 ? '🔴 GREU' : km > 300 ? '🟡 MEDIU' : '🟢 UȘOR';
+    const pay = Math.round(km * (Math.random() * 3 + 2));
+    return { from: city, to: dest, cargo, vehicle, km, difficulty, pay };
+  });
+
+  list.innerHTML = jobs.map((j, i) => `
+    <div style="background:#0d1120;border:1px solid #1a2035;border-radius:8px;padding:18px;margin-bottom:12px;display:flex;gap:16px;align-items:center">
+      <div style="flex:1">
+        <div style="font-size:16px;font-weight:700;color:#f5a623;margin-bottom:6px">${j.from} → ${j.to}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><div style="font-size:9px;color:#3a4560;letter-spacing:.12em">MARFĂ</div><div style="font-size:12px;color:#e8e0d0">${j.cargo}</div></div>
+          <div><div style="font-size:9px;color:#3a4560;letter-spacing:.12em">VEHICUL</div><div style="font-size:12px;color:#e8e0d0">${j.vehicle}</div></div>
+          <div><div style="font-size:9px;color:#3a4560;letter-spacing:.12em">DISTANȚĂ</div><div style="font-size:12px;color:#e8e0d0">${j.km} km</div></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <span style="font-size:11px">${j.difficulty}</span>
+          <span style="font-size:13px;font-weight:700;color:#14d9a0">€${j.pay.toLocaleString('ro-RO')}</span>
+        </div>
+      </div>
+      <button onclick="acceptAIJob(${i})" style="background:#0a2018;border:2px solid #14d9a0;color:#14d9a0;padding:12px 20px;border-radius:5px;font-size:12px;font-weight:700;letter-spacing:.1em;font-family:'Rajdhani',monospace;cursor:pointer;white-space:nowrap">✓ ACCEPTĂ</button>
+    </div>
+  `).join('');
+
+  window._aiJobs = jobs;
+  btn.textContent = '⚡ GENEREAZĂ CURSE';
+  btn.disabled = false;
+}
+
+function acceptAIJob(idx) {
+  const job = window._aiJobs?.[idx];
+  if (!job) return;
+  showTab(2);
+  setTimeout(() => {
+    document.getElementById('f-sct').innerHTML = `<option value="${job.from}" selected>${job.from}</option>`;
+    document.getElementById('f-rct').innerHTML = `<option value="${job.to}" selected>${job.to}</option>`;
+    document.getElementById('f-km').value = job.km;
+    document.getElementById('f-cargo').value = job.cargo;
+    document.getElementById('f-vtype').value = job.vehicle;
+    document.getElementById('f-date').value = today();
+    toast('✓ Cursă preluată! Completează restul detaliilor.');
+  }, 200);
 }
   function closeModal(id){document.getElementById(id).classList.remove('open');}
 </script>
