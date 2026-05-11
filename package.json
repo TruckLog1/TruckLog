@@ -11,7 +11,7 @@
     "appId": "com.trucklog.app",
     "productName": "TruckLog",
     "directories": { "output": "dist" },
-    "files": ["index.html","main.js","preload.js","node_modules/**/*"],
+    "files": ["index.html","main.js","preload.js","scs-telemetry.dll","node_modules/**/*"],
     "win": {
       "target": [{ "target": "nsis", "arch": ["x64"] }]
     },
