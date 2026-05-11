@@ -142,6 +142,9 @@ ipcMain.handle('auto-install-plugin', () => autoInstallPlugin());
 ipcMain.handle('get-telemetry', () => readETS2Telemetry());
 ipcMain.handle('get-auth-url', () => `${AUTH_SERVER}/auth/steam`);
 ipcMain.handle('get-auth-server', () => AUTH_SERVER);
+ipcMain.handle('open-external', (_, url) => {
+  shell.openExternal(url);
+});
 ipcMain.handle('save-receipt', async (_, { filename, html }) => {
   const { filePath } = await dialog.showSaveDialog(mainWindow, {
     title: 'Salveaza bon', defaultPath: filename,
