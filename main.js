@@ -7,53 +7,55 @@ const { execSync, exec } = require('child_process');
 
 let mainWindow;
 
-// PowerShell script - citeste SCSTelemetry shared memory
-const PS_TELEMETRY = `
-Add-Type @"
-using System;
-using System.IO.MemoryMappedFiles;
-using System.Runtime.InteropServices;
-public class SCSTelemetry {
-    public static byte[] Read() {
-        try {
-            var mmf = MemoryMappedFile.OpenExisting("SCSTelemetry");
-            var view = mmf.CreateViewAccessor(0, 32768);
-            byte[] data = new byte[32768];
-            view.ReadArray(0, data, 0, 32768);
-            view.Dispose();
-            mmf.Dispose();
-            return data;
-        } catch(Exception ex) {
-            return null;
-        }
-    }
-}
-"@
-$data = [SCSTelemetry]::Read()
-if ($data -eq $null) { Write-Output "null"; exit }
-$sdkActive = [BitConverter]::ToUInt32($data, 0)
-if ($sdkActive -eq 0) { Write-Output "inactive"; exit }
-$paused = [BitConverter]::ToUInt32($data, 4)
-$speed = [Math]::Round([Math]::Abs([BitConverter]::ToSingle($data, 948)))
-$odometer = [Math]::Round([BitConverter]::ToSingle($data, 1060) / 1000, 1)
-$engineOn = $data[848]
-$pausedBool = if ($paused -eq 1) { "true" } else { "false" }
-$engineBool = if ($engineOn -eq 1) { "true" } else { "false" }
-Write-Output ("{""active"":true,""paused"":$pausedBool,""speed"":$([Math]::Round($speed)),""odometer"":$([Math]::Round($odometer)),""engineOn"":$engineBool}")
-`;
-
 function readETS2Telemetry() {
   return new Promise((resolve) => {
     try {
-      const psFile = path.join(os.tmpdir(), 'tl_tel.ps1');
-      fs.writeFileSync(psFile, PS_TELEMETRY, 'utf8');
+      const ps = `
+Add-Type -TypeDefinition @"
+using System;
+using System.IO.MemoryMappedFiles;
+public class TL {
+    public static byte[] Read() {
+        try {
+            var m = MemoryMappedFile.OpenExisting("SCSTelemetry");
+            var v = m.CreateViewAccessor(0, 32768);
+            var d = new byte[32768];
+            v.ReadArray(0, d, 0, 32768);
+            v.Dispose(); m.Dispose();
+            return d;
+        } catch { return null; }
+    }
+}
+"@
+$d = [TL]::Read()
+if ($d -eq $null) { Write-Output "NULL"; exit }
+$sdk = [BitConverter]::ToUInt32($d, 0)
+if ($sdk -eq 0) { Write-Output "INACTIVE"; exit }
+$paused = [BitConverter]::ToUInt32($d, 4)
+$speed = [Math]::Round([Math]::Abs([BitConverter]::ToSingle($d, 948)))
+$odometer = [Math]::Round([BitConverter]::ToSingle($d, 1060) / 1000, 1)
+$engine = $d[848]
+$p = if ($paused -eq 1) { "true" } else { "false" }
+$e = if ($engine -eq 1) { "true" } else { "false" }
+Write-Output "OK|$speed|$odometer|$p|$e"
+`;
+      const psFile = path.join(os.tmpdir(), 'tl_read.ps1');
+      fs.writeFileSync(psFile, ps, 'utf8');
       exec(`powershell -NonInteractive -NoProfile -ExecutionPolicy Bypass -File "${psFile}"`,
-        { timeout: 3000 }, (err, stdout, stderr) => {
-          if (err) { resolve(null); return; }
-          const out = (stdout || '').trim();
-          if (!out || out === 'null' || out === 'inactive') { resolve(null); return; }
-          try { resolve(JSON.parse(out)); }
-          catch(e) { resolve(null); }
+        { timeout: 3000 }, (err, stdout) => {
+          if (err || !stdout) { resolve(null); return; }
+          const out = stdout.trim();
+          if (out === 'NULL' || out === 'INACTIVE') { resolve(null); return; }
+          if (out.startsWith('OK|')) {
+            const parts = out.split('|');
+            resolve({
+              active: true,
+              speed: parseInt(parts[1]) || 0,
+              odometer: parseFloat(parts[2]) || 0,
+              paused: parts[3] === 'true',
+              engineOn: parts[4] === 'true'
+            });
+          } else { resolve(null); }
         });
     } catch(e) { resolve(null); }
   });
@@ -84,12 +86,10 @@ function checkPlugin() {
 
 async function autoInstallPlugin() {
   const pluginsPath = findPluginsPath();
-  if (!pluginsPath) return { success: false, error: 'ETS2 nu a fost găsit pe PC' };
+  if (!pluginsPath) return { success: false, error: 'ETS2 nu a fost gasit pe PC' };
   if (!fs.existsSync(pluginsPath)) fs.mkdirSync(pluginsPath, { recursive: true });
-
   const zipPath = path.join(os.tmpdir(), 'scs-telemetry.zip');
-  const extractPath = path.join(os.tmpdir(), 'scs_extract_' + Date.now());
-
+  const extractPath = path.join(os.tmpdir(), 'scs_ex_' + Date.now());
   return new Promise((resolve) => {
     const download = (url) => {
       https.get(url, (res) => {
@@ -100,22 +100,17 @@ async function autoInstallPlugin() {
           file.close();
           try {
             execSync(`powershell -command "Expand-Archive -Path '${zipPath}' -DestinationPath '${extractPath}' -Force"`);
-            // Try different possible paths in the ZIP
             const candidates = [
               path.join(extractPath, 'release_v_1_12_1', 'Win64', 'scs-telemetry.dll'),
               path.join(extractPath, 'Win64', 'scs-telemetry.dll'),
-              path.join(extractPath, 'win_x64', 'scs-telemetry.dll'),
               path.join(extractPath, 'scs-telemetry.dll'),
             ];
-            // Also search recursively
             const found = candidates.find(c => fs.existsSync(c));
             if (found) {
               fs.copyFileSync(found, path.join(pluginsPath, 'scs-telemetry.dll'));
               resolve({ success: true });
             } else {
-              // List what's in the extract path for debugging
-              const files = execSync(`dir /s /b "${extractPath}"`, {encoding:'utf8'});
-              resolve({ success: false, error: 'DLL negăsit. Fișiere găsite: ' + files.slice(0, 200) });
+              resolve({ success: false, error: 'DLL negasit in arhiva' });
             }
           } catch(e) { resolve({ success: false, error: e.message }); }
         });
@@ -130,7 +125,7 @@ ipcMain.handle('auto-install-plugin', () => autoInstallPlugin());
 ipcMain.handle('get-telemetry', () => readETS2Telemetry());
 ipcMain.handle('save-receipt', async (_, { filename, html }) => {
   const { filePath } = await dialog.showSaveDialog(mainWindow, {
-    title: 'Salvează bon', defaultPath: filename,
+    title: 'Salveaza bon', defaultPath: filename,
     filters: [{ name: 'HTML', extensions: ['html'] }]
   });
   if (filePath) { fs.writeFileSync(filePath, html, 'utf8'); shell.openPath(filePath); return true; }
