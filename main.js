@@ -144,6 +144,7 @@ ipcMain.handle('get-auth-url', () => `${AUTH_SERVER}/auth/steam`);
 ipcMain.handle('get-auth-server', () => AUTH_SERVER);
 ipcMain.handle('open-external', (_, url) => {
   shell.openExternal(url);
+  return true;
 });
 ipcMain.handle('save-receipt', async (_, { filename, html }) => {
   const { filePath } = await dialog.showSaveDialog(mainWindow, {
