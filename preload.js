@@ -7,6 +7,6 @@ contextBridge.exposeInMainWorld('electron', {
   getTelemetry: () => ipcRenderer.invoke('get-telemetry'),
   getAuthUrl: () => ipcRenderer.invoke('get-auth-url'),
   getAuthServer: () => ipcRenderer.invoke('get-auth-server'),
-  onSteamAuth: (cb) => ipcRenderer.on('steam-auth', (_, url) => cb(url))
   openExternal: (url) => ipcRenderer.invoke('open-external', url),
+  onSteamAuth: (cb) => ipcRenderer.on('steam-auth', (_, url) => cb(url))
 });
