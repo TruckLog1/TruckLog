@@ -593,24 +593,34 @@ async function doSteamLogin() {
   btn.textContent = 'Se deschide Steam...';
   btn.disabled = true;
   try {
-    let authUrl;
-    if (window.electron) {
-      authUrl = await window.electron.getAuthUrl();
-    } else {
-      authUrl = 'https://trucklog-production.up.railway.app/auth/steam';
-    }
-    // Open Steam login in browser
-    if (window.electron) {
-    window.electron.openExternal(authUrl);
-    } else {
-      window.open(authUrl, '_blank');
-    }
-    // Show waiting message
+    const AUTH_SERVER = 'https://trucklog-production.up.railway.app';
+    // Get a token
+    const tokenRes = await fetch(`${AUTH_SERVER}/auth/token`);
+    const { token } = await tokenRes.json();
+    // Open Steam login
+    const authUrl = `${AUTH_SERVER}/auth/steam?token=${token}`;
+    window.electron ? window.electron.openExternal(authUrl) : window.open(authUrl, '_blank');
     btn.textContent = 'Așteaptă autentificarea Steam...';
-    // Listen for protocol callback
-    if (window.electron) {
-      window.addEventListener('message', (e) => {   if (e.data?.type === 'steam-auth') {     handleSteamCallback(e.data);   } });
-    }
+    // Poll for result
+    let attempts = 0;
+    const poll = setInterval(async () => {
+      attempts++;
+      if (attempts > 60) {
+        clearInterval(poll);
+        btn.textContent = 'INTRĂ CU STEAM';
+        btn.disabled = false;
+        showAuthError('Timeout — încearcă din nou');
+        return;
+      }
+      try {
+        const res = await fetch(`${AUTH_SERVER}/auth/check/${token}`);
+        const data = await res.json();
+        if (data.success) {
+          clearInterval(poll);
+          await loginWithSteam(data.steamId, data.name, data.avatar);
+        }
+      } catch(e) {}
+    }, 2000);
   } catch(e) {
     btn.textContent = 'INTRĂ CU STEAM';
     btn.disabled = false;
