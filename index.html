@@ -348,6 +348,7 @@ textarea{resize:vertical}
         <div id="ets2-dot" style="width:12px;height:12px;border-radius:50%;background:#3a4560;flex-shrink:0"></div>
         <div id="ets2-status-text" style="font-size:13px;font-weight:700;letter-spacing:.1em;color:#4a5575">ETS2 DECONECTAT</div>
         <div style="margin-left:auto;display:flex;gap:8px">
+         <button onclick="launchETS2()" style="background:#1a3a5c;border:1px solid #3b82f6;color:#3b82f6;padding:7px 16px;border-radius:4px;font-size:11px;font-weight:700;font-family:'Rajdhani',monospace;cursor:pointer">🎮 PORNEȘTE ETS2</button>
           <button id="btn-install-plugin" onclick="installPlugin()" style="display:none;background:#0a2018;border:1px solid #14d9a0;color:#14d9a0;padding:7px 16px;border-radius:4px;font-size:11px;font-weight:700;font-family:'Rajdhani',monospace;cursor:pointer">⬇ INSTALEAZĂ PLUGIN</button>
         </div>
       </div>
@@ -1219,7 +1220,13 @@ function updateETS2UI(data) {
   document.getElementById('pause-text').style.color = data.paused ? '#E4A11B' : '#14d9a0';
 }
 
-function useSessionKm() {
+function launchETS2() {
+  const a = document.createElement('a');
+  a.href = 'steam://run/227300';
+  a.click();
+  toast('✓ Se lansează ETS2...');
+}
+  function useSessionKm() {
   const sessionKmEl = document.getElementById('ets2-session-km');
   if (!sessionKmEl) return;
   const km = sessionKmEl.textContent.replace(/\./g,'').replace(/,/g,'');
