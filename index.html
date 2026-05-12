@@ -220,38 +220,189 @@ textarea{resize:vertical}
       </div>
     </div>
 
-    <!-- PAGE 1: TAHOGRAF -->
+   <!-- PAGE 1: TAHOGRAF VDO DTCO -->
     <div id="page-1" class="page fade-up">
-      <div style="max-width:820px">
-        <div class="r3" style="margin-bottom:16px">
-          <div class="tacho-card" id="tc-drive"><div style="font-size:9px;letter-spacing:.18em;color:#14d9a0;margin-bottom:8px">🚛 CONDUS</div><div class="tacho-time" id="t-drive" style="color:#14d9a0">0:00:00</div><div style="font-size:9px;color:#3a4560;margin-top:4px">ore:min:sec</div></div>
-          <div class="tacho-card" id="tc-break"><div style="font-size:9px;letter-spacing:.18em;color:#E4A11B;margin-bottom:8px">☕ PAUZĂ</div><div class="tacho-time" id="t-break" style="color:#E4A11B">0:00:00</div><div style="font-size:9px;color:#3a4560;margin-top:4px">ore:min:sec</div></div>
-          <div class="tacho-card" id="tc-rest"><div style="font-size:9px;letter-spacing:.18em;color:#7c5cbf;margin-bottom:8px">🛌 REPAUS</div><div class="tacho-time" id="t-rest" style="color:#7c5cbf">0:00:00</div><div style="font-size:9px;color:#3a4560;margin-top:4px">ore:min:sec</div></div>
-        </div>
-        <div class="card" style="margin-bottom:14px">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
-            <div id="tacho-status" style="font-size:15px;font-weight:700;letter-spacing:.1em;color:#4a5575">⏹ OPRIT</div>
-            <div id="tacho-info" style="font-size:10px;color:#3a4560;margin-left:auto"></div>
+      <div style="max-width:900px">
+      <div id="vdo-bon-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:500;align-items:center;justify-content:center;padding:20px"><div style="background:#f0ead6;border-radius:4px;padding:16px 14px;max-width:340px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.8);position:relative;max-height:80vh;overflow-y:auto"><button onclick="document.getElementById('vdo-bon-modal').style.display='none'" style="position:absolute;top:8px;right:8px;width:24px;height:24px;background:#1a1a1a;border:none;border-radius:50%;color:#888;font-size:14px;cursor:pointer">&#x2715;</button><div id="vdo-bon-text" style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#111;line-height:1.7;white-space:pre"></div></div></div>
+      <style>
+      .vdw{display:flex;flex-direction:column;align-items:center;gap:0;font-family:'Share Tech Mono',monospace}
+      .vdash{width:600px;height:55px;background:linear-gradient(180deg,#151208,#0e0c07);border-radius:5px 5px 0 0;border:1px solid #1a1510;border-bottom:none;position:relative}
+      .vdv{position:absolute;display:flex;flex-direction:column;gap:3px}
+      .vds{width:50px;height:3px;background:#090806;border-radius:1px;border-top:1px solid #181410}
+      .vbrk{width:570px;background:#0e0b07;padding:4px 8px 0;border-left:1px solid #1a1510;border-right:1px solid #1a1510}
+      .vdev{width:554px;background:linear-gradient(165deg,#2d2d2d,#222,#1c1c1c,#171717);border-radius:4px;padding:7px 9px 8px;border:1px solid #080808;box-shadow:0 8px 28px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08);position:relative}
+      .vdev::before{content:'';position:absolute;top:0;left:40px;right:40px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent)}
+      .vtleds{position:absolute;top:5px;left:50%;transform:translateX(-50%);display:flex;gap:4px}
+      .vtl{width:5px;height:5px;border-radius:50%;border:1px solid #080808;transition:all .25s}
+      .vtl.r{background:#0f0000}.vtl.r.on{background:#ff1100;box-shadow:0 0 6px #ff0000}
+      .vtl.g{background:#000f00}.vtl.g.on{background:#00ee22;box-shadow:0 0 6px #00cc11}
+      .vtl.a{background:#0f0800}.vtl.a.on{background:#ffaa00;box-shadow:0 0 6px #ff8800}
+      .vbody{display:flex;gap:7px;margin-top:13px;align-items:stretch}
+      .vsw{flex:0 0 318px;display:flex;flex-direction:column;gap:3px}
+      .vsbz{background:#060606;border-radius:3px;border:1px solid #030303;padding:2px;box-shadow:inset 0 3px 6px rgba(0,0,0,.95)}
+      .vscr{width:100%;height:88px;background:#05080a;border-radius:2px;position:relative;overflow:hidden}
+      .vscr::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(180,210,255,.016) 3px,rgba(180,210,255,.016) 4px);pointer-events:none;z-index:8}
+      .vlw{color:#e8e8d8;font-family:'Share Tech Mono',monospace}.vlb{color:#fff;font-weight:bold;font-family:'Share Tech Mono',monospace}.vld{color:#222218;font-family:'Share Tech Mono',monospace}.vlm{color:#888870;font-family:'Share Tech Mono',monospace}.vlr{color:#ff4422;font-family:'Share Tech Mono',monospace}
+      .vpg{display:none;position:absolute;inset:0;padding:5px 7px;z-index:2}.vpg.on{display:block}
+      .vr1{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2px}
+      .vr2{display:flex;justify-content:space-between;align-items:center;margin-bottom:1px}
+      .vr3{display:flex;justify-content:space-between;align-items:center}
+      .vhd{height:1px;background:#181812;margin:2px 0}
+      .vmt{font-size:8px;letter-spacing:1px;padding-bottom:2px;margin-bottom:2px;border-bottom:1px solid #181812}
+      .vmi{display:flex;align-items:center;gap:4px;padding:2px 3px;margin-bottom:1px;border-radius:1px}
+      .vma{font-size:9px;width:8px;flex-shrink:0}.vml{font-size:9px;letter-spacing:.2px}.vmv{font-size:9px;font-weight:bold;margin-left:auto;color:#e8e8d8}
+      .vpt{font-size:8px;letter-spacing:.8px;padding-bottom:2px;margin-bottom:3px;border-bottom:1px solid #181812}
+      .vpr{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+      .vpl{font-size:7px;letter-spacing:.3px}.vpv{font-size:9px;font-weight:bold}
+      .vab{height:11px;background:#080806;border:1px solid #181812;border-radius:1px;display:flex;overflow:hidden;margin-bottom:3px}
+      .v4g{display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;height:60px}
+      .v4c{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}.v4d{background:#181812}
+      .vev{font-size:7px;padding:2px 0;border-bottom:1px solid #111108}
+      .vpds{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);display:flex;gap:2px;z-index:9}
+      .vpd{width:4px;height:4px;border-radius:50%;background:#141410;transition:background .2s}.vpd.on{background:#555545}
+      .vbt{position:absolute;inset:0;background:#040706;z-index:20;display:none;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px;border-radius:2px}.vbt.on{display:flex}
+      .vbl{opacity:0;transition:opacity .28s}.vbl.s{opacity:1}
+      .vbb{width:95px;height:2px;background:#141410;border-radius:1px;overflow:hidden;opacity:0;transition:opacity .2s;margin-top:2px}.vbb.s{opacity:1}
+      .vbf{height:100%;background:#ccccaa;width:0%;transition:width .06s}
+      .vpr2{flex:0 0 74px;display:flex;flex-direction:column;gap:2px}
+      .vprb{flex:1;background:#0b0b0b;border:1px solid #111;border-radius:3px;position:relative;overflow:hidden}
+      .vprl{position:absolute;top:4px;right:4px;width:5px;height:5px;border-radius:50%;background:#0f0000;transition:all .3s}
+      .vprl.on{background:#dd2200;box-shadow:0 0 4px #cc1100}
+      .vprs{height:3px;background:#050505;border-radius:1px;border-top:1px solid #1a1a1a;position:absolute;bottom:5px;left:5px;right:5px}
+      .vcds{flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:2px}
+      .vsr{display:flex;align-items:center;gap:3px}.vsn{color:#1f1f1f;font-size:6.5px;width:8px;flex-shrink:0}
+      .vsh{flex:1;height:22px;background:#060606;border:1px solid #131313;border-radius:2px;position:relative;overflow:hidden;cursor:pointer}
+      .vsg{position:absolute;top:50%;left:0;right:0;height:12px;transform:translateY(-50%);background:#030303;border-top:1px solid #0f0f0f;border-bottom:1px solid #090909}
+      .vsl{position:absolute;right:3px;top:50%;transform:translateY(-50%);width:4px;height:4px;border-radius:50%;background:#080808;transition:all .3s}
+      .vsl.on{background:#00bb22;box-shadow:0 0 4px #009911}.vsl.busy{background:#ffaa00;animation:vdbk .4s infinite}
+      @keyframes vdbk{0%,100%{opacity:1}50%{opacity:.1}}
+      .vca{margin-top:3px}.vrc{width:86px;height:54px;border-radius:4px;position:relative;cursor:pointer;transition:transform .15s;box-shadow:2px 3px 10px rgba(0,0,0,.7)}
+      .vrc:hover{transform:translateY(-3px) rotate(.5deg)}.vrc:active{transform:scale(.96)}
+      .vrc.ins{animation:vcins 1s cubic-bezier(.2,0,.1,1) forwards}
+      @keyframes vcins{0%{transform:translateX(0)}35%{transform:translateX(18px) rotate(-1.5deg)}75%{transform:translateX(60px)}100%{transform:translateX(92px);opacity:0}}
+      .vcb{position:absolute;inset:0;border-radius:4px;overflow:hidden}
+      .vcbg{position:absolute;inset:0;background:linear-gradient(140deg,#1c1c0c,#2e2e16,#1a1808,#0a0a04)}
+      .vcgl{position:absolute;top:0;left:0;right:0;height:38%;background:linear-gradient(180deg,rgba(255,220,50,.12),transparent)}
+      .vcch{position:absolute;left:7px;top:50%;transform:translateY(-50%);width:18px;height:13px;border-radius:2px}
+      .vcc{position:absolute;inset:0;border-radius:2px;background:linear-gradient(145deg,#9a9000,#e8e000,#c8c000,#f0e800,#888000)}
+      .vccc{position:absolute;inset:2px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr 1fr;gap:1.5px}
+      .vcccl{background:rgba(0,0,0,.38);border-radius:.5px}
+      .vcs{position:absolute;right:0;top:6px;bottom:6px;width:13px;border-left:1px solid #0a0000;border-radius:0 3px 3px 0;overflow:hidden}
+      .vcss{position:absolute;inset:0;background:linear-gradient(180deg,#0d0000,#1a0000,#222,#1a0000,#0d0000)}
+      .vco{position:absolute;left:29px;right:16px;top:4px;bottom:4px;display:flex;flex-direction:column;justify-content:space-between}
+      .vct{display:flex;justify-content:space-between;align-items:flex-start}
+      .vcv{color:#6a6808;font-size:6px;letter-spacing:.6px;font-family:'Share Tech Mono',monospace;font-weight:bold}
+      .vceu{color:#2a2808;font-size:4.5px;font-family:'Share Tech Mono',monospace}
+      .vcav{width:16px;height:16px;border-radius:50%;object-fit:cover;border:1px solid #5a5808}
+      .vcnm{color:#d4d440;font-size:7px;font-family:'Share Tech Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:bold}
+      .vcrole{color:#4a4808;font-size:4.5px;font-family:'Share Tech Mono',monospace}
+      .vcnum{color:#2a2808;font-size:4.5px;font-family:'Share Tech Mono',monospace}
+      .vchint{position:absolute;bottom:-12px;left:0;right:0;text-align:center;color:#333320;font-size:6.5px;font-family:'Share Tech Mono',monospace;animation:vdbk 1.5s infinite}
+      .vdpr{display:flex;align-items:center;gap:6px;padding:0 1px}
+      .vdpw{position:relative;width:68px;height:68px;flex-shrink:0}
+      .vdpbg{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 40% 35%,#2a2a2a,#181818);border:1px solid #0a0a0a;box-shadow:0 3px 8px rgba(0,0,0,.6)}
+      .vda{position:absolute;background:linear-gradient(180deg,#252525,#1a1a1a);border:1px solid #0d0d0d;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#666;font-size:9px;transition:all .07s}
+      .vda:active{filter:brightness(.7);transform:scale(.95)}
+      .vdup{top:2px;left:50%;transform:translateX(-50%);width:22px;height:24px;border-radius:4px 4px 2px 2px}
+      .vddn{bottom:2px;left:50%;transform:translateX(-50%);width:22px;height:24px;border-radius:2px 2px 4px 4px}
+      .vdlt{left:2px;top:50%;transform:translateY(-50%);width:24px;height:22px;border-radius:4px 2px 2px 4px}
+      .vdrt{right:2px;top:50%;transform:translateY(-50%);width:24px;height:22px;border-radius:2px 4px 4px 2px}
+      .vdok{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#2a2a1a,#141408);border:1px solid #333318;color:#777755;font-size:7.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;transition:all .07s}
+      .vdok:active{transform:translate(-50%,-50%) scale(.93)}
+      .vpb{height:14px;background:linear-gradient(180deg,#262626,#1a1a1a,#141414);border:1px solid #090909;border-radius:2px;color:#555;cursor:pointer;font-family:'Share Tech Mono',monospace;font-size:7px;display:flex;align-items:center;justify-content:center;transition:all .07s}
+      .vpb:active{transform:translateY(1px)}.vpb.bk{width:42px}.vpb.pr{width:28px;color:#553333;font-size:9px}.vpb.sp{width:20px;font-size:9px;color:#444}
+      .vprog{width:554px;background:#0c0c0a;border:1px solid #181812;border-radius:4px;padding:8px 12px;margin-top:0}
+      </style>
+      <div class="vdw">
+      <div class="vdash">
+        <div class="vdv" style="left:20px;top:12px"><div class="vds"></div><div class="vds"></div><div class="vds"></div></div>
+        <div class="vdv" style="right:20px;top:12px"><div class="vds"></div><div class="vds"></div><div class="vds"></div></div>
+      </div>
+      <div class="vbrk"></div>
+      <div class="vdev">
+        <div style="position:absolute;top:3px;left:9px;color:#383838;font-size:7px;letter-spacing:2px;font-family:'Share Tech Mono',monospace">VDO</div>
+        <div style="position:absolute;top:3px;right:9px;color:#2a2a2a;font-size:6.5px;letter-spacing:1px;font-family:'Share Tech Mono',monospace">DTCO 3.0</div>
+        <div class="vtleds"><div class="vtl r" id="vtl-r"></div><div class="vtl a" id="vtl-a"></div><div class="vtl g" id="vtl-g"></div></div>
+        <div class="vbody">
+          <div class="vsw">
+            <div class="vsbz"><div class="vscr">
+              <div class="vbt" id="vbt">
+                <div class="vlb vbl" id="vbl0" style="font-size:13px;letter-spacing:2px">VDO DTCO 3.0</div>
+                <div class="vld vbl" id="vbl1" style="font-size:7px">INITIALIZARE SISTEM...</div>
+                <div class="vld vbl" id="vbl2" style="font-size:7px">VERIFICARE SENZORI OK</div>
+                <div class="vld vbl" id="vbl3" style="font-size:7px">CARD DETECTAT</div>
+                <div class="vlw vbl" id="vbl4" style="font-size:7px">BUNA ZIUA <span id="vbl-nm"></span></div>
+                <div class="vbb" id="vbb"><div class="vbf" id="vbf"></div></div>
+              </div>
+              <div class="vpg on" id="vpg-1">
+                <div class="vr1">
+                  <div class="vlb" id="vp1t" style="font-size:22px;font-weight:bold;letter-spacing:1px;line-height:1">--:--</div>
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:1px"><span class="vlm" id="vp1icon" style="font-size:11px">&#9209;</span><span class="vld" id="vp1card" style="font-size:8px">&#9645;</span></div>
+                  <div style="text-align:right"><div class="vlb" style="font-size:20px;font-weight:bold;line-height:1"><span id="vp1spd">0</span><span class="vlm" style="font-size:8px;font-weight:normal">km/h</span></div></div>
+                </div>
+                <div class="vr2"><div class="vlb" id="vp1odo" style="font-size:14px;font-weight:bold">0.0km</div><div class="vlw" id="vp1dh" style="font-size:12px;font-weight:bold">0:00 h</div></div>
+                <div class="vhd"></div>
+                <div class="vr3"><div class="vlm" id="vp1stat" style="font-size:7.5px">INSEREAZA CARD &#9658; OK</div><div class="vlr" id="vp1warn" style="display:none;font-size:7px;animation:vdbk 1s infinite">&#9888; LIMITA!</div></div>
+              </div>
+              <div class="vpg" id="vpg-2">
+                <div class="vlm vmt">MENIU &mdash; &#9650;&#9660; SELECTEAZA &middot; OK CONFIRMA</div>
+                <div class="vmi" id="vmi0"><span class="vma vld" id="vma0">&nbsp;</span><span class="vml vlm">&#128667; CONDUS</span><span id="vmv0" class="vmv"></span></div>
+                <div class="vmi" id="vmi1"><span class="vma vld" id="vma1">&nbsp;</span><span class="vml vlm">&#9749; PAUZA</span><span id="vmv1" class="vmv"></span></div>
+                <div class="vmi" id="vmi2"><span class="vma vld" id="vma2">&nbsp;</span><span class="vml vlm">&#128716; REPAUS</span><span id="vmv2" class="vmv"></span></div>
+                <div class="vmi" id="vmi3"><span class="vma vld" id="vma3">&nbsp;</span><span class="vml vlm">&#9208; DISPONIBIL</span><span id="vmv3" class="vmv"></span></div>
+              </div>
+              <div class="vpg" id="vpg-3">
+                <div class="vlm vpt">ACTIVITATI AZI</div>
+                <div class="vab" id="vab"><div style="flex:1;background:#080806;display:flex;align-items:center;justify-content:center"><span class="vld" style="font-size:6px">NICIO ACTIVITATE</span></div></div>
+                <div style="display:flex;gap:8px;margin-bottom:3px"><div style="display:flex;align-items:center;gap:2px"><div style="width:6px;height:6px;background:#d8d8b0;border-radius:1px"></div><span class="vld" style="font-size:6px">CONDUS</span></div><div style="display:flex;align-items:center;gap:2px"><div style="width:6px;height:6px;background:#606030;border-radius:1px"></div><span class="vld" style="font-size:6px">PAUZA</span></div><div style="display:flex;align-items:center;gap:2px"><div style="width:6px;height:6px;background:#282814;border-radius:1px"></div><span class="vld" style="font-size:6px">REPAUS</span></div></div>
+                <div class="vhd"></div>
+                <div class="vr3"><span class="vld" style="font-size:7px">TOTAL CONDUS</span><span class="vlb" id="vp3tot" style="font-size:9px;font-weight:bold">0:00 h</span></div>
+              </div>
+              <div class="vpg" id="vpg-4">
+                <div class="vlm vpt">STATISTICI VITEZA</div>
+                <div class="v4g"><div class="v4c"><div class="vld" style="font-size:6.5px">CURENTA</div><div class="vlb" id="vp4c" style="font-size:20px;font-weight:bold">0</div><div class="vld" style="font-size:7px">km/h</div></div><div class="v4d"></div><div class="v4c"><div class="vld" style="font-size:6.5px">MAXIMA</div><div class="vlw" id="vp4m" style="font-size:17px;font-weight:bold">0</div><div class="vld" style="font-size:7px">km/h</div></div><div class="v4d"></div><div class="v4c"><div class="vld" style="font-size:6.5px">MEDIE</div><div class="vlm" id="vp4a" style="font-size:15px;font-weight:bold">0</div><div class="vld" style="font-size:7px">km/h</div></div></div>
+              </div>
+              <div class="vpg" id="vpg-5" style="position:relative">
+                <img id="vp5av" src="" style="width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid #282818;position:absolute;right:3px;top:14px;display:none">
+                <div class="vlm vpt">DATE SOFER 1</div>
+                <div class="vpr"><span class="vld vpl">SOFER</span><span class="vlw vpv" id="vp5nm" style="font-size:8px">&mdash;</span></div>
+                <div class="vpr"><span class="vld vpl">CONDUS AZI</span><span class="vlb vpv" id="vp5drv">0:00</span></div>
+                <div class="vpr"><span class="vld vpl">PAUZA AZI</span><span class="vlw vpv" id="vp5brk">0:00</span></div>
+                <div class="vpr"><span class="vld vpl">REPAUS</span><span class="vlw vpv" id="vp5rst">0:00</span></div>
+              </div>
+              <div class="vpg" id="vpg-6">
+                <div class="vlm vpt">EVENIMENTE</div>
+                <div id="vevlist"><div class="vev vld" style="padding:3px 0">NICIUN EVENIMENT</div></div>
+              </div>
+              <div class="vpds"><div class="vpd on" id="vpd1"></div><div class="vpd" id="vpd2"></div><div class="vpd" id="vpd3"></div><div class="vpd" id="vpd4"></div><div class="vpd" id="vpd5"></div><div class="vpd" id="vpd6"></div></div>
+            </div></div>
+            <div class="vdpr">
+              <button class="vpb bk" onclick="vGH()">&#8617; MENIU</button>
+              <div class="vdpw"><div class="vdpbg"></div><div class="vda vdup" onclick="vDU()">&#9650;</div><div class="vda vddn" onclick="vDD()">&#9660;</div><div class="vda vdlt" onclick="vDL()">&#9664;</div><div class="vda vdrt" onclick="vDR()">&#9654;</div><div class="vdok" onclick="vDO()">OK</div></div>
+              <button class="vpb pr" onclick="vPB()">&#128424;</button>
+              <div style="display:flex;align-items:center;gap:2px;margin-left:4px">
+                <button class="vpb sp" onclick="vAS(10)">+</button>
+                <input type="range" min="0" max="130" value="0" id="vspsl" style="width:55px;height:2px;margin:0 2px" oninput="vSS(this.value)">
+                <button class="vpb sp" onclick="vAS(-10)">&#8722;</button>
+                <span class="vlm" id="vspo" style="font-size:7px;min-width:18px">0</span>
+              </div>
+            </div>
           </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button onclick="tachoAction('drive')" style="background:#0a2018;border:2px solid #14d9a0;color:#14d9a0;padding:13px 26px;border-radius:5px;font-size:13px;font-weight:700;letter-spacing:.1em;font-family:'Rajdhani',monospace">▶ CONDUC</button>
-            <button onclick="tachoAction('break')" style="background:#1e1508;border:2px solid #E4A11B;color:#E4A11B;padding:13px 26px;border-radius:5px;font-size:13px;font-weight:700;letter-spacing:.1em;font-family:'Rajdhani',monospace">⏸ PAUZĂ</button>
-            <button onclick="tachoAction('rest')" style="background:#130f1f;border:2px solid #7c5cbf;color:#7c5cbf;padding:13px 26px;border-radius:5px;font-size:13px;font-weight:700;letter-spacing:.1em;font-family:'Rajdhani',monospace">🛌 REPAUS</button>
-            <button onclick="stopTacho()" style="background:#180a0f;border:2px solid #e03050;color:#e03050;padding:13px 26px;border-radius:5px;font-size:13px;font-weight:700;letter-spacing:.1em;font-family:'Rajdhani',monospace">⏹ STOP</button>
+          <div class="vpr2"><div class="vprb"><div class="vprl" id="vprl"></div><div class="vprs"></div></div><div style="color:#1a1a1a;font-size:6px;text-align:center">PRINT</div></div>
+          <div class="vcds">
+            <div class="vsr"><div class="vsn">1</div><div class="vsh" id="vsh1" onclick="vEC()" title="Click scoate card"><div class="vsg"></div><div class="vsl" id="vsl1"></div></div></div>
+            <div class="vsr"><div class="vsn">2</div><div class="vsh"><div class="vsg"></div><div class="vsl" id="vsl2"></div></div></div>
+            <div class="vca"><div class="vrc" id="vrc" onclick="vIC()"><div class="vcb"><div class="vcbg"></div><div class="vcgl"></div><div class="vcch"><div class="vcc"><div class="vccc"><div class="vcccl"></div><div class="vcccl"></div><div class="vcccl"></div><div class="vcccl"></div><div class="vcccl"></div><div class="vcccl"></div></div></div></div><div class="vcs"><div class="vcss"></div></div><div class="vco"><div class="vct"><div><div class="vcv">VDO</div><div class="vceu">EU TACHO</div></div><img id="vcav" src="" class="vcav" onerror="this.style.display='none'"></div><div class="vcnm" id="vcnm">&mdash;</div><div><div class="vcrole">SOFER PROFESIONIST</div><div class="vcnum">EU RO 2024</div></div></div></div><div class="vchint">CLICK INSERARE</div></div></div>
           </div>
         </div>
-        <div class="section"><div class="sec-hd">ACTIVITATE SESIUNE</div><div class="sec-bd">
-          <div id="seg-bar" style="display:flex;height:28px;border-radius:4px;overflow:hidden;background:#111827;gap:1px;margin-bottom:8px"></div>
-          <div style="display:flex;gap:16px;font-size:10px"><span style="color:#14d9a0">■ Condus</span><span style="color:#E4A11B">■ Pauză</span><span style="color:#7c5cbf">■ Repaus</span></div>
-        </div></div>
-        <div class="section"><div class="sec-hd">LIMITE EU REG. 561/2006</div><div class="sec-bd"><div class="r3" id="eu-limits"></div></div></div>
-        <div class="section">
-          <div class="sec-hd" style="display:flex;justify-content:space-between;align-items:center">
-            SESIUNI SALVATE
-            <button onclick="openBon(0)" class="btn btn-primary" style="padding:5px 14px;font-size:10px">🖨 BON TAHOGRAF</button>
-          </div>
-          <div class="sec-bd"><div id="sess-list"></div></div>
-        </div>
+      </div>
+      <div class="vbrk" style="border-radius:0 0 4px 4px;border-top:none;height:5px"></div>
+      <div class="vprog">
+        <div style="color:#1c1c12;font-size:6.5px;letter-spacing:1.3px;margin-bottom:5px">EU REG. 561/2006 &mdash; LIMITE ACTIVE</div>
+        <div style="margin-bottom:4px"><div style="display:flex;justify-content:space-between;color:#1c1c12;font-size:6.5px;margin-bottom:2px"><span>CONDUS CONTINUU MAX 4H30</span><span id="vpv1">0:00</span></div><div style="background:#080806;border:1px solid #141410;border-radius:1px;height:4px;overflow:hidden"><div id="vpb1" style="height:100%;border-radius:1px;width:0%;background:#2a6630;transition:width .5s,background .5s"></div></div></div>
+        <div style="margin-bottom:4px"><div style="display:flex;justify-content:space-between;color:#1c1c12;font-size:6.5px;margin-bottom:2px"><span>CONDUS ZILNIC MAX 9H</span><span id="vpv2">0:00</span></div><div style="background:#080806;border:1px solid #141410;border-radius:1px;height:4px;overflow:hidden"><div id="vpb2" style="height:100%;border-radius:1px;width:0%;background:#2a6630;transition:width .5s,background .5s"></div></div></div>
+        <div><div style="display:flex;justify-content:space-between;color:#1c1c12;font-size:6.5px;margin-bottom:2px"><span>PAUZA MIN 45MIN</span><span id="vpv3">0:00</span></div><div style="background:#080806;border:1px solid #141410;border-radius:1px;height:4px;overflow:hidden"><div id="vpb3" style="height:100%;border-radius:1px;width:0%;background:#665522;transition:width .5s,background .5s"></div></div></div>
+      </div>
       </div>
     </div>
 
@@ -841,6 +992,7 @@ function enterCompany(cid, name, code, role) {
   subscribeAll();
   setOnline(true);
   showTab(0);
+  if(window.vInit) setTimeout(vInit, 800);
   initETS2();
   initAIDispatcher();
 }
@@ -1401,6 +1553,201 @@ function acceptAIJob(idx) {
   }, 200);
 }
   function closeModal(id){document.getElementById(id).classList.remove('open');}
+</script>
+<script>
+(function(){
+var AX=window.AudioContext||window.webkitAudioContext,ax=null;
+function bp(f,d,v){try{if(!ax)ax=new AX();var o=ax.createOscillator(),g=ax.createGain();o.connect(g);g.connect(ax.destination);o.frequency.value=f;o.type='square';g.gain.setValueAtTime(v||.018,ax.currentTime);g.gain.exponentialRampToValueAtTime(.001,ax.currentTime+d);o.start();o.stop(ax.currentTime+d);}catch(e){}}
+function sB(){bp(580,.04,.015)}function sN(){bp(460,.03,.012)}
+function sO(){bp(720,.05,.018);setTimeout(function(){bp(880,.04,.013)},55)}
+function sW(){bp(370,.12,.05);setTimeout(function(){bp(370,.12,.05)},150)}
+function sC(){bp(400,.05,.02);setTimeout(function(){bp(680,.07,.02)},68);setTimeout(function(){bp(980,.05,.015)},150)}
+function sE(){bp(530,.08,.02);setTimeout(function(){bp(290,.06,.016)},90)}
+function sP(){for(var i=0;i<10;i++){(function(j){setTimeout(function(){bp(220+j*22,.03,.013)},j*46)})(i)}}
+function fmt(s){return Math.floor(s/3600)+':'+String(Math.floor((s%3600)/60)).padStart(2,'0')}
+function fmtF(s){return Math.floor(s/3600)+'h '+String(Math.floor((s%3600)/60)).padStart(2,'0')+'min'}
+var NP=6,MODES=['drive','break','rest','available'];
+var IC={drive:'🚛',break:'☕',rest:'🛌',available:'⏸',stopped:'⏹'};
+window.VS={mode:'stopped',card:false,driver:'—',avatar:'',driveSec:0,breakSec:0,restSec:0,availSec:0,contDrive:0,sessStart:null,timer:null,segs:[],segStart:null,spd:0,maxSpd:0,odo:0,busy:false,pg:1,msel:0,ssum:0,scnt:0,inMenu:false};
+function ge(id){return document.getElementById(id)}
+function st(id,v){var e=ge(id);if(e)e.textContent=v}
+
+function vUpdCard(){
+  var u=window.currentUser;if(!u)return;
+  var nm=u.displayName||u.email||'SOFER',av=u.photoURL||'';
+  st('vcnm',nm);var img=ge('vcav');if(img&&av){img.src=av;img.style.display='block';}
+  VS.driver=nm;VS.avatar=av;
+}
+
+window.vIC=function(){
+  if(VS.busy||VS.card)return;
+  vUpdCard();VS.busy=true;sC();
+  var c=ge('vrc'),sl=ge('vsl1');
+  if(sl)sl.className='vsl busy';
+  if(c){c.classList.add('ins');c.style.pointerEvents='none';}
+  setTimeout(function(){
+    if(c)c.style.display='none';
+    var pc=ge('vp1card');if(pc){pc.innerHTML='&#9644;';pc.style.color='#aaaa44';}
+    vBoot();
+  },1000);
+};
+
+window.vEC=function(){
+  if(!VS.card||VS.busy)return;
+  sE();VS.card=false;VS.inMenu=false;
+  vMI('stopped',true);
+  var sl=ge('vsl1');if(sl)sl.className='vsl';
+  var tg=ge('vtl-g');if(tg)tg.classList.remove('on');
+  var pc=ge('vp1card');if(pc){pc.innerHTML='&#9645;';pc.style.color='#222218';}
+  st('vp5nm','—');var av=ge('vp5av');if(av)av.style.display='none';
+  vSS2('INSEREAZA CARD OK');vSP(1);
+  var c=ge('vrc');if(c){c.style.display='block';c.classList.remove('ins');c.style.pointerEvents='auto';c.style.opacity='1';c.style.transform='';}
+};
+
+function vBoot(){
+  var b=ge('vbt');if(b)b.classList.add('on');
+  st('vbl-nm',VS.driver);
+  var els=['vbl0','vbl1','vbl2','vbl3','vbl4'];
+  els.forEach(function(id,i){setTimeout(function(){var e=ge(id);if(e)e.classList.add('s');bp(680+i*75,.032,.011);},70+i*320);});
+  setTimeout(function(){var bb=ge('vbb');if(bb)bb.classList.add('s');var p=0;var iv=setInterval(function(){p+=3;var bf=ge('vbf');if(bf)bf.style.width=p+'%';if(p>=100)clearInterval(iv);},38);},1600);
+  setTimeout(function(){
+    var b2=ge('vbt');if(b2)b2.classList.remove('on');
+    var tg=ge('vtl-g');if(tg)tg.classList.add('on');
+    var sl=ge('vsl1');if(sl)sl.className='vsl on';
+    var ta=ge('vtl-a');if(ta)ta.classList.remove('on');
+    st('vp5nm',VS.driver);
+    var pav=ge('vp5av');if(pav){pav.src=VS.avatar;pav.style.display=VS.avatar?'block':'none';pav.onerror=function(){pav.style.display='none'};}
+    vSS2('SELECTATI ACTIVITATEA · OK');
+    VS.card=true;VS.busy=false;
+    els.forEach(function(id){var e=ge(id);if(e)e.classList.remove('s');});
+    var bf=ge('vbf');if(bf)bf.style.width='0%';
+    var bb=ge('vbb');if(bb)bb.classList.remove('s');
+    vSP(1);vUM();
+  },3500);
+}
+
+function vMI(mode,silent){
+  if(VS.mode===mode)return;
+  if(!silent)sO();
+  if(VS.mode!=='stopped'&&VS.segStart)VS.segs.push({type:VS.mode,sec:Math.round((Date.now()-VS.segStart)/1000),start:new Date(VS.segStart).toLocaleTimeString('ro-RO')});
+  if(!VS.sessStart&&mode!=='stopped')VS.sessStart=new Date();
+  VS.segStart=Date.now();VS.mode=mode;
+  clearInterval(VS.timer);
+  if(mode!=='stopped')VS.timer=setInterval(vTick,1000);
+  var pi=ge('vp1icon');if(pi)pi.textContent=IC[mode];
+  vSS2(mode==='stopped'?'SESIUNE INCHEIATA':'MOD: '+mode.toUpperCase());
+  vUM();vUAB();
+  if(typeof tachoAction==='function'){if(mode==='drive')tachoAction('drive');else if(mode==='break')tachoAction('break');else if(mode==='rest')tachoAction('rest');}
+}
+
+function vUM(){
+  var vals=[fmt(VS.driveSec),fmt(VS.breakSec),fmt(VS.restSec),fmt(VS.availSec)];
+  var active=MODES.indexOf(VS.mode);
+  for(var i=0;i<4;i++){
+    st('vmv'+i,vals[i]);
+    var ma=ge('vma'+i);if(ma){ma.textContent=i===active?'▶':' ';ma.className=i===active?'vma vlw':'vma vld';}
+    var mi=ge('vmi'+i);if(mi)mi.style.background=i===VS.msel?'#1c1c12':'transparent';
+    var lbl=mi?mi.querySelector('.vml'):null;if(lbl)lbl.style.color=i===VS.msel?'#d8d8b8':'#888870';
+  }
+}
+
+function vTick(){
+  if(VS.mode==='drive'){VS.driveSec++;VS.contDrive++;VS.odo+=VS.spd/3600;if(VS.spd>0){VS.ssum+=VS.spd;VS.scnt++;}}
+  if(VS.mode==='break'){VS.breakSec++;if(VS.breakSec>=2700)VS.contDrive=0;}
+  if(VS.mode==='rest'){VS.restSec++;VS.contDrive=0;}
+  if(VS.mode==='available')VS.availSec++;
+  if(VS.spd>VS.maxSpd)VS.maxSpd=VS.spd;
+  vUpd();
+}
+
+function vUpd(){
+  st('vp1t',new Date().toLocaleTimeString('ro-RO').slice(0,5));
+  st('vp1spd',VS.spd);st('vp1odo',VS.odo.toFixed(1)+'km');st('vp1dh',fmt(VS.driveSec)+' h');
+  st('vp3tot',fmt(VS.driveSec)+' h');st('vp4c',VS.spd);st('vp4m',VS.maxSpd);
+  st('vp4a',VS.scnt>0?Math.round(VS.ssum/VS.scnt):0);
+  st('vp5drv',fmt(VS.driveSec));st('vp5brk',fmt(VS.breakSec));st('vp5rst',fmt(VS.restSec));
+  vUM();
+  var p1=Math.min(VS.contDrive/16200*100,100),p2=Math.min(VS.driveSec/32400*100,100),p3=Math.min(VS.breakSec/2700*100,100);
+  function vc(p){return p>85?'#882211':p>60?'#665500':'#2a6630';}
+  function sp(id,w,c){var e=ge(id);if(e){e.style.width=w+'%';if(c)e.style.background=c;}}
+  sp('vpb1',p1,vc(p1));sp('vpb2',p2,vc(p2));sp('vpb3',p3,null);
+  st('vpv1',fmt(VS.contDrive));st('vpv2',fmt(VS.driveSec));st('vpv3',fmt(VS.breakSec));
+  var warn=VS.contDrive>=16200||VS.driveSec>=32400;
+  var pw=ge('vp1warn');if(pw)pw.style.display=warn?'inline':'none';
+  var tlr=ge('vtl-r');if(tlr)tlr.classList.toggle('on',warn);
+  if(warn&&VS.driveSec%60===0)sW();
+  vUAB();
+}
+
+function vUAB(){
+  var bar=ge('vab');if(!bar)return;
+  if(!VS.driveSec&&!VS.breakSec&&!VS.restSec&&!VS.availSec){bar.innerHTML='<div style="flex:1;background:#080806;display:flex;align-items:center;justify-content:center"><span class="vld" style="font-size:6px">NICIO ACTIVITATE</span></div>';return;}
+  var h='';
+  if(VS.driveSec)h+='<div style="flex:'+VS.driveSec+';background:#d8d8b0;min-width:1px"></div>';
+  if(VS.breakSec)h+='<div style="flex:'+VS.breakSec+';background:#5a5a28;min-width:1px"></div>';
+  if(VS.restSec)h+='<div style="flex:'+VS.restSec+';background:#252514;min-width:1px"></div>';
+  if(VS.availSec)h+='<div style="flex:'+VS.availSec+';background:#14141c;min-width:1px"></div>';
+  bar.innerHTML=h;
+}
+
+window.vSS=function(v){VS.spd=parseInt(v);['vspo','vp1spd','vp4c'].forEach(function(id){st(id,VS.spd);});};
+window.vAS=function(v){VS.spd=Math.max(0,Math.min(130,VS.spd+v));var sl=ge('vspsl');if(sl)sl.value=VS.spd;vSS(VS.spd);sN();};
+function vSS2(m){st('vp1stat',m);}
+
+function vSP(n){
+  for(var i=1;i<=NP;i++){var p=ge('vpg-'+i);if(p)p.className='vpg'+(i===n?' on':'');var d=ge('vpd'+i);if(d)d.className='vpd'+(i===n?' on':'');}
+  VS.pg=n;VS.inMenu=n===2;if(VS.inMenu)vUM();
+}
+
+window.vDU=function(){sN();if(VS.inMenu){VS.msel=(VS.msel+3)%4;vUM();}else vSP(VS.pg<=1?NP:VS.pg-1);};
+window.vDD=function(){sN();if(VS.inMenu){VS.msel=(VS.msel+1)%4;vUM();}else vSP(VS.pg>=NP?1:VS.pg+1);};
+window.vDL=function(){sN();vSP(VS.pg<=1?NP:VS.pg-1);};
+window.vDR=function(){sN();vSP(VS.pg>=NP?1:VS.pg+1);};
+window.vDO=function(){sO();if(VS.pg===1){vSP(2);}else if(VS.inMenu){if(!VS.card){vSS2('INSEREAZA CARD MAI INTAI');sW();vSP(1);return;}vMI(MODES[VS.msel],false);vSP(1);}};
+window.vGH=function(){sB();vSP(1);};
+
+function vAE(msg){
+  var list=ge('vevlist');if(!list)return;
+  if(list.firstChild&&list.firstChild.textContent.indexOf('NICIUN')>=0)list.innerHTML='';
+  var d=document.createElement('div');d.className='vev vlm';d.style.fontSize='7px';
+  d.textContent=new Date().toLocaleTimeString('ro-RO').slice(0,5)+' '+msg;
+  list.insertBefore(d,list.firstChild);if(list.children.length>5)list.removeChild(list.lastChild);
+}
+
+window.vPB=function(){
+  if(!VS.sessStart&&!VS.driveSec){vSS2('NO DATA');sW();return;}
+  sP();var pl=ge('vprl');if(pl){pl.classList.add('on');setTimeout(function(){pl.classList.remove('on');},3500);}
+  var now=new Date(),ok=VS.driveSec<=32400&&VS.breakSec>=2700;
+  var L=32;function ln(){var s='';for(var i=0;i<L;i++)s+='\u2500';return s;}
+  function vc(s){var sp='';for(var i=0;i<Math.max(0,Math.floor((L-s.length)/2));i++)sp+=' ';return sp+s;}
+  var b='\n'+vc('\u2605 VDO DTCO 3.0 \u2605')+'\n'+vc('BON ACTIVITATE SOFER')+'\n'+ln()+'\n';
+  b+='SOFER:   '+VS.driver+'\nDATA:    '+now.toLocaleDateString('ro-RO')+'\nSTART:   '+(VS.sessStart?VS.sessStart.toLocaleTimeString('ro-RO').slice(0,5):'--:--')+'\nSTOP:    '+now.toLocaleTimeString('ro-RO').slice(0,5)+'\n'+ln()+'\n';
+  b+=' CONDUS:    '+fmtF(VS.driveSec)+'\n PAUZA:     '+fmtF(VS.breakSec)+'\n REPAUS:    '+fmtF(VS.restSec)+'\n DISPONIBIL:'+fmtF(VS.availSec)+'\n V-MAX:     '+VS.maxSpd+' km/h\n'+ln()+'\n';
+  if(VS.segs.length){b+='SEGMENTE:\n';VS.segs.forEach(function(s,i){b+=' '+String(i+1).padStart(2,'0')+'. '+s.type.toUpperCase().padEnd(10)+' '+fmtF(s.sec)+'\n';});b+=ln()+'\n';}
+  b+='EU 561/2006:\n Condus max 9h:  '+(VS.driveSec<=32400?'OK':'DEPASIT')+'\n Pauza min 45m: '+(VS.breakSec>=2700?'OK':'INSUFICIENT')+'\n'+ln()+'\n'+vc(ok?'SESIUNE CONFORMA':'VERIFICATI')+'\n'+ln()+'\n'+vc(now.toLocaleDateString('ro-RO'))+'\n\n';
+  var bt=ge('vdo-bon-text');if(bt)bt.textContent=b;
+  var bm=ge('vdo-bon-modal');if(bm)bm.style.display='flex';
+  vSS2('BON IMPRIMAT OK');vAE('BON IMPRIMAT');
+  if(window.currentCompany&&window.currentUser&&VS.sessStart){
+    var ss={date:VS.sessStart.toLocaleDateString('ro-RO'),startTime:VS.sessStart.toLocaleTimeString('ro-RO'),endTime:now.toLocaleTimeString('ro-RO'),driverName:VS.driver,driverId:window.currentUser.uid,driveSeconds:VS.driveSec,breakSeconds:VS.breakSec,restSeconds:VS.restSec,segments:VS.segs.slice(),createdAt:Date.now()};
+    try{FB.push(FB.ref(FB.db,'companies/'+window.currentCompany.id+'/tacho/'+window.currentUser.uid),ss);}catch(e){}
+    try{if(window.sendDiscordTacho)sendDiscordTacho(ss);}catch(e){}
+  }
+};
+
+var wC=false,wD=false;
+setInterval(function(){if(VS.contDrive>=16200&&!wC){wC=true;vAE('DEPASIT CONDUS CONTINUU');sW();}if(VS.driveSec>=32400&&!wD){wD=true;vAE('DEPASIT CONDUS ZILNIC');sW();}},5000);
+setInterval(function(){st('vp1t',new Date().toLocaleTimeString('ro-RO').slice(0,5));},1000);
+vSP(1);
+
+window.vInit=function(){
+  vUpdCard();
+  setInterval(function(){
+    var el=document.getElementById('ets2-speed');
+    if(el&&VS.card&&VS.mode==='drive'){var s=parseInt(el.textContent)||0;if(s!==VS.spd){VS.spd=s;var sl=ge('vspsl');if(sl)sl.value=s;st('vspo',s);}}
+  },2000);
+};
+})();
 </script>
 </body>
 </html>
